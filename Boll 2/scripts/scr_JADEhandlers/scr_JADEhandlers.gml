@@ -15,6 +15,7 @@ function JADEsmallbuttons(_x, _y, _width, _height, spacing=8, is_toggle=true, in
 	selected_button=-1;
 	color_invert = inverted;
 	vertical = _vertical;
+	created_gui = noone;
 	
 	static add = function(name, func) {
 		array_push(buttons, name)
@@ -95,6 +96,10 @@ function JADEsmallbuttons(_x, _y, _width, _height, spacing=8, is_toggle=true, in
 					//destroy my created gui, if i have one
 					selected_button=-1
 					instance_destroy(oJADEDropDown)
+					if (instance_exists(created_gui)) {
+						instance_destroy(created_gui)
+						created_gui = noone;
+					}
 				}
 				oJADEController.mbleftpress = false;
 				break;
@@ -1029,6 +1034,8 @@ function JADEnumberinput(_x, _y, _name, _var, _type_index, _min=NaN, _max=NaN) {
 	var mbleft = mouse_check_button_pressed(mb_left) && !oJADEController.pressed_dropdown;
 	var pressed_button = false;
 	
+	var halign = draw_get_halign();
+	var valign = draw_get_valign();
 	draw_set_font(global.rulerGold)
 	draw_text(_x,_y+6, $"{_name}:")
 	var spacing = string_width($"{_name}:")+8
@@ -1036,10 +1043,19 @@ function JADEnumberinput(_x, _y, _name, _var, _type_index, _min=NaN, _max=NaN) {
 	draw_sprite_stretched(spr_JADEinputbox, 0,_x+spacing,_y,48,24)
 	draw_sprite(spr_JADEinputscroll, 0, _x+48+spacing,_y)
 	
-	if oJADEController.is_typing != _type_index
+	if (oJADEController.is_typing != _type_index) {
 		ScribblejrFitExt(_var,fa_left,fa_top,global.rulerGold,1,40,20).Draw(_x+4+spacing,_y+6)
-	else
-		ScribblejrFitExt(keyboard_string,fa_left,fa_top,global.rulerGold,1,40,20).Draw(_x+4+spacing,_y+6)
+	} else {
+		var shrink = ScribblejrShrinkExt(keyboard_string,fa_left,fa_top,global.rulerGold,1,40,20)
+		shrink.Draw(_x+4+spacing,_y+6)
+		if (global.roomTimer mod 30 >= 15) {
+			var stringwidth = shrink.GetWidth();
+			draw_rect(_x+4+spacing+stringwidth,_y+8,1,8,c_white,1);
+		}
+	}
+	
+	draw_set_halign(halign);
+	draw_set_valign(valign);
 	
 	var overtop = point_in_rectangle(curs_x,curs_y,_x+48+spacing,_y,_x+48+12+spacing,_y+12);
 	var overbot = point_in_rectangle(curs_x,curs_y,_x+48+spacing,_y+12,_x+48+12+spacing,_y+24);
@@ -1064,7 +1080,7 @@ function JADEnumberinput(_x, _y, _name, _var, _type_index, _min=NaN, _max=NaN) {
 	//start typing
 	if (mbleft) && (overinp) {
 		oJADEController.is_typing = _type_index;
-		keyboard_string="";
+		keyboard_string=string(_var);
 		pressed_button=true;
 	}
 	
@@ -1084,6 +1100,15 @@ function JADEnumberinput(_x, _y, _name, _var, _type_index, _min=NaN, _max=NaN) {
 	if (mbleft) && (oJADEController.is_typing == _type_index) && !(pressed_button) {
 		keyboard_string="";
 		oJADEController.is_typing = -1;
+		if (_min!=NaN) && (_max!=NaN) {
+			return clamp(unreal(keyboard_string,_var),_min,_max)
+		} else if (_min!=NaN) {
+			return max(unreal(keyboard_string,_var),_min)
+		} else if (_max!=NaN) {
+			return min(unreal(keyboard_string,_var),_max)
+		} else {
+			return unreal(keyboard_string,_var)
+		}
 	}
 	
 	if (keyboard_check_pressed(vk_enter)) && (oJADEController.is_typing == _type_index) {
@@ -1110,23 +1135,36 @@ function JADEstringinput(_x, _y, _name, _var, _type_index, _width=64) {
 	var mbleft = mouse_check_button_pressed(mb_left) && !oJADEController.pressed_dropdown;
 	var pressed_button = false;
 	
+	var halign=draw_get_halign();
+	var valign=draw_get_valign();
+	var font=draw_get_font();
 	draw_set_font(global.rulerGold)
 	draw_text(_x,_y+6, $"{_name}:")
 	var spacing = string_width($"{_name}:")+8
 	
 	draw_sprite_stretched(spr_JADEinputbox, 0,_x+spacing,_y,_width,24)
 	
-	if oJADEController.is_typing != _type_index
-		ScribblejrFitExt(_var,fa_left,fa_middle,global.omiFont,1,_width-8,20).Draw(_x+4+spacing,_y+12)
-	else
-		ScribblejrFitExt(keyboard_string,fa_left,fa_middle,global.omiFont,1,_width-8,20).Draw(_x+4+spacing,_y+12)
+	if oJADEController.is_typing != _type_index {
+		ScribblejrShrinkExt(_var,fa_left,fa_middle,global.omiFont,1,_width-8,20).Draw(_x+4+spacing,_y+12)
+	} else {
+		var shrink = ScribblejrShrinkExt(keyboard_string,fa_left,fa_middle,global.omiFont,1,_width-8,20)
+		shrink.Draw(_x+4+spacing,_y+12)
+		if (global.roomTimer mod 30 >= 15) {
+			var stringwidth = shrink.GetWidth();
+			draw_rect(_x+4+spacing+stringwidth,_y+8,1,8,c_white,1);
+		}
+	}
+
+	draw_set_font(font);
+	draw_set_halign(valign);
+	draw_set_valign(halign);
 	
 	var overinp = point_in_rectangle(curs_x,curs_y,_x+spacing,_y,_x+_width+spacing,_y+24);
 
 	//start typing
 	if (mbleft) && (overinp) {
 		oJADEController.is_typing = _type_index;
-		keyboard_string="";
+		keyboard_string=string(_var);
 		pressed_button=true;
 	}
 
@@ -1134,6 +1172,7 @@ function JADEstringinput(_x, _y, _name, _var, _type_index, _width=64) {
 	if (mbleft) && (oJADEController.is_typing == _type_index) && !(pressed_button) {
 		keyboard_string="";
 		oJADEController.is_typing = -1;
+		return keyboard_string
 	}
 	
 	if (keyboard_check_pressed(vk_enter)) && (oJADEController.is_typing == _type_index) {
