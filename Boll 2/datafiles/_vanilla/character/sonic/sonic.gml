@@ -34,6 +34,9 @@ kick = 0;
 spindashdust_fr = 0;
 spincharge_time = 0;
 
+sonic_air_momentum = true;
+apply_speedcap_midair = false;
+
 // wallrun junk
 wallrunstored_hsp = 0;
 wallrunstored_gsp = 0;
@@ -341,8 +344,8 @@ if (state == "wallrun") && !piped {
 //not rolling stats
 if (state != "roll" || !grounded) && !(piped) {
 	accel = 0.046875
-	fastaccel = 0.4 //deaccel
-	fric = 0.046875
+	fastaccel = 0.4*friction_mult //deaccel
+	fric = 0.046875*friction_mult
 	if (!grounded) {
 		accel = 0.09375
 		fastaccel = 0.09375
@@ -369,7 +372,7 @@ component_get_ground_friction()
 
 fric = fric * friction_mult;
 	
-player_movement_sonic();
+player_movement();
 basic_step_move();
 post_wall();
 

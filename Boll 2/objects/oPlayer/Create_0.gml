@@ -50,7 +50,10 @@ fastaccel = 0.3125; // accel during a turnaround
 skid_accel = 0.16125; // accel while skidding ?
 fric = 0.0625; //slipperiness
 friction_mult = 1; //multiplier for friction (e.g. ice blocks)
-move=0
+move = 0;
+crouch = false;
+sonic_air_momentum = false;
+apply_speedcap_midair = true;
 
 xsc=1
 ysc=1
