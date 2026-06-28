@@ -1098,20 +1098,24 @@ function JADEnumberinput(_x, _y, _name, _var, _type_index, _min=NaN, _max=NaN) {
 	
 	//unselect when clicking off
 	if (mbleft) && (oJADEController.is_typing == _type_index) && !(pressed_button) {
+		var str = keyboard_string
 		keyboard_string="";
 		oJADEController.is_typing = -1;
 		if (_min!=NaN) && (_max!=NaN) {
-			return clamp(unreal(keyboard_string,_var),_min,_max)
+			return clamp(unreal(str,_var),_min,_max)
 		} else if (_min!=NaN) {
-			return max(unreal(keyboard_string,_var),_min)
+			return max(unreal(str,_var),_min)
 		} else if (_max!=NaN) {
-			return min(unreal(keyboard_string,_var),_max)
+			return min(unreal(str,_var),_max)
 		} else {
-			return unreal(keyboard_string,_var)
+			return unreal(str,_var)
 		}
+		
 	}
 	
 	if (keyboard_check_pressed(vk_enter)) && (oJADEController.is_typing == _type_index) {
+		var str = keyboard_string
+		keyboard_string="";
 		oJADEController.is_typing = -1;
 		if (_min!=NaN) && (_max!=NaN) {
 			return clamp(unreal(keyboard_string,_var),_min,_max)
@@ -1170,14 +1174,17 @@ function JADEstringinput(_x, _y, _name, _var, _type_index, _width=64) {
 
 	//unselect when clicking off
 	if (mbleft) && (oJADEController.is_typing == _type_index) && !(pressed_button) {
+		var str=keyboard_string
 		keyboard_string="";
 		oJADEController.is_typing = -1;
-		return keyboard_string
+		return str
 	}
 	
 	if (keyboard_check_pressed(vk_enter)) && (oJADEController.is_typing == _type_index) {
+		var str=keyboard_string
+		keyboard_string="";
 		oJADEController.is_typing = -1;
-		return keyboard_string
+		return str
 	}
 	
 	return _var

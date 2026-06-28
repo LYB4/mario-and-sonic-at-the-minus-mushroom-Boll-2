@@ -5,7 +5,9 @@ no_dam = false
 if (in_shell) {
 	if !(shell_move) {
 		can_grab = true;
-		in_shell--; //Decreases the time for the koopa to get up
+		if !(grabbed) || (grabbed && instance_exists(carry_player) && !carry_player.piped) || (grabbed && !instance_exists(carry_player)) {
+			in_shell--; //Decreases the time for the koopa to get up
+		}
 		if !(in_shell) {
 			image_index=0;
 			getup_timer = getup_timer_max;
