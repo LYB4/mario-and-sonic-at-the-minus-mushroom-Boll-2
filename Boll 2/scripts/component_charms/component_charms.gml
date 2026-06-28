@@ -338,18 +338,22 @@ function component_sonic_standing(){
 		//move=0 //just in case
 		// chearii: mhomentunmnm
 		if (grounded) {
-		
+			var _fric = fric;
+			if (skidding && friction_mult < 1) {
+				_fric *= friction_mult;
+			}
 			if (sign(gsp) = -1){
-				gsp = min(0, gsp + fric )
+				gsp = min(0, gsp + _fric )
 			}else{
-				gsp = max(0, gsp - fric )
+				gsp = max(0, gsp - _fric )
 			}
 		}
 	}
 }
 
 function component_get_ground_friction() {
-	
+	friction_mult = 1;
+
 	if (grounded) && check_collision_line(x-hit_sizex, y+hit_sizey+1+vsp,x+hit_sizex,y+hit_sizey+1+vsp, COL_BOTTOM, collision_array) {
 		var i = collision_line(x-hit_sizex, y+hit_sizey+1+vsp,x+hit_sizex,y+hit_sizey+1+vsp, collision_array, true, true)
 		if instance_exists(i) && variable_instance_exists(i, "my_friction") {

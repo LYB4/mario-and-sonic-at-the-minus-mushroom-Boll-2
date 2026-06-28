@@ -28,10 +28,17 @@ function player_movement(){
 		//move=0 //just in case
 		// chearii: mhomentunmnm
 		if (grounded) {
+			var _fric = fric * friction_mult;
+			if (crouch && friction_mult < 1) {
+				_fric *= friction_mult;
+			}
+			if (skidding && friction_mult < 1) {
+				_fric *= friction_mult;
+			}
 			if (sign(gsp) = -1) {
-				gsp = min(0, gsp + fric*friction_mult)
+				gsp = min(0, gsp + _fric)
 			} else {
-				gsp = max(0, gsp - fric*friction_mult)
+				gsp = max(0, gsp - _fric)
 			}
 		}
 	}

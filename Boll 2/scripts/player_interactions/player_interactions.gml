@@ -53,8 +53,13 @@ function player_interactions(){
 			break;
 			
 			case 90:
-			hsp=min(-spring.spring_power,hsp)
-			if (grounded) gsp=hsp
+			hsp = min(-spring.spring_power, hsp)
+			if (grounded) {
+				gsp = hsp
+				if (friction_mult < 1) {
+					gsp = sign(gsp) * max(abs(gsp), spring.spring_power)
+				}
+			}
 			
 			if (state!="frozen")
 			xsc = -1
@@ -63,8 +68,13 @@ function player_interactions(){
 			break;
 			
 			case 270:
-			hsp=max(spring.spring_power,hsp)
-			if (grounded) gsp=hsp
+			hsp = max(spring.spring_power, hsp)
+			if (grounded) {
+				gsp = hsp
+				if (friction_mult < 1) {
+					gsp = sign(gsp) * max(abs(gsp), spring.spring_power)
+				}
+			}
 			
 			if (state!="frozen")
 			xsc = 1

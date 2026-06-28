@@ -365,13 +365,14 @@ if (state == "roll" && grounded) && !(piped) {
 
 
 
+component_get_ground_friction()
+
 fric = fric * friction_mult;
 	
 player_movement_sonic();
 basic_step_move();
 post_wall();
 
-component_get_ground_friction()
 if (!skidding) {
 	if ((ceil(abs(hsp))>3 && grounded && state == "")) {
 		dusttimer = min(dusttimer + 1, (dusttimer + 1) mod (10 - floor(abs(gsp)-3)));
