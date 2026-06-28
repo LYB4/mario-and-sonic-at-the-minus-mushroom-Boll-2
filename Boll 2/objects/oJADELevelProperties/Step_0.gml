@@ -1,5 +1,7 @@
-x=median(x,0,oJADEController.guiw-sprite_width)
-y=median(y,0,oJADEController.guih-sprite_height)
+if (window_has_focus()) {
+	x=median(x,0,oJADEController.guiw-sprite_width)
+	y=median(y,0,oJADEController.guih-sprite_height)
+}
 
 mbleftpress = mouse_check_button_pressed(mb_left)
 

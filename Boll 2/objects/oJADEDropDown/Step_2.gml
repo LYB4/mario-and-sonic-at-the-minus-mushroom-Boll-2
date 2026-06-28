@@ -1,5 +1,7 @@
-x=median(x,0,oJADEController.guiw-sprite_width)
-y=median(y,0,oJADEController.guih-sprite_height)
+if (window_has_focus()) {
+	x=median(x,0,oJADEController.guiw-sprite_width)
+	y=median(y,0,oJADEController.guih-sprite_height)
+}
 
 if (oJADEController.mbleftpress) {
 	if (point_in_rectangle(window_mouse_get_x(),window_mouse_get_y(),bbox_left,bbox_top,bbox_right-1,bbox_bottom-1)) {
