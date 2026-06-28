@@ -15,10 +15,17 @@ function player_movement(){
 				gsp += (move * accel_real);
 			}
 		}else {
-			var signmatch = (check_signs_matching(hsp, move))
-			var accel_real = accel;
-			if ((signmatch && abs(hsp) < topspd) || !signmatch) {
-				hsp += (move * accel_real);
+			//whether or not to use sonic or mario air physics
+			if !(sonic_air_momentum) {
+				var signmatch = (check_signs_matching(hsp, move))
+				var accel_real = accel;
+				if ((signmatch && abs(hsp) < topspd) || !signmatch) {
+					hsp += (move * accel_real);
+				}
+			} else {
+				if (vsp < 0 && vsp > -2 ) {
+					hsp -= hsp / 32
+				}
 			}
 		}
 		
@@ -28,10 +35,17 @@ function player_movement(){
 		//move=0 //just in case
 		// chearii: mhomentunmnm
 		if (grounded) {
+			var _fric = fric * friction_mult;
+			if ((crouch || state == "crouch") && friction_mult < 1) {
+				_fric *= friction_mult;
+			}
+			if (skidding && friction_mult < 1) {
+				_fric *= friction_mult;
+			}
 			if (sign(gsp) = -1) {
-				gsp = min(0, gsp + fric*friction_mult)
+				gsp = min(0, gsp + _fric)
 			} else {
-				gsp = max(0, gsp - fric*friction_mult)
+				gsp = max(0, gsp - _fric)
 			}
 		}
 	}
@@ -51,7 +65,7 @@ function player_movement(){
 			hsp = gsp; //fix for hsp being delayed by 1 frame all the time (no more sliding along the floor)	
 		}
 	} else {
-		if (abs(hsp) > topspd) {
+		if (abs(hsp) > topspd) && (grounded || apply_speedcap_midair) {
 			if (vsp < 0 && vsp > -2 ) {
 				hsp -= hsp / 32
 			}

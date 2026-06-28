@@ -439,13 +439,13 @@ if (colangle != 0 && slopesliding) {
 	fric = 0.0625;
 }
 
+component_get_ground_friction()
+
 fric = fric * friction_mult;
 	
 player_movement();
 basic_step_move();
 post_wall();
-
-component_get_ground_friction()
 
 component_mario_skidding_fx()
 
