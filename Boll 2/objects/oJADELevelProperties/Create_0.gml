@@ -7,7 +7,7 @@ music_real_list=[
 ]
 
 image_xscale = 320;
-image_yscale = 405;
+image_yscale = 200;
 
 x -= image_xscale/2;
 y -= image_yscale/2;
