@@ -573,6 +573,10 @@ if !(deadtimer) {
 }
 
 #define mushroom
+if (size!="basic" && size!="mini" ) {
+	reserve_item(oMushroom);
+}
+
 VinylPlay(asset_get_index("snd_powerup"))
 if (size == "basic" || size == "mini") {
 	oldsize = size;
@@ -581,16 +585,33 @@ if (size == "basic" || size == "mini") {
 }
 
 #define fireflower
+if (size!="basic" && size!="big" && size!="mini") {
+	switch(size) {
+		case "fire":
+			reserve_item(oFireFlower);
+		break;
+		case "thunder":
+			reserve_item(oThunderFlower);
+		break;
+	}
+}
+
 VinylPlay(asset_get_index("snd_powerup"))
 oldsize = size;
 size = "fire";
 grow = 60;
 
 #define thunderflower
-VinylPlay(asset_get_index("snd_powerup"))
-oldsize = size;
-size = "thunder";
-grow = 60;
+if (size!="basic" && size!="big" && size!="mini") {
+	switch(size) {
+		case "fire":
+			reserve_item(oFireFlower);
+		break;
+		case "thunder":
+			reserve_item(oThunderFlower);
+		break;
+	}
+}
 
 #define star
 VinylPlay(asset_get_index("snd_powerup"));
