@@ -597,9 +597,11 @@ if (size!="basic" && size!="big" && size!="mini") {
 }
 
 VinylPlay(asset_get_index("snd_powerup"))
-oldsize = size;
-size = "fire";
-grow = 60;
+if (size != "fire") {
+	oldsize = size;
+	size = "fire";
+	grow = 60;
+}
 
 #define thunderflower
 if (size!="basic" && size!="big" && size!="mini") {
@@ -611,6 +613,13 @@ if (size!="basic" && size!="big" && size!="mini") {
 			reserve_item(oThunderFlower);
 		break;
 	}
+}
+
+VinylPlay(asset_get_index("snd_powerup"))
+if (size != "thunder") {
+	oldsize = size;
+	size = "thunder";
+	grow = 60;
 }
 
 #define star
