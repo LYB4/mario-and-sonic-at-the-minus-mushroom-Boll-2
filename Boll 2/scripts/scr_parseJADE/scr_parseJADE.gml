@@ -133,20 +133,16 @@ function parse_level(dir=game_save_id+"\save.jade") {
 							if (array_length(data)) > 10 {
 								if array_length(data[10]) {
 									var temparr = []
-									array_copy(temparr,0,data[10],0,array_length(data[11]))
+									array_copy(temparr,0,data[10],0,array_length(data[10]))
 									variable_instance_set(obj, "pathing", temparr);
 									if is_array(data[11]) {
-										variable_instance_set(obj, "pathspd", data[11][0]);
-										variable_instance_set(obj, "pathnum", data[11][1]);
-										variable_instance_set(obj, "pathcanrev", data[11][2]);
-										variable_instance_set(obj, "pathcanfall", data[11][3]);
-										variable_instance_set(obj, "pathdraw", data[11][4]);
-										variable_instance_set(obj, "pathstarted", data[11][5]);
+										variable_instance_set(obj, "pathnum", data[11][0]);
+										variable_instance_set(obj, "pathstarttype", data[11][1]);
+										variable_instance_set(obj, "pathendtype", data[11][2]);
+										variable_instance_set(obj, "pathdraw", data[11][3]);
 									}	
 								}
 							}
-						
-						
 						
 							//object variables
 							var g=0

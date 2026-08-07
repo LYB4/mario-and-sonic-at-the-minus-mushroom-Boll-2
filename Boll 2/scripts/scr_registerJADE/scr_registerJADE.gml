@@ -1,7 +1,7 @@
 #macro OBJECT_MODE 0
 #macro DECO_MODE 1
 #macro NODE_MODE 2
-#macro JADE_VERSION 4
+#macro JADE_VERSION "4.1"
 
 global.tilesets={}
 //add tilesets
@@ -42,6 +42,7 @@ function JADE_initializeobj() {
 	bglist = new JADEbglisthandler(guiw-216-14,56, 216, 480);
 	propertylist = new JADEpropertylisthandler(guiw-216-14,56, 216, 640);
 	nodepropertylist = new JADEnodepropertylisthandler(guiw-216-14,56, 216, 640);
+	selectednodelist = new JADEselectednodelisthandler(guiw-216-14,56, 216, 640);
 	rotatorpropertylist = new JADErotatorpropertylisthandler(guiw-216-14,56, 216, 640);
 	
 	list_tabbuttons = new JADEsmallbuttons(guiw-216-14,38,96,20,8,false, true)
@@ -504,10 +505,9 @@ function JADE_load(file=game_save_id+"\save.jade") {
 	var loaded = buffer_load(file)
 	var save_file = buffer_decompress(loaded)
 	var level_data = json_parse(buffer_read(save_file,buffer_string))
-	if (level_data[$ "version"]==JADE_VERSION) {
+	if (string_starts_with(string(level_data[$ "version"]),"4")) {
 		if (struct_exists(level_data, "level_properties")) {
 			level_properties = level_data[$ "level_properties"]
-			show_debug_message("LEVEL PROPERTIES LOADED!!! Level name: " + level_properties.name)
 		} else {
 			level_properties =
 			{

@@ -1064,17 +1064,25 @@ function JADEnumberinput(_x, _y, _name, _var, _type_index, _min=NaN, _max=NaN) {
 	//up
 	if (mbleft) && (overtop) {
 		pressed_button=true;
-		if _max==NaN
-		return _var+1
-		else return min(_var+1,_max)
+		if _max==NaN {
+			keyboard_string=string(unreal(keyboard_string,_var)+1);
+			return _var+1
+		} else {
+			keyboard_string=string(min(unreal(keyboard_string,_var)+1,_max));
+			return min(_var+1,_max)
+		}
 	}
 			
 	//down
 	if (mbleft) && (overbot) {
 		pressed_button=true;
-		if _min==NaN
-		return _var-1
-		else return max(_var-1,_min)
+		if _min==NaN {
+			keyboard_string=string(unreal(keyboard_string,_var)-1);
+			return _var-1
+		} else {
+			keyboard_string=string(max(unreal(keyboard_string,_var)-1,_min));
+			return max(_var-1,_min);
+		}
 	}
 	
 	//start typing
@@ -1110,7 +1118,6 @@ function JADEnumberinput(_x, _y, _name, _var, _type_index, _min=NaN, _max=NaN) {
 		} else {
 			return unreal(str,_var)
 		}
-		
 	}
 	
 	if (keyboard_check_pressed(vk_enter)) && (oJADEController.is_typing == _type_index) {
@@ -1118,13 +1125,13 @@ function JADEnumberinput(_x, _y, _name, _var, _type_index, _min=NaN, _max=NaN) {
 		keyboard_string="";
 		oJADEController.is_typing = -1;
 		if (_min!=NaN) && (_max!=NaN) {
-			return clamp(unreal(keyboard_string,_var),_min,_max)
+			return clamp(unreal(str,_var),_min,_max)
 		} else if (_min!=NaN) {
-			return max(unreal(keyboard_string,_var),_min)
+			return max(unreal(str,_var),_min)
 		} else if (_max!=NaN) {
-			return min(unreal(keyboard_string,_var),_max)
+			return min(unreal(str,_var),_max)
 		} else {
-			return unreal(keyboard_string,_var)
+			return unreal(str,_var)
 		}
 	}
 	
@@ -1238,6 +1245,47 @@ function JADEdropdownproperty(_x, _y, _name, _var, _index, obj_ind, _options, _n
 				inst=JADEdropdown(_x+spacing,_y+24,_names, function(name,ind) {
 					oJADEController.propertylist.updatefromdropdown(ind, oJADEController.property_dropdown_index, oJADEController.property_object_index);
 					oJADEController.property_dropdown_index=-1;
+					oJADEController.property_object_index = -1;
+				})
+			} else {
+				instance_destroy(oJADEDropDown,false)
+				oJADEController.property_dropdown_index=-1;
+				oJADEController.property_object_index = -1;
+			}
+		} else {
+			instance_destroy(inst,false)
+			oJADEController.property_dropdown_index=-1;
+			oJADEController.property_object_index = -1;
+		}
+	}
+}
+
+function JADEnodedropdownproperty(_x, _y, _name, _var, _index, obj_ind, _options, _names) {
+	
+	static inst = noone;
+	
+	var curs_x = window_mouse_get_x()
+	var curs_y = window_mouse_get_y()
+	
+	var mbleft = mouse_check_button_pressed(mb_left) && !oJADEController.pressed_dropdown;
+	
+	draw_set_font(global.rulerGold)
+	draw_text(_x,_y+6, $"{_name}:")
+	var spacing = string_width($"{_name}:")+8
+	
+	draw_sprite_stretched(spr_JADEdropdownbox, 0,_x+spacing,_y,128,24)
+	ScribblejrFitExt(_names[array_get_index(_options,_var)],fa_left,fa_middle,global.omiFont,1,94,16).Draw(_x+4+spacing,_y+12)
+	
+	var overinp = point_in_rectangle(curs_x,curs_y,_x+spacing,_y,_x+128+spacing,_y+24);
+	
+	if (mbleft) && (overinp) {
+ 		if !instance_exists(inst){
+			if oJADEController.property_dropdown_index!=_index {
+				oJADEController.property_dropdown_index = _index
+				oJADEController.property_object_index = obj_ind
+				inst=JADEdropdown(_x+spacing,_y+24,_names, function(name,ind) {
+					oJADEController.nodepropertylist.updatefromdropdown(ind, oJADEController.property_dropdown_index, oJADEController.property_object_index);
+					oJADEController.property_dropdown_index = -1;
 					oJADEController.property_object_index = -1;
 				})
 			} else {
@@ -1374,6 +1422,18 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		layer_depth(layer_get_id("BG_Color"),(i+6)*100)
 	}
 	
+	static update_region_size = function(new_width,new_height) {
+		var i=0;
+		repeat(array_length(listcontents)) {
+			if is_instanceof(listcontents[i], JADEtilelayer) {
+				with(listcontents[i]) {
+					update_size(new_width,new_height);	
+				}
+			}
+			i++;
+		}
+	}
+	
 	static wipe = function() {
 		var i=0;
 		repeat(array_length(listcontents)) {
@@ -1386,6 +1446,48 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 			i++;
 		}
 		listcontents = [];
+	}
+	
+	static hide = function() {
+		var i=0;
+		repeat(array_length(listcontents)) {
+			var struct = listcontents[i]
+			if (is_instanceof(struct, JADEtilelayer) || is_instanceof(struct, JADEassetlayer) || is_instanceof(struct, JADEtilelayer)) {
+				layer_set_visible(struct.my_layer, false);
+			}
+			i++;
+		}
+	}
+	
+	static show = function() {
+		var i=0;
+		repeat(array_length(listcontents)) {
+			var struct = listcontents[i]
+			if (is_instanceof(struct, JADEtilelayer)) {
+				layer_set_visible(struct.my_layer, oJADEController.tile_layers_visible)
+			} else if (is_instanceof(struct, JADEassetlayer)) {
+				layer_set_visible(struct.my_layer, oJADEController.asset_layers_visible)
+			} else if (is_instanceof(struct, JADEbackgroundlayer)) {
+				layer_set_visible(struct.my_layer, oJADEController.bg_layers_visible)
+			}
+			i++;
+		}
+	}
+	
+	static switch_layers = function(_item) {
+		var j=0;
+		repeat(array_length(listcontents)) {
+			var item2 = listcontents[j]
+			if (is_instanceof(item2, JADEtilelayer)) {
+				layer_set_visible(item2.my_layer, oJADEController.tile_layers_visible)
+			} else if (is_instanceof(item2, JADEassetlayer)) {
+				layer_set_visible(item2.my_layer, oJADEController.asset_layers_visible)
+			} else if (is_instanceof(item2, JADEbackgroundlayer)) {
+				layer_set_visible(item2.my_layer, oJADEController.bg_layers_visible)
+			}
+			j++;
+		}
+		layer_set_visible(_item.my_layer, true)
 	}
 	
 	static draw = function() {
@@ -1449,55 +1551,19 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 								tile_sel_width = 0
 								toolbarbuttons.set(toolbar[1])
 							}
-							var j=0;
-							repeat(array_length(listcontents)) {
-								var item2 = listcontents[j]
-								if (is_instanceof(item2, JADEtilelayer)) {
-									layer_set_visible(item2.my_layer, oJADEController.tile_layers_visible)
-								} else if (is_instanceof(item2, JADEassetlayer)) {
-									layer_set_visible(item2.my_layer, oJADEController.asset_layers_visible)
-								} else if (is_instanceof(item2, JADEtilelayer)) {
-									layer_set_visible(item2.my_layer, oJADEController.bg_layers_visible)
-								}
-								j++;
-							}
-							layer_set_visible(item.my_layer, true)
+							switch_layers(item);
 						} else if is_instanceof(item, JADEassetlayer) {
 							with(oJADEController) {
 								deco_mode_type = "asset";
 								toolbarbuttons.set(toolbar[3])
 							}
-							var j=0;
-							repeat(array_length(listcontents)) {
-								var item2 = listcontents[j]
-								if (is_instanceof(item2, JADEtilelayer)) {
-									layer_set_visible(item2.my_layer, oJADEController.tile_layers_visible)
-								} else if (is_instanceof(item2, JADEassetlayer)) {
-									layer_set_visible(item2.my_layer, oJADEController.asset_layers_visible)
-								} else if (is_instanceof(item2, JADEtilelayer)) {
-									layer_set_visible(item2.my_layer, oJADEController.bg_layers_visible)
-								}
-								j++;
-							}
-							layer_set_visible(item.my_layer, true)
+							switch_layers(item);
 						} else if is_instanceof(item, JADEbackgroundlayer) {
 							with(oJADEController) {
 								deco_mode_type = "bg";
 								toolbarbuttons.set(toolbar[2])
 							}
-							var j=0;
-							repeat(array_length(listcontents)) {
-								var item2 = listcontents[j]
-								if (is_instanceof(item2, JADEtilelayer)) {
-									layer_set_visible(item2.my_layer, oJADEController.tile_layers_visible)
-								} else if (is_instanceof(item2, JADEassetlayer)) {
-									layer_set_visible(item2.my_layer, oJADEController.asset_layers_visible)
-								} else if (is_instanceof(item2, JADEtilelayer)) {
-									layer_set_visible(item2.my_layer, oJADEController.bg_layers_visible)
-								}
-								j++;
-							}
-							layer_set_visible(item.my_layer, true)
+							switch_layers(item);
 						}
 						mbleftpress=0
 					}
@@ -1513,62 +1579,29 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 							deco_mode_type = "tile";
 							tilepicker.pan_x = 0;
 							tilepicker.pan_y = 0;
-							current_tile_id = -1
-							current_tile_id = []
-							current_tile_id[0][0] = 0
-							tile_sel_height = 0
-							tile_sel_width = 0
+							current_tile_id = -1;
+							current_tile_id = [];
+							current_tile_id[0][0] = 0;
+							tile_sel_height = 0;
+							tile_sel_width = 0;
+							selected_tool = SELECT_TOOL;
 							toolbarbuttons.set(toolbar[1])
 						}
-						var j=0;
-						repeat(array_length(listcontents)) {
-							var item2 = listcontents[j]
-							if (is_instanceof(item2, JADEtilelayer)) {
-								layer_set_visible(item2.my_layer, oJADEController.tile_layers_visible)
-							} else if (is_instanceof(item2, JADEassetlayer)) {
-								layer_set_visible(item2.my_layer, oJADEController.asset_layers_visible)
-							} else if (is_instanceof(item2, JADEtilelayer)) {
-								layer_set_visible(item2.my_layer, oJADEController.bg_layers_visible)
-							}
-							j++;
-						}
-						layer_set_visible(item.my_layer, true)
+						switch_layers(item);
 					} else if is_instanceof(item, JADEassetlayer) {
 						with(oJADEController) {
 							deco_mode_type = "asset";
+							selected_tool = SELECT_TOOL;
 							toolbarbuttons.set(toolbar[3])
 						}
-						var j=0;
-						repeat(array_length(listcontents)) {
-							var item2 = listcontents[j]
-							if (is_instanceof(item2, JADEtilelayer)) {
-								layer_set_visible(item2.my_layer, oJADEController.tile_layers_visible)
-							} else if (is_instanceof(item2, JADEassetlayer)) {
-								layer_set_visible(item2.my_layer, oJADEController.asset_layers_visible)
-							} else if (is_instanceof(item2, JADEtilelayer)) {
-								layer_set_visible(item2.my_layer, oJADEController.bg_layers_visible)
-							}
-							j++;
-						}
-						layer_set_visible(item.my_layer, true)
+						switch_layers(item);
 					} else if is_instanceof(item, JADEbackgroundlayer) {
 						with(oJADEController) {
 							deco_mode_type = "bg";
+							selected_tool = SELECT_TOOL;
 							toolbarbuttons.set(toolbar[2])
 						}
-						var j=0;
-						repeat(array_length(listcontents)) {
-							var item2 = listcontents[j]
-							if (is_instanceof(item2, JADEtilelayer)) {
-								layer_set_visible(item2.my_layer, oJADEController.tile_layers_visible)
-							} else if (is_instanceof(item2, JADEassetlayer)) {
-								layer_set_visible(item2.my_layer, oJADEController.asset_layers_visible)
-							} else if (is_instanceof(item2, JADEtilelayer)) {
-								layer_set_visible(item2.my_layer, oJADEController.bg_layers_visible)
-							}
-							j++;
-						}
-						layer_set_visible(item.my_layer, true)
+						switch_layers(item);
 					}
 					mbrightpress=0;
 				}
@@ -1700,7 +1733,7 @@ function JADElistunselectable(_name) constructor {
 	name = _name;
 }
 
-function JADEtilelayer(_name,_tileset) constructor {
+function JADEtilelayer(_name,_tileset,map_width=1,map_height=1) constructor {
 	name = _name
 	layerdepth = 0;
 	tilemap = ds_list_create();
@@ -1708,13 +1741,18 @@ function JADEtilelayer(_name,_tileset) constructor {
 	tileset_info = global.tilesets[$ tileset]
 	sprite = tileset_info[0]
 	my_layer = layer_create(layerdepth,name)
-	my_deco_layer = layer_tilemap_create(my_layer,0,0,tileset_info[1],ceil(room_width/16),ceil(room_height/16))
+	my_deco_layer = layer_tilemap_create(my_layer,0,0,tileset_info[1],map_width,map_height)
 	hide_behavior = false;
 	layer_script_begin(my_layer, tile_layer_alpha_check);
 	layer_script_end(my_layer, tile_layer_alpha_end);
 	static change_depth = function(_depth) {
 		layerdepth = _depth;
 		layer_depth(my_layer,layerdepth);
+	}
+	
+	static update_size = function(new_width,new_height) {
+		tilemap_set_width(my_deco_layer,new_width);
+		tilemap_set_height(my_deco_layer,new_height);
 	}
 	
 	static update_tileset = function(_tileset) {
@@ -2053,27 +2091,24 @@ function JADEnodepropertylisthandler(_x, _y, _width, _height) : JADEpropertylist
 		
 		if (objarr>=0) {
 			var obj = oJADEController.object_layer_map[| objarr]
-			var pthspdprop = {};
-			pthspdprop.type = "number_input";
-			pthspdprop.name = "Path Speed";
-			pthspdprop.absolute = true;
 			var startnodeprop = {};
 			startnodeprop.type = "number_input";
 			startnodeprop.name = "Starting Node";
 			startnodeprop.absolute = true;
-			var reverseendprop = {};
-			reverseendprop.type = "checkbox";
-			reverseendprop.name = "Reverse On End";
-			var fallendprop = {};
-			fallendprop.type = "checkbox";
-			fallendprop.name = "Fall On End";
+			var starttypeprop = {};
+			starttypeprop.type = "dropdown";
+			starttypeprop.name = "Start Behavior";
+			starttypeprop[$ "dropdownnames"]=["Automatic","On Touch","None"];
+			starttypeprop[$ "dropdowndata"]=["auto","touch","none"];
+			var endtypeprop = {};
+			endtypeprop[$ "type"]="dropdown";
+			endtypeprop[$ "name"]="End Behavior";
+			endtypeprop[$ "dropdownnames"]=["Continue","Reverse","Fall","Stop","Reset"];
+			endtypeprop[$ "dropdowndata"]=["continue","reverse","fall","stop","reset"];
 			var drawtrackprop = {};
 			drawtrackprop.type = "checkbox";
 			drawtrackprop.name = "Draw Track";
-			var autostartprop = {};
-			autostartprop.type = "checkbox";
-			autostartprop.name = "Auto Start";
-			var arr = [pthspdprop,startnodeprop,reverseendprop,fallendprop,drawtrackprop,autostartprop]
+			var arr = [startnodeprop,starttypeprop,endtypeprop,drawtrackprop]
 			var data = oJADEController.obj_data[$ obj[0]]
 			
 			var prevscissor = gpu_get_scissor();
@@ -2104,6 +2139,178 @@ function JADEnodepropertylisthandler(_x, _y, _width, _height) : JADEpropertylist
 					} break;
 					case "string_input": {
 						obj[11][i]=JADEstringinput(x+16,y+144+32*i, item[$ "name"], obj[11][i],102+i)
+					} break;
+					case "dropdown": {
+						JADEnodedropdownproperty(x+16,y+144+32*i, item[$ "name"], obj[11][i], i, objarr, item[$ "dropdowndata"], item[$ "dropdownnames"])
+					} break;
+				}
+				
+				i++;
+				if i>(height/32) listheight+=32
+			}
+			gpu_set_scissor(prevscissor);
+		}
+		
+		//Scrollbars
+		#region Scrolling
+		var total_height=height+listheight
+		var total_width=width+listwidth
+		
+		var over_vert_scrollbar = point_in_rectangle(curs_x,curs_y,x+width,y,x+width+4+8,y+height);
+		var bar_height = max(6,(height/total_height)*height)
+		
+		var over_horizontal_scrollbar = point_in_rectangle(curs_x,curs_y,x,y+height,x+width,y+height+4+8);
+		var bar_width = max(6,(width/total_width)*width)
+		
+		draw_gui(x+width+4,y,6,height,oJADEController.themeaccent2,1) //vertical scrollbar bg
+		draw_gui(x+width+4,y+handle_y,6,bar_height,oJADEController.themeaccent4,1) //vertical scrollbar handle
+		
+		draw_gui(x,y+height+4,width,6,oJADEController.themeaccent2,1) //horizontal scrollbar bg
+		draw_gui(x+handle_x,y+height+4,bar_width,6,oJADEController.themeaccent4,1) //horizontal scrollbar handle
+		
+		var mwheel = mouse_wheel_down() - mouse_wheel_up();
+		if (mwheel == 0) {
+			mwheel = keyboard_check(vk_down) - keyboard_check(vk_up)
+		}
+		
+		if (over) && (mwheel != 0) {
+			if !keyboard_check(vk_control) {
+				scroll_y+=12*-mwheel
+				scroll_y=clamp(scroll_y,-listheight,0)
+				
+				if (listheight)
+				handle_y = -((height - bar_height) * scroll_y / (listheight))
+			} else {
+				scroll_x+=8*mwheel
+				scroll_x=clamp(scroll_x,-listwidth,0)
+				
+				if (listwidth)
+				handle_x = -((width - bar_width) * scroll_x / (listwidth))
+			}
+		}
+		
+		if (mbleft) {
+			if (over_vert_scrollbar) && (height/total_height != 1) {
+				if !is_scrolling_y {
+					mouse_offset_y = (curs_y - (y + handle_y))	
+				}
+				is_scrolling_y=true
+			} else if (over_horizontal_scrollbar) && (width/total_width != 1) {
+				if !is_scrolling_x {
+					mouse_offset_x = (curs_x - (x + handle_x))	
+				}
+				is_scrolling_x=true
+			}
+		}
+		
+		if (mouse_check_button_released(mb_left)) {
+			is_scrolling_x=0
+			is_scrolling_y=0
+		}
+		
+		if (is_scrolling_y) {
+			handle_y = curs_y - y - mouse_offset_y;
+			handle_y = clamp( handle_y, 0, height - bar_height);
+			
+			scroll_y = -((listheight) * handle_y / (height - bar_height));
+		} else if (is_scrolling_x) {
+			handle_x = curs_x - x - mouse_offset_x;
+			handle_x = clamp(handle_x, 0, width - bar_width);
+			
+			scroll_x = -((listwidth) * handle_x / (width - bar_width));
+		}
+		#endregion
+	}
+
+	static updatefromdropdown = function(ind, propind, objind) {
+		if ind==-1 exit;
+		
+		var startnodeprop = {};
+		startnodeprop.type = "number_input";
+		startnodeprop.name = "Starting Node";
+		startnodeprop.absolute = true;
+		var starttypeprop = {};
+		starttypeprop.type = "dropdown";
+		starttypeprop.name = "Start Behavior";
+		starttypeprop[$ "dropdownnames"]=["Automatic","On Touch","None"];
+		starttypeprop[$ "dropdowndata"]=["auto","touch","none"];
+		var endtypeprop = {};
+		endtypeprop[$ "type"]="dropdown";
+		endtypeprop[$ "name"]="End Behavior";
+		endtypeprop[$ "dropdownnames"]=["Continue","Reverse","Fall","Stop","Reset"];
+		endtypeprop[$ "dropdowndata"]=["continue","reverse","fall","stop","reset"];
+		var drawtrackprop = {};
+		drawtrackprop.type = "checkbox";
+		drawtrackprop.name = "Draw Track";
+		var arr = [startnodeprop,starttypeprop,endtypeprop,drawtrackprop]
+		
+		var obj = oJADEController.object_layer_map[| objind]
+		var item = arr[propind]
+		
+		obj[11][oJADEController.property_dropdown_index]=item[$ "dropdowndata"][ind]
+
+		with(oJADEController) {
+			var j=1;
+			repeat(array_length(selected_array)-1) {
+				var obj2 = object_layer_map[| selected_array[j]]
+				if (obj2[0] == obj[0])
+				obj2[11][property_dropdown_index] = obj[11][property_dropdown_index]
+				j++;
+			}
+		}
+	}
+}
+
+function JADEselectednodelisthandler(_x, _y, _width, _height) : JADEpropertylisthandler(_x, _y, _width, _height) constructor {
+	static draw = function(objarr,nodeind) {
+		draw_rect(x,y,width,height,oJADEController.themeaccent3,1)
+		var curs_x = window_mouse_get_x()
+		var curs_y = window_mouse_get_y()
+		var mbleft = mouse_check_button_pressed(mb_left);
+		var over = point_in_rectangle(curs_x,curs_y,x,y,x+width,y+height);
+		listwidth = 0;
+		listheight = 0;
+		
+		if (objarr>=0) {
+			var obj = oJADEController.object_layer_map[| objarr]
+			var nodespeedprop = {};
+			nodespeedprop.type = "number_input";
+			nodespeedprop.name = "Speed";
+			nodespeedprop.absolute = true;
+			var nodecurveprop = {};
+			nodecurveprop.type = "number_input";
+			nodecurveprop.name = "Curvature";
+			nodecurveprop.absolute = false;
+			var arr = [nodespeedprop,nodecurveprop]
+			
+			var prevscissor = gpu_get_scissor();
+			gpu_set_scissor(x,y,width,height);
+			
+			draw_set_font(global.rulerGold)
+			
+			draw_rect(x+15,y+15,66,66,c_white,1,true)
+			draw_text(x+16,y+96,$"Node {nodeind}")
+			
+			draw_rect(x+8,y+128,width-16,2,oJADEController.themeaccent2,1)
+			
+			var i=0;
+			repeat(array_length(arr)) { 
+				var item = arr[i]
+				
+				switch (item[$ "type"]) {
+					case "checkbox": {
+						obj[10][nodeind][2+i]=JADEcheckbox(x+16,y+144+32*i, item[$ "name"], obj[10][nodeind][2+i])
+					} break;
+					case "number_input": {
+						if !item[$ "absolute"]
+						obj[10][nodeind][2+i]=JADEnumberinput(x+16,y+144+32*i, item[$ "name"], obj[10][nodeind][2+i],102+i)
+						else obj[10][nodeind][2+i]=JADEnumberinput(x+16,y+144+32*i, item[$ "name"], obj[10][nodeind][2+i],102+i,0)
+					} break;
+					case "number_range_input": {
+						obj[10][nodeind][2+i]=JADEnumberinput(x+16,y+144+32*i, item[$ "name"], obj[10][nodeind][2+i],102+i,item[$ "minimum"],item[$ "maximum"])
+					} break;
+					case "string_input": {
+						obj[10][nodeind][2+i]=JADEstringinput(x+16,y+144+32*i, item[$ "name"], obj[10][nodeind][2+i],102+i)
 					} break;
 				}
 				
@@ -2331,5 +2538,37 @@ function JADErotatorpropertylisthandler(_x, _y, _width, _height) : JADEpropertyl
 			scroll_x = -((listwidth) * handle_x / (width - bar_width));
 		}
 		#endregion
+	}
+}
+
+function JADEregion(_width,_height,_name) constructor {
+	width = _width;
+	height = _height;
+	name = _name;
+	mylayerlist = new JADElayerlisthandler(8,56,192-24,640, "selected_layer");
+	object_layer_map = ds_list_create();
+	node_layer_map = ds_list_create();
+	
+	static cleanup = function() {
+		mylayerlist.wipe();
+		ds_list_destroy(object_layer_map);
+		ds_list_destroy(node_layer_map);
+	}
+	
+	static scale = function(new_width,new_height) {
+		width = new_width;
+		height = new_height;
+	}
+	
+	static update_tiles = function() {
+		mylayerlist.update_region_size(width,height);
+	}
+	
+	static get_width = function() {
+		return width*16;
+	}
+	
+	static get_height = function() {
+		return height*16;
 	}
 }

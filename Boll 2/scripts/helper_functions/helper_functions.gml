@@ -395,3 +395,49 @@ function set_setting(_setting, _val) {
 function within(val,a,b) {
 	return (val >= a) && (val <= b)
 }
+
+function DrawQuadraticCurve(x1, y1, x2, y2, curvature, segments, color=c_white, alpha=1)
+{
+    //Function written by Snidr for Energy Engine
+    var i = 0;
+    var px = x1;
+    var py = y1;
+    var cx = (x1 + x2) * .5 + curvature * (y2 - y1);
+    var cy = (y1 + y2) * .5 - curvature * (x2 - x1);
+    repeat (segments)
+    {
+        var t = ++ i / segments;
+        var xx = lerp(lerp(x1, cx, t), lerp(cx, x2, t), t);
+        var yy = lerp(lerp(y1, cy, t), lerp(cy, y2, t), t);
+		var dist = point_distance(px,py,xx,yy)
+		var angle = point_direction(px,py,xx,yy)
+		draw_sprite_ext(spr_1x1,0,px,py,dist,2,angle,color,alpha)
+        px = xx;
+        py = yy;
+    }
+}
+
+function DrawCubicCurve(x1, y1, x2, y2, curv1, curv2, segments, color=c_white, alpha=1)
+{
+    //Function written by Snidr for Energy Engine
+    var i = 0;
+    var px = x1;
+    var py = y1;
+    var cx1 = (x1 + x2) * .5 + curv1 * (y2 - y1);
+    var cy1 = (y1 + y2) * .5 - curv1 * (x2 - x1);
+    var cx2 = (x1 + x2) * .5 + curv2 * (y2 - y1);
+    var cy2 = (y1 + y2) * .5 - curv2 * (x2 - x1);
+    repeat (segments)
+    {
+        var t = ++ i / segments;
+        var bx = lerp(cx1, cx2, t);
+        var by = lerp(cy1, cy2, t);
+        var xx = lerp(lerp(lerp(x1, cx1, t), bx, t), lerp(bx, lerp(cx2, x2, t), t), t);
+        var yy = lerp(lerp(lerp(y1, cy1, t), by, t), lerp(by, lerp(cy2, y2, t), t), t);
+        var dist = point_distance(px,py,xx,yy)
+		var angle = point_direction(px,py,xx,yy)
+		draw_sprite_ext(spr_1x1,0,px,py,dist,2,angle,color,alpha)
+        px = xx;
+        py = yy;
+    }
+}

@@ -20,6 +20,8 @@ gridy=0;
 prevgridx=0;
 prevgridy=0;
 
+selected_region = 0;
+
 selected_mode=OBJECT_MODE;
 selected_toolbar=0;
 selected_tool=SELECT_TOOL;
@@ -37,17 +39,6 @@ camera = view_camera[0]
 guiw = window_get_width();
 guih = window_get_height();
 cursor_scale = max(min(floor(guiw/RESOLUTION_X),floor(guih/RESOLUTION_Y))/3,1)
-
-camera_set_view_size(camera,guiw,guih);
-view_set_wport(0,guiw)
-view_set_hport(0,guih)
-
-camera_set_view_pos(camera,0,room_height-camera_get_view_height(camera))
-
-cam_x = camera_get_view_x(camera)
-cam_y = camera_get_view_y(camera)
-cam_w = camera_get_view_width(camera)
-cam_h = camera_get_view_height(camera)
 
 themeaccent1=scribble_rgb_to_bgr($0d1128)
 themeaccent2=scribble_rgb_to_bgr($1c2348)
@@ -94,7 +85,7 @@ topbuttons.add("File", function() {
 				layerlist.wipe();
 				layerlist.add(new JADElistunselectable("Objects"))
 				layerlist.add(new JADElistunselectable("Piping Objects"))
-				layerlist.add(new JADEtilelayer("Main Tiles", current_tileset))
+				layerlist.add(new JADEtilelayer("Main Tiles", current_tileset,regions[oJADEController.selected_region].get_width(),regions[oJADEController.selected_region].get_height()))
 				layerlist.add(new JADEbackgroundlayer("Main Tiles", obj_data[$ "spr_plains_bg_sky"]))
 				layerlist.update_depths();
 				
@@ -118,7 +109,7 @@ topbuttons.add("File", function() {
 					global.save_dir=file
 					JADE_load(file)
 					displaytextdur=120;
-					displaytext=$"Successfully open JADE file {filename_name(global.save_dir)}!"
+					displaytext=$"Successfully opened JADE file {filename_name(global.save_dir)}!"
 					autosave_time = (60*30)
 				}
 			break;
@@ -184,16 +175,39 @@ topbuttons.add("Level", function() {
 	var inst = instance_create_depth(guiw/2,guih/2,oJADEController.depth-2,oJADELevelProperties)
 	topbuttons.created_gui = inst;
 });
-
+topbuttons.add("Region", function() {
+	with(oJADEGUIpar) {
+		instance_destroy();
+	}
+	var inst = instance_create_depth(guiw/2,guih/2,oJADEController.depth-2,oJADERegionProperties)
+	topbuttons.created_gui = inst;
+});
 
 
 selected_layer=noone
 tilemap=-1;
 tilemap_layer=-1;
-layerlist = new JADElayerlisthandler(8,56,192-24,640, "selected_layer") 
+
+regions[0] = new JADEregion(400,140, "Region 1")
+camera_set_view_size(camera,guiw,guih);
+view_set_wport(0,guiw)
+view_set_hport(0,guih)
+
+camera_set_view_pos(camera,-(camera_get_view_width(camera)/2.5),regions[0].get_height()-(camera_get_view_height(camera)/1.5))
+
+cam_x = camera_get_view_x(camera)
+cam_y = camera_get_view_y(camera)
+cam_w = camera_get_view_width(camera)
+cam_h = camera_get_view_height(camera)
+
+node_layer_map = regions[selected_region].node_layer_map;
+object_layer_map = regions[selected_region].object_layer_map;
+object_map = object_layer_map;
+
+layerlist = regions[0].mylayerlist;
 layerlist.add(new JADElistunselectable("Objects"))
 layerlist.add(new JADElistunselectable("Piping Objects"))
-layerlist.add(new JADEtilelayer("Main Tiles", current_tileset))
+layerlist.add(new JADEtilelayer("Main Tiles", current_tileset,regions[oJADEController.selected_region].get_width(),regions[oJADEController.selected_region].get_height()))
 layerlist.add(new JADEbackgroundlayer("Sky", obj_data[$ "spr_plains_bg_sky"]))
 layerlist.update_depths();
 
@@ -215,10 +229,39 @@ update_layer = function(_layer) {
 	deco_mode_type=type;
 }
 
-modebuttons = new JADEsmallbuttons(272,4,86,16,8,false)
+update_region = function() {
+	selected_layer=noone;
+	deco_mode_type="";
+	if (selected_mode == DECO_MODE) {
+		toolbarbuttons.set([SELECT_TOOL]);
+		selected_tool = SELECT_TOOL;
+	}
+	
+	layerlist = regions[selected_region].mylayerlist;
+	camera_set_view_pos(camera,-(camera_get_view_width(camera)/2.5),regions[selected_region].get_height()-(camera_get_view_height(camera)/1.5))
+	
+	node_layer_map = regions[selected_region].node_layer_map;
+	object_layer_map = regions[selected_region].object_layer_map;
+	if (selected_mode == OBJECT_MODE) {
+		object_map = object_layer_map;
+	} else if (selected_mode == NODE_MODE) {
+		object_map = node_layer_map;
+	}
+	var i=0;
+	repeat(array_length(regions)) {
+		if (i!=selected_region) {
+			regions[i].mylayerlist.hide();
+		}
+		i++;
+	}
+	regions[selected_region].mylayerlist.show();
+}
+
+modebuttons = new JADEsmallbuttons(324,4,86,16,8,false)
 modebuttons.add("Object Mode", function() {
 	selected_deco_obj = -1;
 	drawing_node = -1;
+	selected_node = -1;
 	toolbarbuttons.set(toolbar[0])
 	if (selected_mode != OBJECT_MODE) {
 		selected_obj = -1;
@@ -240,10 +283,11 @@ modebuttons.add("Object Mode", function() {
 		}
 	}
 	selected_mode = OBJECT_MODE
-	object_map = object_layer_map
+	object_map = object_layer_map;
 });
 modebuttons.add("Deco Mode", function() {
 	drawing_node = -1;
+	selected_node = -1;
 	if is_instanceof(oJADEController.selected_layer,JADEtilelayer) {
 		toolbarbuttons.set(toolbar[1])
 		with(layerlist) {
@@ -295,6 +339,8 @@ modebuttons.add("Deco Mode", function() {
 			}
 			layer_set_visible(oJADEController.selected_layer.my_layer, true)
 		}
+	} else {
+		toolbarbuttons.set([SELECT_TOOL])
 	}
 	if (selected_mode != DECO_MODE) {
 		selected_obj = -1;
@@ -347,7 +393,7 @@ layeraddbutton = new JADEiconbutton(layerlist.x,layerlist.y+layerlist.height+16,
 					}
 					i++;
 				}
-				layerlist.add(new JADEtilelayer(name,"tTilesetMain"))
+				layerlist.add(new JADEtilelayer(name,"tTilesetMain",regions[oJADEController.selected_region].get_width(),regions[oJADEController.selected_region].get_height()))
 			break;
 			case 1:
 				var name = "New Layer 0"
@@ -600,11 +646,6 @@ tile_fill_last_x = 0
 tile_fill_last_y = 0
 tile_fill = false
 
-selected_region = 0;
-object_layer_map = ds_list_create();
-node_layer_map = ds_list_create();
-object_map = object_layer_map;
-
 gotoroom=rGame
 
 curs_x=mouse_x
@@ -626,6 +667,7 @@ zoom_y = 0;
 ui_opacity = 0.5;
 
 drawing_node=-1;
+selected_node=-1;
 draw_node_x=0;
 draw_node_y=0;
 
@@ -639,6 +681,7 @@ properties_tab_active = false;
 property_dropdown_index = -1;
 property_object_index = -1;
 
+resizing_region = false;
 
 pressed_dropdown = false;
 
@@ -711,7 +754,7 @@ object_place = function(_uuid, _x, _y, _xscale, _yscale) {
 	obj[8] = data.sizex;
 	obj[9] = data.sizey;
 	obj[10] = []; //nodes arr
-	obj[11] = [2,0,false,false,false,true]; //node property arr
+	obj[11] = [0,"auto","continue",false]; //node property arr
 	obj[12] = []; //rotator arr
 	obj[13] = [0,0,180,0,4,true,false,false]
 	//add other data stuff here later
@@ -789,12 +832,12 @@ jade_redo = function() {
 	}
 }
 
-object_place("oCollider",0,169*16,27,2)
+object_place("oCollider",0,138*16,27,2)
 //object_place("oPlayerSpawn",3*16,168*16,1,1) //Don't do that. (turned into spawn tool)
 spawnpoint_x = 3 * 16;
-spawnpoint_y = 168 * 16;
+spawnpoint_y = 137 * 16;
 testpoint_x = 2 * 16;
-testpoint_y = 168 * 16;
+testpoint_y = 137 * 16;
 
 if (global.save_dir=="") {
 	JADE_load();

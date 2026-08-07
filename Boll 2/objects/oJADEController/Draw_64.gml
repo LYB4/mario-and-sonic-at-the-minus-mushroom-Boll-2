@@ -32,7 +32,11 @@ if (selected_mode != DECO_MODE) {
 		if (drawing_node==-1) {
 			propertylist.draw(selected_array);
 		} else {
-			nodepropertylist.draw(drawing_node);
+			if (selected_node==-1) {
+				nodepropertylist.draw(drawing_node);
+			} else {
+				selectednodelist.draw(drawing_node,selected_node);
+			}
 		}
 	}
 } else {

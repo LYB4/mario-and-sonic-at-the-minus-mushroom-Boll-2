@@ -1,6 +1,6 @@
 {
   "$GMFont":"",
-  "%Name":"scribble_fallback_font",
+  "%Name":"ScribblejrDefaultFont",
   "AntiAlias":1,
   "applyKerning":0,
   "ascender":15,
@@ -117,10 +117,10 @@
   "last":0,
   "lineHeight":19,
   "maintainGms1Font":false,
-  "name":"scribble_fallback_font",
+  "name":"ScribblejrDefaultFont",
   "parent":{
-    "name":"(System - don't call these functions)",
-    "path":"folders/Scribble/(System - don't call these functions).yy",
+    "name":"(System)",
+    "path":"folders/Scribble Jr./(System).yy",
   },
   "pointRounding":0,
   "ranges":[
@@ -130,7 +130,7 @@
   "regenerateBitmap":false,
   "resourceType":"GMFont",
   "resourceVersion":"2.0",
-  "sampleText":"Hello!",
+  "sampleText":"abcdef ABCDEF\n0123456789 .,<>\"'&!?\nthe quick brown fox jumps over the lazy dog\nTHE QUICK BROWN FOX JUMPS OVER THE LAZY DOG\nDefault character: ▯ (9647)",
   "sdfSpread":8,
   "size":11.0,
   "styleName":"Regular",

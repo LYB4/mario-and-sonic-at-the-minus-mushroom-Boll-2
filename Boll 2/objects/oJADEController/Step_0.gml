@@ -33,8 +33,10 @@ if (!autosave_time) {
 #region GUI Input Handler
 var on_dropdown = false;
 with(oJADEGUIpar) {
-	if (point_in_rectangle(window_mouse_get_x(),window_mouse_get_y(),bbox_left,bbox_top,bbox_right-1,bbox_bottom-1))
-	on_dropdown = true;
+	if (point_in_rectangle(window_mouse_get_x(),window_mouse_get_y(),bbox_left,bbox_top,bbox_right-1,bbox_bottom-1)) {
+		on_dropdown = true;
+		break;
+	}
 }
 
 not_on_gui=
@@ -281,6 +283,21 @@ if keyboard_check(vk_control) && keyboard_check_pressed(ord("C")) {
 }
 
 if (mbleft && not_on_gui && !disable_tool) {
+	if (mbleftpress) {
+		var region_width = regions[selected_region].get_width();
+		var region_height = regions[selected_region].get_height();
+		if (point_in_rectangle(mouse_x,mouse_y,region_width,region_height,region_width+16*max(zoom_level,1),region_height+16*max(zoom_level,1))) {
+			resizing_region = true;
+			mbleftpress = false;
+			resizing_x = mouse_x;
+			resizing_y = mouse_y;
+		}
+	}
+	
+	if (resizing_region) {
+		regions[selected_region].scale(max(gridx,27),max(gridy,16));
+	}
+	
 	switch(selected_tool) {
 		case BRUSH_TOOL:
 			switch(selected_mode) {
@@ -868,7 +885,7 @@ if (mbleft && not_on_gui && !disable_tool) {
 			}
 		break;
 		case NODE_TOOL:
-			if (mbleftpress) {
+			if (mbleftpress){
 				if (drawing_node==-1) {
 					var col = check_colliding_object(mouse_x,mouse_y,object_layer_map)
 					if (col) {
@@ -878,10 +895,27 @@ if (mbleft && not_on_gui && !disable_tool) {
 						drawing_node = col-1;
 					}
 				} else {
-					var obj = object_layer_map[| drawing_node]
-					var rounded_x = (ceil((gridx*current_grid_size-8)/current_grid_size)*current_grid_size)+8;
-					var rounded_y = (ceil((gridy*current_grid_size-8)/current_grid_size)*current_grid_size)+8;
-					array_push(obj[10],[rounded_x,rounded_y])
+					if (altleft) {
+						var obj = object_layer_map[| drawing_node]
+						var rounded_x = (ceil((gridx*current_grid_size-8)/current_grid_size)*current_grid_size)+8;
+						var rounded_y = (ceil((gridy*current_grid_size-8)/current_grid_size)*current_grid_size)+8;
+						array_push(obj[10],[rounded_x,rounded_y,2,0]);
+					} else {
+						selected_node = -1;
+						var obj = object_layer_map[| drawing_node]
+						var len = array_length(obj[10])
+						i=0;
+						repeat (len) {
+							var node = obj[10][i]
+							draw_circle_color(node[0],node[1],6,$505050,$505050,false);
+							draw_circle_color(node[0],node[1],5,$54b9fb,$54b9fb,false);
+							draw_text(node[0],node[1],i);
+							if point_in_rectangle(mouse_x,mouse_y,node[0]-8,node[1]-8,node[0]+8,node[1]+8) {
+								selected_node = i;
+							}
+							i++;
+						}
+					}
 				}
 			}
 		break;
@@ -956,6 +990,11 @@ if (mbleft && not_on_gui && !disable_tool) {
 }
 
 if (mbleftrel) {
+	if (resizing_region) {
+		resizing_region = false;
+		regions[selected_region].update_tiles();
+	}
+	
 	if (selected_mode == OBJECT_MODE || selected_mode == NODE_MODE) {
 		
 		if (selection_box) {
@@ -1179,9 +1218,12 @@ if (mbright) {
 					if point_in_rectangle(mouse_x,mouse_y,node[0]-8,node[1]-8,node[0]+8,node[1]+8) {
 						array_delete(obj[10],i,1);
 						deleted_node = true;
+						break;
 					}
 					i++;
 				}
+				
+				selected_node = -1;
 				
 				if !(deleted_node)
 				drawing_node = -1;

@@ -47,6 +47,13 @@ if array_length(selected_array)==1 {
 }
 #endregion
 
+#region Region Scaler
+var region_width = regions[selected_region].get_width();
+var region_height = regions[selected_region].get_height();
+
+draw_rect(region_width,region_height,16*max(zoom_level,1),16*max(zoom_level,1),resizing_region ? c_yellow : c_ltgray,1);
+#endregion
+
 if (selected_mode == DECO_MODE && array_length(selected_array)) {
 	switch(deco_mode_type) {
 		case "tile":
@@ -147,9 +154,3 @@ if (not_on_gui && !disable_tool) {
 	}
 }
 #endregion
-
-if (drawing_node) {
-	
-}
-
-if keyboard_check_pressed(vk_f5) show_debug_message(selected_array)

@@ -1,14 +1,15 @@
-//draw awesome objects!!! yay!!!!!
-//draw out of bounds border
+var region_width = regions[selected_region].get_width();
+var region_height = regions[selected_region].get_height();
 
+//draw out of bounds border
 var int32l=2147483647
-draw_rect(-int32l, -int32l, room_width+int32l*2, int32l, c_black, 0.5)
-draw_rect(-int32l, 0, int32l, room_height, c_black, 0.5)
-draw_rect(-int32l, room_height, room_width+int32l*2, int32l, c_black, 0.5)
-draw_rect(room_width, 0, int32l, room_height, c_black, 0.5)
+draw_rect(-int32l, -int32l, region_width+int32l*2, int32l, c_black, 0.5)
+draw_rect(-int32l, 0, int32l, region_height, c_black, 0.5)
+draw_rect(-int32l, region_height, region_width+int32l*2, int32l, c_black, 0.5)
+draw_rect(region_width, 0, int32l, region_height, c_black, 0.5)
 //border
-draw_rect(-1, -1, room_width+2, room_height+2, c_white, 0.75, true)
-draw_rect(-2, -2, room_width+4, room_height+4, c_white, 0.75, true)
+draw_rect(-1, -1, region_width+2, region_height+2, c_white, 0.75, true)
+draw_rect(-2, -2, region_width+4, region_height+4, c_white, 0.75, true)
 
 if (objects_visible || selected_mode == OBJECT_MODE) {
 	var i=0;
@@ -58,21 +59,44 @@ if (drawing_node != -1) {
 	var rounded_x = (ceil((gridx*current_grid_size-8)/current_grid_size)*current_grid_size)+8;
 	var rounded_y = (ceil((gridy*current_grid_size-8)/current_grid_size)*current_grid_size)+8;
 	
-	if (len) && !(changed_grid_size) {
+	draw_circle_color(obj[1]+8,obj[2]+8,4,$505050,$505050,false);
+	draw_circle_color(obj[1]+8,obj[2]+8,3,$54b9fb,$54b9fb,false);
+	
+	if (len) && !(changed_grid_size) && (altleft) {
 		var nodeend = obj[10][len-1]
-		var dist = point_distance(nodeend[0],nodeend[1],rounded_x,rounded_y)
-		var angle = point_direction(nodeend[0],nodeend[1],rounded_x,rounded_y)
-		draw_sprite_ext(spr_1x1,0,nodeend[0],nodeend[1],dist,2,angle,$54b9fb,0.5)
+		if (nodeend[3]==0) {
+			var dist = point_distance(nodeend[0],nodeend[1],rounded_x,rounded_y)
+			var angle = point_direction(nodeend[0],nodeend[1],rounded_x,rounded_y)
+			draw_sprite_ext(spr_1x1,0,nodeend[0],nodeend[1],dist,2,angle,$54b9fb,0.5)
+		} else {
+			DrawQuadraticCurve(nodeend[0],nodeend[1],rounded_x,rounded_y,nodeend[3]/22.5,max(8,floor(abs(nodeend[3])/2)),$54b9fb,0.5)
+		}
+		
+		if (obj[11][2] == "continue") && (len>1) {
+			var nodestart = obj[10][0]
+			var dist = point_distance(rounded_x,rounded_y,nodestart[0],nodestart[1])
+			var angle = point_direction(rounded_x,rounded_y,nodestart[0],nodestart[1])
+			draw_sprite_ext(spr_1x1,0,rounded_x,rounded_y,dist,2,angle,$54b9fb,0.5)
+		}
 	}
 	
 	var i=0;
 	repeat (len) {
 		var node = obj[10][i]
-		if (i<len-1) {
-			var node2=obj[10][i+1]
-			var dist = point_distance(node[0],node[1],node2[0],node2[1])
-			var angle = point_direction(node[0],node[1],node2[0],node2[1])
-			draw_sprite_ext(spr_1x1,0,node[0],node[1],dist,2,angle,$54b9fb,1)
+		if (i<len-1) || (i==len-1 && (len>2 || (node[3]!=obj[10][0][3])) && obj[11][2] == "continue") {
+			var node2;
+			if (i<len-1) {
+				node2=obj[10][i+1];
+			} else {
+				node2=obj[10][0];
+			}
+			if (node[3]==0) {
+				var dist = point_distance(node[0],node[1],node2[0],node2[1])
+				var angle = point_direction(node[0],node[1],node2[0],node2[1])
+				draw_sprite_ext(spr_1x1,0,node[0],node[1],dist,2,angle,$54b9fb,1)
+			} else {
+				DrawQuadraticCurve(node[0],node[1],node2[0],node2[1],node[3]/22.5,max(8,floor(abs(node[3])/2)),$54b9fb,1)
+			}
 		}
 		i++;
 	}
@@ -83,13 +107,13 @@ if (drawing_node != -1) {
 		draw_circle_color(node[0],node[1],6,$505050,$505050,false);
 		draw_circle_color(node[0],node[1],5,$54b9fb,$54b9fb,false);
 		draw_text(node[0],node[1],i);
-		if point_in_rectangle(mouse_x,mouse_y,node[0]-8,node[1]-8,node[0]+8,node[1]+8) {
+		if (selected_node == i) || point_in_rectangle(mouse_x,mouse_y,node[0]-8,node[1]-8,node[0]+8,node[1]+8) {
 			draw_circle_color(node[0],node[1],8,$54b9fb,$54b9fb,true);
 		}
 		i++;
 	}
 	
-	if !(changed_grid_size) {
+	if !(changed_grid_size) && (altleft) {
 		draw_set_alpha(0.5)
 		draw_circle_color(rounded_x,rounded_y,6,$505050,$505050,false);
 		draw_circle_color(rounded_x,rounded_y,5,$54b9fb,$54b9fb,false);

@@ -21,6 +21,13 @@ HUDcoinflash=0;
 
 game_timer = 0;
 
+level_properties =
+{
+    name : "Danger Room",
+    desc : "",
+	music_track: "floragrande"
+};
+
 reserved_item = noone;
 reserve_timer = 0;
 
