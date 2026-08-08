@@ -15,7 +15,7 @@ newregionbutton = new JADEiconbutton(x+116,y+24,spr_JADEaddiconsmall, function()
 	var newregion = new JADEregion(27,16,$"Region {array_length(oJADEController.regions)+1}")
 	newregion.mylayerlist.add(new JADElistunselectable("Objects"))
 	newregion.mylayerlist.add(new JADElistunselectable("Piping Objects"))
-	newregion.mylayerlist.add(new JADEtilelayer("Main Tiles", "tTilesetMain",newregion.get_width(),newregion.get_height()))
+	newregion.mylayerlist.add(new JADEtilelayer("Main Tiles", "tTilesetMain",newregion.width,newregion.height))
 	newregion.mylayerlist.add(new JADEbackgroundlayer("Sky", oJADEController.obj_data[$ "spr_plains_bg_sky"]))
 	newregion.mylayerlist.update_depths();
 	array_push(oJADEController.regions,newregion);
