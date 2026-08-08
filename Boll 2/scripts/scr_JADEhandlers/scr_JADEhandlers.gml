@@ -391,6 +391,23 @@ function JADElisthandler(_x, _y, _width, _height, _checkvar) constructor {
 				draw_rect(x+2+indent+scroll_x,y+24+(24*i)-1+scroll_y,width-4,2,oJADEController.themeaccent2,1) //divider
 				draw_text(x+24+indent+scroll_x,y+8+(24*i)+scroll_y, item.name)
 				
+			} else if (is_instanceof(item, JADEregion)) {
+				var over_button = point_in_rectangle(curs_x,curs_y,x+indent+scroll_x,y+(24*i)+scroll_y,x+width+indent+scroll_x,y+24+(24*i)+scroll_y) && over
+				if (mbleft) && (over_button) {
+					variable_instance_set(oJADEController, checkvar, i);
+					with(oJADEController) {
+						update_region();
+					}
+					mbleft=0
+				}
+			
+				if (checkervalue == i) {
+					draw_rect(x+indent+scroll_x,y+(24*i)+2+scroll_y,width,20,oJADEController.themeaccent2,1)
+				}
+				else if (over_button) draw_rect(x+indent+scroll_x,y+(24*i)+2+scroll_y,width,20,oJADEController.themeaccent4,1,true)
+				
+				draw_rect(x+2+indent+scroll_x,y+24+(24*i)-1+scroll_y,width-4,2,oJADEController.themeaccent2,1) //divider
+				draw_text(x+2+indent+scroll_x,y+8+(24*i)+scroll_y, item.name)
 			} 
 			i++;
 			if i>(height/24) listheight+=24

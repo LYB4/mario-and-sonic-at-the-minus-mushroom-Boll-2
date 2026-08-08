@@ -1,17 +1,17 @@
-image_xscale = 320;
-image_yscale = 200;
+image_xscale = 384;
+image_yscale = 240;
 
 x -= image_xscale/2;
 y -= image_yscale/2;
 
-scroll_y = 0;
+regionlist = new JADElisthandler(x,y+20,96,image_yscale-30,"selected_region");
 
 exitbutton = new JADEiconbutton(x+image_xscale-16,y+1,spr_JADEexiticon, function() {
 	instance_destroy(oJADERegionProperties);
 	oJADEController.topbuttons.reset();
 });
 
-newregionbutton = new JADEiconbutton(x+110,y+22,spr_JADEaddiconsmall, function() {
+newregionbutton = new JADEiconbutton(x+116,y+24,spr_JADEaddiconsmall, function() {
 	var newregion = new JADEregion(27,16,$"Region {array_length(oJADEController.regions)+1}")
 	newregion.mylayerlist.add(new JADElistunselectable("Objects"))
 	newregion.mylayerlist.add(new JADElistunselectable("Piping Objects"))

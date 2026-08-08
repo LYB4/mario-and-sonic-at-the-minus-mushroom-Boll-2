@@ -75,27 +75,37 @@ topbuttons.add("File", function() {
 			case 0:
 			//new file
 				global.save_dir=""
-				instance_destroy(oJADELayerProperties)
-				ds_list_clear(object_layer_map)
-				ds_list_clear(node_layer_map)
+				instance_destroy(oJADEGUIpar);
 				
 				current_tileset="tTilesetMain"
 				deco_mode_type="";
 				
-				layerlist.wipe();
+				var i=0;
+				repeat(array_length(regions)) {
+					var region = regions[i];
+					region.cleanup();
+					delete region;
+					i++;
+				}
+				regions = [];
+				
+				regions[0] = new JADEregion(400,140, "Region 1")
+				layerlist = regions[0].mylayerlist;
 				layerlist.add(new JADElistunselectable("Objects"))
 				layerlist.add(new JADElistunselectable("Piping Objects"))
 				layerlist.add(new JADEtilelayer("Main Tiles", current_tileset,regions[oJADEController.selected_region].get_width(),regions[oJADEController.selected_region].get_height()))
-				layerlist.add(new JADEbackgroundlayer("Main Tiles", obj_data[$ "spr_plains_bg_sky"]))
+				layerlist.add(new JADEbackgroundlayer("Sky", obj_data[$ "spr_plains_bg_sky"]))
 				layerlist.update_depths();
+				update_region();
 				
-				object_place("oCollider",0,169*16,30,2)
+				object_place("oCollider",0,138*16,27,2)
 				spawnpoint_x = 3 * 16;
-				spawnpoint_y = 168 * 16;
+				spawnpoint_y = 137 * 16;
 				testpoint_x = 2 * 16;
-				testpoint_y = 168 * 16;
+				testpoint_y = 137 * 16;
 				
 				selected_array = [];
+				selected_layer = noone;
 				
 				current_tile_id = [];
 				current_tile_id[0][0] = 0;
@@ -833,7 +843,6 @@ jade_redo = function() {
 }
 
 object_place("oCollider",0,138*16,27,2)
-//object_place("oPlayerSpawn",3*16,168*16,1,1) //Don't do that. (turned into spawn tool)
 spawnpoint_x = 3 * 16;
 spawnpoint_y = 137 * 16;
 testpoint_x = 2 * 16;

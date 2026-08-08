@@ -1,1 +1,2 @@
 delete exitbutton;
+delete regionlist;

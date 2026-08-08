@@ -1,34 +1,23 @@
 draw_gui(x-3,y-3,image_xscale+6,image_yscale+6,oJADEController.themeaccent4,1,true)
 
-draw_rect(x-2,y+16,image_xscale+4,2,oJADEController.themeaccent3,1)
+draw_gui(x-2,y+16,image_xscale+4,image_yscale-13,oJADEController.themeaccent2,1)
+
+draw_gui(x+regionlist.width+16,y+20,image_xscale-regionlist.width-16,image_yscale-20,oJADEController.themeaccent4,1)
 
 draw_set_font(global.rulerGold)
 draw_text(x,y+2,"Region Properties")
 
-draw_rect(x+96,y+18,10,image_yscale-16,oJADEController.themeaccent3,1)
-
-draw_rect(x-2,y+196,98,2,oJADEController.themeaccent3,1)
-
 exitbutton.draw();
 newregionbutton.draw();
 
+var list = oJADEController.regions;
+
+list[oJADEController.selected_region].name = JADEstringinput(x+114,y+56,"Name",list[oJADEController.selected_region].name,202,128);
+
 draw_set_font(global.rulerGold)
 
-var i=0;
-var regionlist = oJADEController.regions;
-var len = array_length(regionlist);
-repeat(len) {
-	var region = regionlist[i];
-	var guix = x;
-	var guiy = y-scroll_y+20+18*i 
-	var color = oJADEController.themeaccent3;
-	if (oJADEController.selected_region == i) {
-		color = oJADEController.themeaccent2;
-	}
-	draw_gui(guix,guiy,94,16,color,1);
-	draw_text(guix+2,guiy+3,region.name);
-	i++;
-}
+regionlist.listcontents = oJADEController.regions;
+regionlist.draw();
 
 /*
 if !is_struct(selected_layer) exit;
