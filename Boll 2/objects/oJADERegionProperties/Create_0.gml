@@ -21,3 +21,17 @@ newregionbutton = new JADEiconbutton(x+116,y+24,spr_JADEaddiconsmall, function()
 	array_push(oJADEController.regions,newregion);
 	newregionbutton.reset();
 });
+
+deletebutton = new JADEiconbutton(x+116,y+44,spr_JADEdeleteiconsmall, function() {
+	with(oJADEController) {
+		if (array_length(regions) > 1) {
+			var region = regions[selected_region];
+			region.cleanup();
+			delete region;
+			array_delete(regions,selected_region,1);
+			selected_region=max(selected_region-1,0);
+			update_region();
+		}
+	}
+	deletebutton.reset();
+});

@@ -9,6 +9,7 @@ draw_text(x,y+2,"Region Properties")
 
 exitbutton.draw();
 newregionbutton.draw();
+deletebutton.draw();
 
 var list = oJADEController.regions;
 

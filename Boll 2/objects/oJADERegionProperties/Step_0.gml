@@ -8,4 +8,5 @@ mbleftpress = mouse_check_button_pressed(mb_left)
 if (mbleftpress) && !instance_exists(oJADEDropDown) {
 	exitbutton.update();
 	newregionbutton.update();
+	deletebutton.update();
 }

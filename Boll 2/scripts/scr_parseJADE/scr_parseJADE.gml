@@ -173,21 +173,6 @@ function parse_level(dir=game_save_id+"\save.jade") {
 						obj.ystart+=data[7]*obj.image_yscale;
 						obj.x=obj.xstart
 						obj.y=obj.ystart
-						/*if array_length(data[11]) {
-							var temparr = []
-							array_copy(temparr,0,data[11],0,array_length(data[11]))
-							variable_instance_set(obj, "pathing", temparr);
-							if is_array(data[12]) {
-								variable_instance_set(obj, "pathspd", data[12][0]);
-								variable_instance_set(obj, "pathcanrev", data[12][1]);
-								variable_instance_set(obj, "pathnum", data[12][2]);
-								variable_instance_set(obj, "pathcanfall", data[12][3]);
-								variable_instance_set(obj, "pathdraw", data[12][4]);
-								if array_length(data[12]) > 5
-								variable_instance_set(obj, "pathstarted", data[12][5]);
-								else variable_instance_set(obj, "pathstarted", true);
-							}	
-						}*/
 						
 						//object variables
 						var g=0
@@ -225,6 +210,18 @@ function parse_level(dir=game_save_id+"\save.jade") {
 	buffer_delete(loaded)
 	buffer_delete(save_file)
 	show_debug_message($"Successfully loaded JADE level from: {file}!")
+}
+
+function level_preparse(dir=game_save_id+"\save.jade") {
+	var file = dir
+	if !file_exists(file) {
+		show_message($"Level does not exist at {dir}! make sure you've saved first!")
+		room_goto(rMainMenu)
+	}
+	var loaded = buffer_load(file)
+	var save_file = buffer_decompress(loaded)
+	var level_data = json_parse(buffer_read(save_file,buffer_string))
+	show_debug_message($"Pre-loading JADE level from: {file}")
 }
 
 function tile_layer_hidden_wall() {

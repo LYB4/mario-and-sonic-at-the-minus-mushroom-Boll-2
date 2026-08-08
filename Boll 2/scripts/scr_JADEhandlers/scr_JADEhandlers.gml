@@ -1469,7 +1469,7 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 		var i=0;
 		repeat(array_length(listcontents)) {
 			var struct = listcontents[i]
-			if (is_instanceof(struct, JADEtilelayer) || is_instanceof(struct, JADEassetlayer) || is_instanceof(struct, JADEtilelayer)) {
+			if (is_instanceof(struct, JADEtilelayer) || is_instanceof(struct, JADEassetlayer) || is_instanceof(struct, JADEbackgroundlayer)) {
 				layer_set_visible(struct.my_layer, false);
 			}
 			i++;
