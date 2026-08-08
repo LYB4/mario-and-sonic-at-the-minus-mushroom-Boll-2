@@ -479,6 +479,7 @@ playtestbutton = new JADEiconbutton(196,26+36,spr_JADEplaytestbutton,function() 
 				global.lives[i]=5
 				i++
 			}
+			level_preparse(global.nextlevel);
 			room_goto(rGame)
 		}
 		playtestbutton.reset();
