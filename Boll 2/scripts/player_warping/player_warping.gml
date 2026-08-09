@@ -18,17 +18,17 @@ function warp_in_pipe(obj,spd,dir) {
 				var xx = x;
 				var yy = y;
 				if instance_exists(found) {
-					xx=found.x
+					xx=found.x+16;
 					if found.image_angle!=90 && found.image_angle!=270
-					yy=found.y
+					yy=found.y+16;
 					else
-					yy=found.y+4
+					yy=found.y+4+16;
 				} else {
-					xx=warp_coll.x
+					xx=warp_coll.x+16;
 					if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
-					yy=warp_coll.y
+					yy=warp_coll.y+16;
 					else
-					yy=warp_coll.y+4
+					yy=warp_coll.y+4+16;
 				}
 				my_camera.move(xx,yy,30);
 			}
@@ -55,17 +55,17 @@ function warp_in_pipe(obj,spd,dir) {
 				var xx = x;
 				var yy = y;
 				if instance_exists(found) {
-					xx=found.x
+					xx=found.x+16;
 					if found.image_angle!=90 && found.image_angle!=270
-					yy=found.y
+					yy=found.y+16;
 					else
-					yy=found.y+4
+					yy=found.y+4+16;
 				} else {
-					xx=warp_coll.x
+					xx=warp_coll.x+16;
 					if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
-					yy=warp_coll.y
+					yy=warp_coll.y+16;
 					else
-					yy=warp_coll.y+4
+					yy=warp_coll.y+4+16;
 				}
 				my_camera.move(xx,yy,0);
 			}
