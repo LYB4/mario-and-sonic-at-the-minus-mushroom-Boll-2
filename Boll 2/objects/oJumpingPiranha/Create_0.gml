@@ -13,5 +13,3 @@ dojump = false;
 
 fall_sprite=spr_jumpingpiranhafall
 fly_sprite=spr_jumpingpiranhafly
-
-depth = oGameManager.piping_object_depth[myregion]

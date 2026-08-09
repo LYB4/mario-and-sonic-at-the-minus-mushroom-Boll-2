@@ -54,3 +54,11 @@ function TransitionFinished()
 	layer_sequence_destroy(self.elementID);
 	global.midTransition = false;
 }
+
+function FadeTransition(SpdInSecs,func) {
+	var i = instance_create_depth(0,0,0,oFader)
+	with (i) {
+		fademax = (60*SpdInSecs);
+		onTransition = func;
+	}
+}

@@ -1,3 +1,4 @@
+///@description Object Activation
 if instance_exists(oPlayer) {
 	var i=0;
 	repeat(array_length(hidden_tile_layers[oPlayer.myregion])) {
@@ -11,7 +12,7 @@ if instance_exists(oPlayer) {
 	}
 }
 
-///ACTIVATION vvvv
+
 
 update_camerapos();
 
@@ -29,6 +30,7 @@ instance_activate_object(oPlayer)
 instance_activate_object(oWMPlayer)
 instance_activate_object(oGlobals)
 instance_activate_object(__InputUpdateController)
+instance_activate_object(oFader);
 instance_activate_object(oCamera)
 instance_activate_object(oCameraBoundary)
 instance_activate_object(pSmoke)

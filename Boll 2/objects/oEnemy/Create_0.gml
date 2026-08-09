@@ -18,6 +18,7 @@ spawned_from_pipe = false;
 
 respawned = false;
 
+myregion = 0;
 grav=defaultgrav
 _direction = -1
 rot=0

@@ -21,7 +21,9 @@ if (akey) {
 			i++
 		}
 		
-		room_goto(rGame);
+		FadeTransition(0.5, function() {
+			room_goto(rGame);
+		});
 		global._playerChars = [oGlobals._charmList[_select]];
 	instance_destroy();
 }
