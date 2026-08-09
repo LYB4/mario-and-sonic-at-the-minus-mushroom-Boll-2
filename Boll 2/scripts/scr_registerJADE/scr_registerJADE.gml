@@ -237,7 +237,7 @@ function JADE_initializeobj() {
 	properties.addDropdown(oPipe, "Direction", "image_angle", 0, ["Up", "Left", "Right", "Down"], [0,90,270,180])
 	properties.addStringInput(oPipe, "Warp Name", "warpname", "")
 	properties.addStringInput(oPipe, "Warp Target", "warptarget", "")
-	properties.addDropdown(oPipe, "Content", "content", "nothing", ["Nothing", "Piranha Plant", "Jumping Piranha"], ["nothing", "piranha plant", "jumping piranha"])
+	properties.addDropdown(oPipe, "Content", "content", "nothing", ["Nothing", "Piranha Plant", "Fire Piranha", "Jumping Piranha", "Goomba", "Goombrat", "Green Koopa", "Red Koopa", "Yellow Koopa", "Iceskating Koopa", "Buzzy Beetle", "Shy Guy", "Wandering Bumpty", "Chasing Bumpty"], ["nothing", "piranha plant", "fire piranha", "jumping piranha", "goomba", "goombrat", "green koopa", "red koopa", "yellow koopa", "iceskating koopa", "buzzy beetle", "shy guy", "wandering bumpty", "chasing bumpty"])
 	properties.addNumberInput(oPipe, "Spawn Timer", "spawn_timer", 120, true)
 	registerobj(oCheckpoint, spr_checkpoint_base, 8, 8, 16, 48, false, false, stagecomp, "Checkpoint")
 	properties.addCheckbox(oCheckpoint, "Flipped", "dir", false)

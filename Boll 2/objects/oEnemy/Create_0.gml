@@ -10,6 +10,11 @@ enemyPounded = new Signal();
 enemyRespawn = new Signal();
 onThrown = new Signal();
 onPickup = new Signal();
+exitPipe = new Signal();
+
+piping = false;
+piping_coll = noone;
+spawned_from_pipe = false;
 
 respawned = false;
 
@@ -62,7 +67,7 @@ parent_pipe = noone;
 image_xscale=1;
 image_yscale=1;
 depth=4;
-sprindex_prev = sprite_index;
+prevsprite_index=sprite_index
 
 thrown = false;
 carry_player = noone;

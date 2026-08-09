@@ -1,17 +1,39 @@
 if global.paused exit
 
+if (piping) {
+	var spd = 0.5;
+	var dir = wrap_val(piping_coll.image_angle-90,0,359)
+	x-=lengthdir_x(spd,dir)
+	y-=lengthdir_y(spd,dir)
+	depth = oGameManager.piping_object_depth[myregion];
+	
+	if !(collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey,piping_coll,false,true)) {
+		piping = false;
+		depth = 4;
+	}
+	
+	event_user(0); //animation controller
+
+	if (sprite_index!=prevsprite_index) {
+		event_user(1); //reset frame
+	}
+	exit;
+}
+
 //grounded=false
 
 if !(grabbed) {
 
-if !on_screen(32,32) && !origin_on_screen(xstart,ystart,32,32) && !(respawned) {
-	x = xstart
-	y = ystart
-	enemyRespawn.Emit();
-	respawned=true;
-} else if on_screen(32,32) {
-	instance_activate_region(x-activation_region_width, y-activation_region_width, activation_region_width*2, activation_region_height*2, true)
-	respawned=false;
+if !(spawned_from_pipe) {
+	if !on_screen(32,32) && !origin_on_screen(xstart,ystart,32,32) && !(respawned) {
+		x = xstart
+		y = ystart
+		enemyRespawn.Emit();
+		respawned=true;
+	} else if on_screen(32,32) {
+		instance_activate_region(x-activation_region_width, y-activation_region_width, activation_region_width*2, activation_region_height*2, true)
+		respawned=false;
+	}
 }
 
 onceiling = check_collision_line(x-hit_sizex+hsp,y-hit_sizey-6,x+hit_sizex+hsp,y-hit_sizey-6,COL_TOP)

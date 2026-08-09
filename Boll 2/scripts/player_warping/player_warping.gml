@@ -18,17 +18,17 @@ function warp_in_pipe(obj,spd,dir) {
 				var xx = x;
 				var yy = y;
 				if instance_exists(found) {
-					xx=found.x+16;
+					xx=found.x;
 					if found.image_angle!=90 && found.image_angle!=270
-					yy=found.y+16;
+					yy=found.y;
 					else
-					yy=found.y+4+16;
+					yy=found.y+4;
 				} else {
-					xx=warp_coll.x+16;
+					xx=warp_coll.x;
 					if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
-					yy=warp_coll.y+16;
+					yy=warp_coll.y;
 					else
-					yy=warp_coll.y+4+16;
+					yy=warp_coll.y+4;
 				}
 				my_camera.move(xx,yy,30);
 			}
@@ -55,17 +55,17 @@ function warp_in_pipe(obj,spd,dir) {
 				var xx = x;
 				var yy = y;
 				if instance_exists(found) {
-					xx=found.x+16;
+					xx=found.x;
 					if found.image_angle!=90 && found.image_angle!=270
-					yy=found.y+16;
+					yy=found.y
 					else
-					yy=found.y+4+16;
+					yy=found.y+4;
 				} else {
-					xx=warp_coll.x+16;
+					xx=warp_coll.x;
 					if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
-					yy=warp_coll.y+16;
+					yy=warp_coll.y;
 					else
-					yy=warp_coll.y+4+16;
+					yy=warp_coll.y+4;
 				}
 				my_camera.move(xx,yy,0);
 			}
@@ -148,7 +148,7 @@ function player_warping(){
 			state = "";
 			VinylPlay(snd_pipe)
 			sig.Emit("enter_pipe")
-			my_camera.move(x,y,30);
+			my_camera.move(pipecoll.x,pipecoll.y,30);
 		}
 	}
 	pipecoll=collision_line(x+hit_sizex+1,y-hit_sizey,x+hit_sizex+1,y+hit_sizey,oPipe,false,true)
@@ -166,7 +166,7 @@ function player_warping(){
 			state = "";
 			VinylPlay(snd_pipe)
 			sig.Emit("enter_pipe")
-			my_camera.move(x,y,30);
+			my_camera.move(pipecoll.x,pipecoll.y,30);
 		}
 	}
 	pipecoll=collision_line(x-hit_sizex-1,y-hit_sizey,x-hit_sizex-1,y+hit_sizey,oPipe,false,true)
@@ -184,7 +184,7 @@ function player_warping(){
 			state = "";
 			VinylPlay(snd_pipe)
 			sig.Emit("enter_pipe")
-			my_camera.move(x,y,30);
+			my_camera.move(pipecoll.x,pipecoll.y,30);
 		}
 	}
 	pipecoll=collision_rectangle(x-hit_sizex,y-hit_sizey-3,x+hit_sizex,y-hit_sizey-1,oPipe,false,true)
@@ -200,7 +200,7 @@ function player_warping(){
 			state = "";
 			VinylPlay(snd_pipe)
 			sig.Emit("enter_pipe")
-			my_camera.move(x,y,30);
+			my_camera.move(pipecoll.x,pipecoll.y,30);
 		}
 	}
 	if (warp_coll) && (warp_timer) && (piped) {

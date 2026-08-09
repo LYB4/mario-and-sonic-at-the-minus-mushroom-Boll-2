@@ -46,3 +46,12 @@ enemyRolledInto.Connect( self, function(hit_p) {
 		rolled_into = true;
 	}
 });
+
+exitPipe.Connect( self, function(carry_p) {
+	attach_to_ceiling = false;
+	onceiling = false;
+	grounded = false;
+	ysc = 1;
+	attach_to_ceiling = false;
+	grav=defaultgrav;
+});

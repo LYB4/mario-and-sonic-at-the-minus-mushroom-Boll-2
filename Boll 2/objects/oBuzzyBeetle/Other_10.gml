@@ -13,7 +13,7 @@ if (in_shell) {
 		image_speed = 1;
 	}
 } else {
-	ysc = ternary(onceiling,-1,1);
+	ysc = ternary((onceiling && !spawned_from_pipe),-1,1);
 	
 	if !(turning) {
 		sprite_index = spr_buzzybeetle_walk;
