@@ -131,7 +131,7 @@ if (zoom_level!=oldzoom) {
 
 var prevgrid = current_grid_size
 
-if keyboard_check(vk_control) && (selected_mode != DECO_MODE || (selected_mode == DECO_MODE && deco_mode_type != "tile")) {
+if keyboard_check(vk_alt) && (selected_mode != DECO_MODE || (selected_mode == DECO_MODE && deco_mode_type != "tile")) {
 	current_grid_size=1;
 } else current_grid_size=default_grid_size
 
@@ -228,57 +228,155 @@ if keyboard_check_pressed(vk_delete) {
 	}
 }
 
-if keyboard_check(vk_control) && keyboard_check_pressed(ord("C")) {
-	switch(selected_mode) {
-		case OBJECT_MODE:
-		case NODE_MODE:
-			array_sort(selected_array,false)
-			var i=0;
-			repeat(array_length(selected_array)) {
+if keyboard_check(vk_control) {
+	if keyboard_check_pressed(ord("C")) {
+		switch(selected_mode) {
+			case OBJECT_MODE:
+			case NODE_MODE:
+				if !array_length(selected_array) break;
+				array_sort(selected_array,false)
+				var i=0;
+				var copyx = 0;
+				var copyy = 0;
 				var temparr = [];
-				array_push(temparr,object_map[| i])
-				i++;
-			}
-			clipboard.contents = temparr;
-			if (selected_mode == OBJECT_MODE)
-			clipboard.type = "obj"
-			else clipboard.type = "gizmo"
-			selected_array=[];
-		break;
-		case DECO_MODE:
-			if deco_mode_type == "tile" {
-				if !ds_exists(tilemap,ds_type_list) break;
-				
-				array_sort(selected_array,false)
-				var i=0;
 				repeat(array_length(selected_array)) {
-					if !(selection_grab) {
+					var obj = object_map[| selected_array[i]];
+					if (i == 0 || obj[1] < copyx) {
+						copyx = obj[1]
+					}
+					if (i == 0 || obj[2] < copyy) {
+						copyy = obj[2]
+					}
+					array_push(temparr, variable_clone(obj));
+					i++;
+				}
+				clipboard = {};
+				clipboard.contents = temparr;
+				if (selected_mode == OBJECT_MODE)
+				clipboard.type = "obj"
+				else clipboard.type = "gizmo"
+				clipboard.copyx = copyx;
+				clipboard.copyy = copyy;
+				selected_array=[];
+			break;
+			case DECO_MODE:
+				if deco_mode_type == "tile" {
+					if !ds_exists(tilemap,ds_type_list) break;
+					if !array_length(selected_array) break;
+				
+					array_sort(selected_array,false)
+					var i=0;
+					var copyx = 0;
+					var copyy = 0;
+					var temparr = [];
+					repeat(array_length(selected_array)) {
 						var data=tilemap[| selected_array[i]]
-						data[0]=tile_set_empty(data[0])
-						tilemap_set(tilemap_layer,data[0],data[1],data[2])
+						if (i == 0 || data[1] < copyx) {
+							copyx = data[1]
+						}
+						if (i == 0 || data[2] < copyy) {
+							copyy = data[2]
+						}
+						array_push(temparr,variable_clone(data));
+						i++;
 					}
-					ds_list_delete(tilemap, selected_array[i])
-					i++;
-				}
-				selected_array=[];
-				tile_update_properties();
-			} else if deco_mode_type == "asset" {
-				if selected_layer == noone break;
-				if !ds_exists(selected_layer.assetmap,ds_type_list) break;
+					clipboard = {};
+					clipboard.contents = temparr;
+					clipboard.type = "tile"
+					clipboard.copyx = copyx;
+					clipboard.copyy = copyy;
+					selected_array=[];
+					tile_update_properties();
+				} else if deco_mode_type == "asset" {
+					if selected_layer == noone break;
+					if !ds_exists(selected_layer.assetmap,ds_type_list) break;
 				
-				array_sort(selected_array,false)
-				var i=0;
-				repeat(array_length(selected_array)) {
-					if !(selection_grab) {
-						var data=selected_layer.assetmap[| selected_array[i]]
-						layer_sprite_destroy(data[1])
+					array_sort(selected_array,false)
+					var i=0;
+					repeat(array_length(selected_array)) {
+						if !(selection_grab) {
+							var data=selected_layer.assetmap[| selected_array[i]]
+							layer_sprite_destroy(data[1])
+						}
+						ds_list_delete(selected_layer.assetmap, selected_array[i])
+						i++;
 					}
-					ds_list_delete(selected_layer.assetmap, selected_array[i])
-					i++;
+					selected_array=[];
 				}
-				selected_array=[];
-			}
-		break;
+			break;
+		}
+	}
+	
+	if (keyboard_check_pressed(ord("V"))) {
+		switch(selected_mode) {
+			case OBJECT_MODE:
+			case NODE_MODE:
+				if !array_length(clipboard.contents) break;
+				
+				if (clipboard.type == "obj" && selected_mode == OBJECT_MODE) || (clipboard.type == "gizmo" && selected_mode == NODE_MODE) {
+					var copyx = clipboard.copyx;
+					var copyy = clipboard.copyy;
+					selected_array=[];
+					var i=0;
+					repeat(array_length(clipboard.contents)) {
+						var obj = variable_clone(clipboard.contents[i]);
+						var drawx = (obj[1]-copyx)+(gridx*current_grid_size)
+						var drawy = (obj[2]-copyy)+(gridy*current_grid_size)
+						obj[1] = drawx;
+						obj[2] = drawy;
+						ds_list_add(object_map, obj)
+						array_push(selected_array,ds_list_find_index(object_map, obj));
+						i++;
+					}
+				}
+			break;
+			case DECO_MODE:
+				if deco_mode_type == "tile" {
+					if !ds_exists(tilemap,ds_type_list) break;
+					if !array_length(clipboard.contents) break;
+					
+					if (clipboard.type == "tile") {
+						var copyx = clipboard.copyx;
+						var copyy = clipboard.copyy;
+						selected_array=[];
+						var i=0;
+						repeat(array_length(clipboard.contents)) {
+							var data = clipboard.contents[i];
+							var drawx = (data[1]-copyx)+gridx
+							var drawy = (data[2]-copyy)+gridy
+							//prevent trying to place out of bounds
+							if (drawx < tilemap_get_width(tilemap_layer)) && (drawy < tilemap_get_height(tilemap_layer)) && (drawx >= 0) && (drawy >= 0) {
+								var data2 = tilemap_get(tilemap_layer, drawx, drawy); //set tile at place
+								data2 = tile_set_index(data2, tile_get_index(data[0]))
+								data2 = tile_set_flip(data2, tile_get_flip(data[0]))
+								data2 = tile_set_mirror(data2, tile_get_mirror(data[0]))
+								data2 = tile_set_rotate(data2, tile_get_rotate(data[0]))
+								tilemap_set(tilemap_layer, data2, drawx, drawy);
+								array_push(selected_array,ds_list_size(tilemap));
+								ds_list_add(tilemap,[data2, drawx,drawy]) //add tile  to list at place
+							}
+							i++;
+						}
+						tile_update_properties();
+					}
+				} else if deco_mode_type == "asset" {
+					if selected_layer == noone break;
+					if !ds_exists(selected_layer.assetmap,ds_type_list) break;
+				
+					array_sort(selected_array,false)
+					var i=0;
+					repeat(array_length(selected_array)) {
+						if !(selection_grab) {
+							var data=selected_layer.assetmap[| selected_array[i]]
+							layer_sprite_destroy(data[1])
+						}
+						ds_list_delete(selected_layer.assetmap, selected_array[i])
+						i++;
+					}
+					selected_array=[];
+				}
+			break;
+		}
 	}
 }
 

@@ -101,19 +101,48 @@ if (not_on_gui && !disable_tool) {
 	switch(selected_mode) {
 		case OBJECT_MODE:
 		case NODE_MODE:
-		if (selected_tool == BRUSH_TOOL || selected_tool == FILL_TOOL) {
-			var obj = selected_obj
-			var drawx = gridx*current_grid_size
-			var drawy = gridy*current_grid_size
-			if (is_struct(obj)) {
-				draw_sprite_ext(obj.sprite,0,drawx+obj.xoff,drawy+obj.yoff,(1*obj.sizex),(1*obj.sizey),0,c_white,0.5);
+		//Pasting preview
+		if (keyboard_check(vk_control) && array_length(clipboard.contents) && ((clipboard.type == "obj" && selected_mode == OBJECT_MODE) || (clipboard.type == "gizmo" && selected_mode == NODE_MODE))) {
+			var copyx = clipboard.copyx;
+			var copyy = clipboard.copyy;
+			var i=0;
+			repeat(array_length(clipboard.contents)) {
+				var obj = clipboard.contents[i];
+				var drawx = (obj[1]-copyx)+(gridx*current_grid_size)
+				var drawy = (obj[2]-copyy)+(gridy*current_grid_size)
+				JADE_draw_object(obj, 0.5, drawx, drawy);
+				i++;
+			}
+		} else { //Object brush drawing
+			if (selected_tool == BRUSH_TOOL || selected_tool == FILL_TOOL) {
+				var obj = selected_obj
+				var drawx = gridx*current_grid_size
+				var drawy = gridy*current_grid_size
+				if (is_struct(obj)) {
+					draw_sprite_ext(obj.sprite,0,drawx+obj.xoff,drawy+obj.yoff,(1*obj.sizex),(1*obj.sizey),0,c_white,0.5);
+				}
 			}
 		}
 		break;
 		case DECO_MODE:
-		if (selected_tool == BRUSH_TOOL || selected_tool == FILL_TOOL) && !tile_fill {
-			switch(deco_mode_type) {
-				case "tile":
+		switch(deco_mode_type) {
+			case "tile":
+				if (keyboard_check(vk_control) && array_length(clipboard.contents) && clipboard.type == "tile") {
+					var copyx = clipboard.copyx;
+					var copyy = clipboard.copyy;
+					shader_set(shd_alpha)
+					var shalpha = shader_get_uniform(shd_alpha, "alpha");
+					shader_set_uniform_f(shalpha,0.25)
+					var i=0;
+					repeat(array_length(clipboard.contents)) {
+						var data = clipboard.contents[i];
+						var drawx = (data[1]-copyx)+gridx
+						var drawy = (data[2]-copyy)+gridy
+						draw_tile(global.tilesets[$ current_tileset][1],data[0],0,drawx*16,drawy*16);
+						i++;
+					}
+					shader_reset();
+				} else if (selected_tool == BRUSH_TOOL || selected_tool == FILL_TOOL) && !tile_fill {
 					var t_spr = global.tilesets[$ current_tileset][0]
 					var t_width = sprite_get_width(t_spr)
 					var i=0;
@@ -130,16 +159,18 @@ if (not_on_gui && !disable_tool) {
 						}
 						i++;
 					}
-				break;
-				case "asset":
+				}
+			break;
+			case "asset":
+				if (selected_tool == BRUSH_TOOL || selected_tool == FILL_TOOL) {
 					var obj = selected_deco_obj
 					var drawx = gridx*current_grid_size
 					var drawy = gridy*current_grid_size
 					if (is_struct(obj)) {
 						draw_sprite_ext(obj.sprite,0,drawx+obj.xoff,drawy+obj.yoff,(1*obj.sizex),(1*obj.sizey),0,c_white,0.5);
 					}
-				break;
-			}
+				}
+			break;
 		}
 		break;
 	}

@@ -1,5 +1,5 @@
 
-function JADE_draw_object(obj,alpha) {
+function JADE_draw_object(obj,alpha,_x=obj[1],_y=obj[2]) {
 	var data = obj_data[$ obj[0]]
 	var vxsc = 1;
 	var vysc = 1;
@@ -90,7 +90,7 @@ function JADE_draw_object(obj,alpha) {
 		break;
 		default: break;
 	}
-	draw_sprite_ext(spr,frame,obj[1]+(data.xoff*obj[3])+voffx,obj[2]+(data.yoff*obj[4]),(obj[3]*data.sizex)*vxsc,(obj[4]*data.sizey)*vysc,rot,c_white,alpha);
+	draw_sprite_ext(spr,frame,_x+(data.xoff*obj[3])+voffx,_y+(data.yoff*obj[4]),(obj[3]*data.sizex)*vxsc,(obj[4]*data.sizey)*vysc,rot,c_white,alpha);
 	
 	//overlay
 	switch(obj[0]) {
