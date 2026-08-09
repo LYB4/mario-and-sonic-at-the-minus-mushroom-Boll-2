@@ -1,6 +1,6 @@
 if global.paused exit
 
-if (piping) {
+if (piping) && (object_get_parent(object_index) != oPiranhaPlant && object_index != oPiranhaPlant && object_index != oJumpingPiranha) {
 	var spd = 0.5;
 	var dir = wrap_val(piping_coll.image_angle-90,0,359)
 	x-=lengthdir_x(spd,dir)

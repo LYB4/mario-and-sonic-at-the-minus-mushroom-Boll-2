@@ -20,7 +20,7 @@ if (go == 0) {
 		}
 	}
 	
-	if (!(exposed) && shycheck) || (exposed)
+	if (!exposed && shycheck) || (exposed)
 	timer = max(timer - 1, 0)
 	
 	if !(timer) {
@@ -42,7 +42,7 @@ if (go != 0) {
 		exposed = true;
 		timer = 90;
 		go = 0;
-	} else if travel <= 0 && (exposed) {
+	} else if (travel <= 0) && (exposed) {
 		visible=false;
 		go = 0;
 		timer = 120;

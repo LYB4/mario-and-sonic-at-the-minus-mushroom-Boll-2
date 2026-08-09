@@ -11,36 +11,34 @@ function warp_in_pipe(obj,spd,dir) {
 	
 	warp_timer=approach_val(warp_timer,0,1)
 	
-	if (warp_timer <= 60) {
+	if (warp_timer == 30) {
 		visible=0
-		if (warp_timer == 30) {
-			FadeTransition(0.5,function() {
-				with(oPlayer) {
-					if (piped) && !(warp_out) {
-						 warp_transition()
-					}
+		FadeTransition(0.5,function() {
+			with(oPlayer) {
+				if (piped) && !(warp_out) {
+						warp_transition()
 				}
-			})
-			var found = warp_coll.mytargetpipe //predicting the camera position
-			instance_activate_object(found);
-			if (found.myregion == myregion) {
-				var xx = x;
-				var yy = y;
-				if instance_exists(found) {
-					xx=found.x;
-					if found.image_angle!=90 && found.image_angle!=270
-					yy=found.y;
-					else
-					yy=found.y+4;
-				} else {
-					xx=warp_coll.x;
-					if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
-					yy=warp_coll.y;
-					else
-					yy=warp_coll.y+4;
-				}
-				my_camera.move(xx,yy,30);
 			}
+		})
+		var found = warp_coll.mytargetpipe //predicting the camera position
+		instance_activate_object(found);
+		if (found.myregion == myregion) {
+			var xx = x;
+			var yy = y;
+			if instance_exists(found) {
+				xx=found.x;
+				if found.image_angle!=90 && found.image_angle!=270
+				yy=found.y;
+				else
+				yy=found.y+4;
+			} else {
+				xx=warp_coll.x;
+				if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
+				yy=warp_coll.y;
+				else
+				yy=warp_coll.y+4;
+			}
+			my_camera.move(xx,yy,30);
 		}
 	}
 	

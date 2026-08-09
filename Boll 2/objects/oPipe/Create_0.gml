@@ -84,6 +84,18 @@ spawnObject = function() {
 			going = 1;
 			break;
 		}
+	
+		parent_pipe = other.id;
+		rot = other.image_angle;
+		if (object_get_parent(object_index) != oPiranhaPlant && object_index != oPiranhaPlant && object_index != oJumpingPiranha) {
+			other.assist = noone;
+		} else {
+			piping = false;
+		}
+		
+		if (object_index == oJumpingPiranha) {
+			dojump=true;
+		}
 		
 		if (object_is_ancestor(object_index,oEnemy)) {
 			piping = true;
@@ -97,17 +109,6 @@ spawnObject = function() {
 			}
 			event_user(15);
 			break;
-		}
-	
-		parent_pipe = other;
-		rot = other.image_angle;
-		if (object_get_parent(object_index) != oPiranhaPlant && object_index != oPiranhaPlant && object_index != oJumpingPiranha) {
-			other.assist = noone;
-			break;
-		}
-		
-		if (object_index == oJumpingPiranha) {
-			dojump=true;
 		}
 	}
 }
