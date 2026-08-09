@@ -1,10 +1,6 @@
 //show_message("JADE levproprtywindow")
 
 //Music tracks list
-music_real_list=[
-"floragrande",
-"frigiddark"
-]
 
 image_xscale = 320;
 image_yscale = 200;
@@ -17,25 +13,9 @@ exitbutton = new JADEiconbutton(x+image_xscale-16,y+1,spr_JADEexiticon, function
 	oJADEController.topbuttons.reset();
 });
 
-//auto generation the list of names for dropdown, dont touch!
-musicnames=[];
-var i=0;
-repeat(array_length(music_real_list)) {
-	array_push(musicnames, global.musiclist[$ music_real_list[i]].formatted_name)
-	i++;
-}
+
 //show_message(array_length(musicnames))
 
-musicselector = new JADEsmallbuttons(x,y+72,160,16)
-musicselector.add("Select music track", function() {
-	var inst = JADEdropdown(musicselector.x,musicselector.y+musicselector.height+4,musicnames, function(name,ind) {
-		if (ind!=-1) {
-			oJADEController.level_properties.music_track=music_real_list[ind];
-		}
-		oJADELevelProperties.musicselector.reset();
-	});
-	inst.depth=oJADELevelProperties.depth-1;
-});
 
 /*
 //auto generation the list of names for dropdown, dont touch!

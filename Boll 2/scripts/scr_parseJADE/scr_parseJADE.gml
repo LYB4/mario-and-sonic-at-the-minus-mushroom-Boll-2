@@ -30,6 +30,18 @@ function parse_level(dir=game_save_id+"\save.jade") {
 				var region = regionlist[r];
 				var layers = region[$ "layers"]
 				var len=array_length(layers);
+				with(oGameManager) {
+					music_tracks[r] = region[$ "music_track"];
+					region_widths[r] = (region[$ "width"]*16);
+					region_heights[r] = (region[$ "height"]*16);
+					region_positions[r] = roomwidth;
+					all_layers[r] = [];
+					hidden_tile_layers[r] = [];
+				}
+				with(oBackgroundManager) {
+					assetlayers[r] = [];
+					bglayers[r] = [];
+				}
 				var i=0;
 				repeat(len) {
 					var _layer_contents = layers[i];
@@ -45,10 +57,10 @@ function parse_level(dir=game_save_id+"\save.jade") {
 							_layer[$ "my_alpha"] = 1;
 							_layer[$ "touched"] = false;
 						
-							if (array_length(_layer_contents) > 5) && (_layer_contents[5]) {
+							if (_layer_contents[5]) {
 								layer_script_begin(_layer.my_layer, tile_layer_hidden_wall);
 								layer_script_end(_layer.my_layer, tile_layer_alpha_end);
-								array_push(oGameManager.hidden_tile_layers,_layer)
+								array_push(oGameManager.hidden_tile_layers[r],_layer)
 							}
 						
 							var tile_layer_contents = _layer_contents[4]
@@ -58,6 +70,8 @@ function parse_level(dir=game_save_id+"\save.jade") {
 								tilemap_set(_layer.my_deco_layer, tile_layer_contents[j][0], tile_layer_contents[j][1], tile_layer_contents[j][2]);
 								j++;
 							}
+							
+							array_push(oGameManager.all_layers[r],_layer);
 						} else if (_layer_contents[0] == "ASSET") {
 							_layer = {}
 							_layer[$ "my_layer"] = layer_create(_layer_contents[2],_layer_contents[1])
@@ -77,9 +91,8 @@ function parse_level(dir=game_save_id+"\save.jade") {
 								j++;
 							}
 						
-							with(oBackgroundManager) {
-								array_push(assetlayers, _layer)
-							}
+							array_push(oBackgroundManager.assetlayers[r], _layer)
+							array_push(oGameManager.all_layers[r],_layer);
 						} else if (_layer_contents[0] == "BACK") {
 							_layer = {}
 							var spr = spr_BGtest
@@ -98,15 +111,13 @@ function parse_level(dir=game_save_id+"\save.jade") {
 							layer_y(_layer.my_layer,_layer.off_y);
 							layer_background_htiled(_layer.my_deco_layer, _layer.tiled_h)
 							layer_background_vtiled(_layer.my_deco_layer, _layer.tiled_v)
-							with(oBackgroundManager) {
-								array_push(bglayers, _layer);
-								array_push(layers, _layer);
-							}
+							array_push(oBackgroundManager.bglayers[r], _layer);
+							array_push(oGameManager.all_layers[r],_layer);
 						}
 					} else {
 						switch(_layer_contents[1]) {
 							case "Piping Objects":
-								oGameManager.piping_object_depth = 100*i
+								oGameManager.piping_object_depth[r] = 100*i;
 							break;
 						}
 					}
@@ -115,6 +126,7 @@ function parse_level(dir=game_save_id+"\save.jade") {
 				
 				var objects = region[$ "objects"]
 				var node_objects = region[$ "node_objects"]
+				
 				var j=0;
 				repeat(array_length(objects)) {
 					var data = objects[j]
@@ -127,6 +139,7 @@ function parse_level(dir=game_save_id+"\save.jade") {
 						obj.ystart+=data[7]*obj.image_yscale;
 						obj.x=obj.xstart
 						obj.y=obj.ystart
+						obj.myregion = r;
 						
 						if (array_length(data)) > 10 {
 							if array_length(data[10]) {
@@ -154,6 +167,7 @@ function parse_level(dir=game_save_id+"\save.jade") {
 					}
 					j++;
 				}
+				
 				j=0;
 				repeat(array_length(node_objects)) {
 					var data = node_objects[j]
@@ -170,6 +184,7 @@ function parse_level(dir=game_save_id+"\save.jade") {
 						obj.ystart+=data[7]*obj.image_yscale;
 						obj.x=obj.xstart
 						obj.y=obj.ystart
+						obj.myregion = r;
 						
 						//object variables
 						var g=0
@@ -187,8 +202,10 @@ function parse_level(dir=game_save_id+"\save.jade") {
 				var width = (region[$ "width"]*16);
 				var border=instance_create_depth(roomwidth-16,-128,0,oLevelBorder)
 				border.image_yscale=region[$ "height"]+16;
+				border.myregion = r;
 				var border=instance_create_depth(roomwidth+width,-128,0,oLevelBorder)
 				border.image_yscale=region[$ "height"]+16;
+				border.myregion = r;
 				
 				roomwidth+=width+512;
 				r++;
@@ -200,9 +217,13 @@ function parse_level(dir=game_save_id+"\save.jade") {
 		}
 		
 		if (global.jade_testing) {
-			instance_create_depth(spawnpoints[2], spawnpoints[3], 0, oPlayerSpawn);		
+			instance_create_depth(spawnpoints[3], spawnpoints[4], 0, oPlayerSpawn, {
+				myregion : spawnpoints[5]
+			});
 		} else {
-			instance_create_depth(spawnpoints[0], spawnpoints[1], 0, oPlayerSpawn);
+			instance_create_depth(spawnpoints[0], spawnpoints[1], 0, oPlayerSpawn, {
+				myregion : spawnpoints[2]
+			});
 		}
 	}
 	instance_activate_all()
@@ -249,7 +270,7 @@ function tile_layer_hidden_wall() {
 				var _layer = hidden_layers[i]
 				if (layer == _layer.my_layer) && (_layer.my_alpha < 1) {
 					shader_set(shd_alpha)
-					var alpha = shader_get_uniform(shd_alpha, "alpha");
+					static alpha = shader_get_uniform(shd_alpha, "alpha");
 					shader_set_uniform_f(alpha,_layer.my_alpha)
 					break;
 				}

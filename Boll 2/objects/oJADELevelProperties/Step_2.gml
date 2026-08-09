@@ -6,6 +6,5 @@ if (window_has_focus()) {
 mbleftpress = mouse_check_button_pressed(mb_left)
 
 if (mbleftpress) && !instance_exists(oJADEDropDown) {
-	musicselector.update();
 	exitbutton.update();
 }

@@ -5,7 +5,7 @@ if !(is_array(pathing) && array_length(pathing)) {
 		if instance_exists(parentblock) {
 			x+=parentblock.x_diff
 			y+=parentblock.y_diff
-			depth=oGameManager.piping_object_depth
+			depth=oGameManager.piping_object_depth[myregion]
 			if !collision_rectangle(x-hit_sizex,y-hit_sizey-(1*going),x+hit_sizex,y+hit_sizey-(1*going),parentblock,false,false) {
 				going=0
 				depth=2;

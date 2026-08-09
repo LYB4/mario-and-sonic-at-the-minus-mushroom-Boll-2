@@ -1489,6 +1489,7 @@ function JADElayerlisthandler(_x, _y, _width, _height, _checkvar) constructor {
 			}
 			i++;
 		}
+		update_depths();
 	}
 	
 	static switch_layers = function(_item) {
@@ -2565,6 +2566,7 @@ function JADEregion(_width,_height,_name) constructor {
 	mylayerlist = new JADElayerlisthandler(8,56,192-24,640, "selected_layer");
 	object_layer_map = ds_list_create();
 	node_layer_map = ds_list_create();
+	music_track = "floragrande";
 	
 	static cleanup = function() {
 		mylayerlist.wipe();

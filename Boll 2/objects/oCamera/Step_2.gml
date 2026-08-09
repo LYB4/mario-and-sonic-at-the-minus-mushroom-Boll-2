@@ -3,6 +3,8 @@ if(instance_exists(follow) && !get_paused()){
 		if (follow.dead || follow.finish) exit;
 	}
 	
+	myregion = follow.myregion;
+	
 	var region = instance_position(follow.x,follow.y,oCameraRegion)
 	if (region && target_region != region) {
 		target_region = region;

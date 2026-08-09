@@ -13,6 +13,9 @@ deletebutton.draw();
 
 var list = oJADEController.regions;
 
+musicselector.draw();
+draw_text(musicselector.x+2,musicselector.y+20,$"Current track: {global.musiclist[$ list[oJADEController.selected_region].music_track].formatted_name}")
+
 list[oJADEController.selected_region].name = JADEstringinput(x+114,y+56,"Name",list[oJADEController.selected_region].name,202,128);
 
 draw_set_font(global.rulerGold)

@@ -6,4 +6,4 @@ go = 0.5; //whether or not it should go up the pipe
 exposed = false; //when it has fully exited the pipe
 is_shy = true;
 
-depth = oGameManager.piping_object_depth;
+depth = oGameManager.piping_object_depth[myregion];

@@ -5,8 +5,8 @@ y = camera_get_view_y(view_camera[0])
 
 if (x != prevx) { //check only if its moved to prevent needless updates to layers that may be very cost-heavy
 	var i=0;
-	repeat(array_length(bglayers)) {
-		var _layer = bglayers[i];
+	repeat(array_length(bglayers[myregion])) {
+		var _layer = bglayers[myregion][i];
 		if !(_layer.attach_x) {
 			layer_x(_layer.my_layer,x/(1+(_layer.parallax_x/10))+_layer.off_x)
 		} /*else {
@@ -18,10 +18,10 @@ if (x != prevx) { //check only if its moved to prevent needless updates to layer
 
 if (y != prevy) { //check only if its moved to prevent needless updates to layers that may be very cost-heavy
 	var i=0;
-	repeat(array_length(bglayers)) {
-		var _layer = bglayers[i];
+	repeat(array_length(bglayers[myregion])) {
+		var _layer = bglayers[myregion][i];
 		if !(_layer.attach_y) {
-			layer_y(_layer.my_layer,y/(1+(_layer.parallax_y/10))+(_layer.off_y-room_height+RESOLUTION_Y))
+			layer_y(_layer.my_layer,y/(1+(_layer.parallax_y/10))+(_layer.off_y-oGameManager.region_heights[myregion]+RESOLUTION_Y))
 		} /*else {
 			layer_y(_layer.my_layer,y+_layer.off_y-(room_height-RESOLUTION_Y))
 		}*/

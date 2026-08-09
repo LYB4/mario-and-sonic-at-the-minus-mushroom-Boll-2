@@ -48,5 +48,3 @@ with(oShard) {
 	}
 }
 collected_shards = array_create(shard_count,0);
-
-alarm[0]=1;

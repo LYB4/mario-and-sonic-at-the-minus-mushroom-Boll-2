@@ -1,12 +1,14 @@
-var i=0;
-repeat(array_length(hidden_tile_layers)) {
-	var _layer = hidden_tile_layers[i]
-	if !(_layer.touched) {
-		_layer.my_alpha=min(_layer.my_alpha+0.05,1);
-	} else {
-		_layer.my_alpha=max(_layer.my_alpha-0.05,0.25);
+if instance_exists(oPlayer) {
+	var i=0;
+	repeat(array_length(hidden_tile_layers[oPlayer.myregion])) {
+		var _layer = hidden_tile_layers[oPlayer.myregion][i]
+		if !(_layer.touched) {
+			_layer.my_alpha=min(_layer.my_alpha+0.05,1);
+		} else {
+			_layer.my_alpha=max(_layer.my_alpha-0.05,0.25);
+		}
+		i++;
 	}
-	i++;
 }
 
 ///ACTIVATION vvvv

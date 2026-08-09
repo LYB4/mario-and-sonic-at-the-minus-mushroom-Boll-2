@@ -94,7 +94,7 @@ function JADE_initializeobj() {
 	
 	var containers = new JADElistcategory("Containers")
 	registerobj(oItemBox, spr_itemboxJADE, 8, 8, 16, 16, false, false, containers, "Item Box", true)
-	properties.addDropdown(oItemBox, "Content", "content", "coin", ["Single Coin", "Multiple Coins", "Supsher Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom"], ["coin", "multicoins", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
+	properties.addDropdown(oItemBox, "Content", "content", "coin", ["Single Coin", "Multiple Coins", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom"], ["coin", "multicoins", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
 	properties.addNumberInput(oItemBox, "Amount", "amount", 1, true)
 	properties.addCheckbox(oItemBox, "Is Brick", "bricked", false)
 	properties.addCheckbox(oItemBox, "Is Hidden", "hidden", false)
@@ -488,6 +488,7 @@ function JADE_save(file=game_save_id+"\save.jade") {
 		regionstruct[$ "name"] = region.name;
 		regionstruct[$ "width"] = region.width;
 		regionstruct[$ "height"] = region.height;
+		regionstruct[$ "music_track"] = region.music_track;
 		regionstruct[$ "objects"] = obj_arr;
 		regionstruct[$ "node_objects"] = node_arr;
 		regionstruct[$ "layers"] = layerarr;
@@ -499,7 +500,7 @@ function JADE_save(file=game_save_id+"\save.jade") {
 	struct[$ "level_data"] = regionarr;
 	struct[$ "level_properties"] = level_properties;
 	struct[$ "version"] = JADE_VERSION;
-	struct[$ "spawnpoints"] = [spawnpoint_x, spawnpoint_y, testpoint_x, testpoint_y];
+	struct[$ "spawnpoints"] = [spawnpoint_x, spawnpoint_y, 0, testpoint_x, testpoint_y, 0];
 	var _json=json_stringify(struct); //compile all saved things
 	var save_file = buffer_create(string_byte_length(_json), buffer_grow, 1);
 	buffer_write(save_file, buffer_string, _json); //save compilation into a buffer
@@ -530,6 +531,7 @@ function JADE_load(file=game_save_id+"\save.jade") {
 		JADE_load_legacy(file);
 	} else if (string_starts_with(string(level_data[$ "version"]),"5")) {
 		level_properties = level_data[$ "level_properties"]
+		struct_remove(level_properties,"music_track");
 		var i=0;
 		repeat(array_length(regions)) {
 			var region = regions[i];
@@ -547,6 +549,9 @@ function JADE_load(file=game_save_id+"\save.jade") {
 			var regionwidth = regionstruct[$ "width"]
 			var regionheight = regionstruct[$ "height"]
 			var newregion = new JADEregion(regionwidth, regionheight, regionstruct[$ "name"]);
+			var track = regionstruct[$ "music_track"];
+			if is_undefined(track) track = "floragrande";
+			newregion.music_track = track;
 			var layerlist = regionstruct[$ "layers"];
 			
 			var j=0;
@@ -688,10 +693,17 @@ function JADE_load(file=game_save_id+"\save.jade") {
 		
 		spawnpoints = level_data[$ "spawnpoints"];
 		
-		spawnpoint_x = spawnpoints[0];
-		spawnpoint_y = spawnpoints[1];
-		testpoint_x = spawnpoints[2];
-		testpoint_y = spawnpoints[3];
+		if (array_length(spawnpoints) != 4) {
+			spawnpoint_x = spawnpoints[0];
+			spawnpoint_y = spawnpoints[1];
+			testpoint_x = spawnpoints[3];
+			testpoint_y = spawnpoints[4];
+		} else {
+			spawnpoint_x = spawnpoints[0];
+			spawnpoint_y = spawnpoints[1];
+			testpoint_x = spawnpoints[2];
+			testpoint_y = spawnpoints[3];
+		}
 	}
 	buffer_delete(loaded)
 	buffer_delete(save_file)
@@ -713,11 +725,11 @@ function JADE_load_legacy(file=game_save_id+"\save.jade") {
 			level_properties =
 			{
 			    name : "Danger Room",
-			    desc : "",
-				music_track: "floragrande"
+			    desc : ""
 			};
 		}
 		var newregion = new JADEregion(800,171,"Region 1");
+		newregion.music_track = "frigiddark";
 		
 		var layers = level_data[$ "layers"]
 		var len=array_length(layers);

@@ -9,4 +9,5 @@ if (mbleftpress) && !instance_exists(oJADEDropDown) {
 	exitbutton.update();
 	newregionbutton.update();
 	deletebutton.update();
+	musicselector.update();
 }

@@ -9,12 +9,7 @@ oJADEController.level_properties.name = JADEstringinput(x,y+24,"Level Name", oJA
 
 oJADEController.level_properties.desc = JADEstringinput(x,y+48,"Level Description", oJADEController.level_properties.desc, 202,128)
 
-draw_set_font(global.rulerGold)
-draw_text(x,y+92,$"Current track: {global.musiclist[$ oJADEController.level_properties.music_track].formatted_name} ({oJADEController.level_properties.music_track})")
-
 exitbutton.draw();
-
-musicselector.draw();
 
 /*
 if !is_struct(selected_layer) exit;

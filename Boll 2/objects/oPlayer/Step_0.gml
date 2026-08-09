@@ -149,6 +149,7 @@ switch(state) {
 		
 		if (vpress) && (oGameManager.reserved_item!=noone) {
 			var i=instance_create_depth(x,y,0,oGameManager.reserved_item)
+			i.myregion = myregion;
 			i.vsp=-2;
 			i.hsp=xsc*2;
 			i.phaseid=id;
@@ -237,8 +238,8 @@ if death_time {
 
 var hidden_layers = oGameManager.hidden_tile_layers
 var i=0;
-repeat(array_length(hidden_layers)) {
-	var _layer = hidden_layers[i]
+repeat(array_length(hidden_layers[myregion])) {
+	var _layer = hidden_layers[myregion][i]
 	if (collision_point(x,y,_layer.my_deco_layer,false,true)!=noone) {
 		_layer.touched = true;
 	}

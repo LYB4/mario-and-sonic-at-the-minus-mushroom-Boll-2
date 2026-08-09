@@ -6,6 +6,7 @@ offset_x = 0;
 offset_y = 0;
 	
 follow = noone;
+myregion = 0;
 
 spd = 1; //how fast the camera follows an instance from 0-1
 	
@@ -266,10 +267,10 @@ update_view_pos = function() {
 	}
 		
 	//Horizontal
-	__constrain_offset_x = clamp(__constrain_offset_x, -_view_left, room_width - _view_right);
+	__constrain_offset_x = clamp(__constrain_offset_x, oGameManager.region_positions[myregion]-_view_left, oGameManager.region_positions[myregion] + oGameManager.region_widths[myregion] - _view_right);
 			
 	//Vertical
-	__constrain_offset_y = clamp(__constrain_offset_y, -_view_top, room_height - _view_bottom);
+	__constrain_offset_y = clamp(__constrain_offset_y, -_view_top, oGameManager.region_heights[myregion] - _view_bottom);
 		
 	_new_x += __constrain_offset_x;
 	_new_y += __constrain_offset_y;

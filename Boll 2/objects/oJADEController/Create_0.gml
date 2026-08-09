@@ -265,6 +265,11 @@ update_region = function() {
 		i++;
 	}
 	regions[selected_region].mylayerlist.show();
+	selected_array = [];
+	selected_node = -1;
+	selected_deco_obj = -1;
+	selected_obj = -1;
+	drawing_node = -1;
 }
 
 modebuttons = new JADEsmallbuttons(324,4,86,16,8,false)

@@ -7,6 +7,7 @@ xsc=1
 ysc=1
 grounded = false
 piped = false
+myregion = 0;
 
 hit_sizex = 6
 hit_sizey = 6

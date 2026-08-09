@@ -3,7 +3,7 @@ function warp_in_pipe(obj,spd,dir) {
 	piped=true;
 	x+=lengthdir_x(spd,dir)
 	y+=lengthdir_y(spd,dir)
-	depth=oGameManager.piping_object_depth; //behind all main tiles
+	depth=oGameManager.piping_object_depth[myregion]; //behind all main tiles
 	
 	my_camera.set_paused(true);
 		
@@ -14,22 +14,24 @@ function warp_in_pipe(obj,spd,dir) {
 		if (warp_timer == 30) {
 			var found = warp_coll.mytargetpipe //predicting the camera position
 			instance_activate_object(found);
-			var xx = x;
-			var yy = y;
-			if instance_exists(found) {
-				xx=found.x
-				if found.image_angle!=90 && found.image_angle!=270
-				yy=found.y
-				else
-				yy=found.y+4
-			} else {
-				xx=warp_coll.x
-				if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
-				yy=warp_coll.y
-				else
-				yy=warp_coll.y+4
+			if (found.myregion == myregion) {
+				var xx = x;
+				var yy = y;
+				if instance_exists(found) {
+					xx=found.x
+					if found.image_angle!=90 && found.image_angle!=270
+					yy=found.y
+					else
+					yy=found.y+4
+				} else {
+					xx=warp_coll.x
+					if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
+					yy=warp_coll.y
+					else
+					yy=warp_coll.y+4
+				}
+				my_camera.move(xx,yy,30);
 			}
-			my_camera.move(xx,yy,30);
 		}
 	}
 	
@@ -42,6 +44,31 @@ function warp_in_pipe(obj,spd,dir) {
 			y=found.y;
 			else
 			y=found.y+4;
+			if (found.myregion != myregion) {
+				myregion=found.myregion;
+				depth = oGameManager.piping_object_depth[myregion]; //behind all main tiles
+				
+				with(oGameManager) {
+					switch_region(other.myregion);
+				}
+				
+				var xx = x;
+				var yy = y;
+				if instance_exists(found) {
+					xx=found.x
+					if found.image_angle!=90 && found.image_angle!=270
+					yy=found.y
+					else
+					yy=found.y+4
+				} else {
+					xx=warp_coll.x
+					if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
+					yy=warp_coll.y
+					else
+					yy=warp_coll.y+4
+				}
+				my_camera.move(xx,yy,0);
+			}
 			
 			if (found.image_angle == 90) {
 				xsc = -1;
@@ -50,8 +77,8 @@ function warp_in_pipe(obj,spd,dir) {
 			if (found.image_angle == 270) {
 				xsc = 1;
 			}
-			warp_coll=found
-		} else {//if pipe is for some reason, not found, send back to original pipe
+			warp_coll = found;
+		} else { //if pipe is for some reason, not found, send back to original pipe
 			x=warp_coll.x
 			if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
 			y=warp_coll.y

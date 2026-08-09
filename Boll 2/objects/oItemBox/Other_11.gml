@@ -41,7 +41,8 @@ switch (content) {
 }
 
 i = instance_create_depth(x,y,0,j);
-i.depth=oGameManager.piping_object_depth
+i.myregion = myregion;
+i.depth=oGameManager.piping_object_depth[myregion]
 
 if place_meeting(x,y+1,oCollider) {
 	i.going = -1;
