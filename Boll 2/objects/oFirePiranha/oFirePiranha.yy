@@ -1,12 +1,14 @@
 {
   "$GMObject":"",
-  "%Name":"oPiranhaPlant",
+  "%Name":"oFirePiranha",
   "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":10,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":7,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"oPiranhaPlant",
+  "name":"oFirePiranha",
   "overriddenProperties":[
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oEnemy","path":"objects/oEnemy/oEnemy.yy",},"propertyId":{"name":"enemycoll","path":"objects/oEnemy/oEnemy.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"False",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"oEnemy","path":"objects/oEnemy/oEnemy.yy",},"propertyId":{"name":"damage_on_contact","path":"objects/oEnemy/oEnemy.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"True",},
@@ -17,8 +19,8 @@
     "path":"folders/Objects/Enemies/Piranha Plants.yy",
   },
   "parentObjectId":{
-    "name":"oEnemy",
-    "path":"objects/oEnemy/oEnemy.yy",
+    "name":"oPiranhaPlant",
+    "path":"objects/oPiranhaPlant/oPiranhaPlant.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -38,8 +40,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_piranhaplant",
-    "path":"sprites/spr_piranhaplant/spr_piranhaplant.yy",
+    "name":"spr_firepiranhaidlemiddle",
+    "path":"sprites/spr_firepiranhaidlemiddle/spr_firepiranhaidlemiddle.yy",
   },
   "spriteMaskId":null,
   "visible":true,

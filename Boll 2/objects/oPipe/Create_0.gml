@@ -26,6 +26,11 @@ spawnObject = function() {
 			stop_spawning = true;
 		} break;
 		
+		case "fire piranha": {
+			j = oFirePiranha;
+			stop_spawning = true;
+		} break;
+		
 		case "goomba": {
 			j = oGoomba;
 			spawning=spawn_timer;

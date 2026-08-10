@@ -4,6 +4,7 @@ event_inherited();
 if (parent_pipe == noone) {
 	exit;
 } else {
+	rot = parent_pipe.image_angle
 	has_collision = false;
 	grav=0;
 }
@@ -42,6 +43,7 @@ if (go != 0) {
 		exposed = true;
 		timer = 90;
 		go = 0;
+		escapePipe.Emit();
 	} else if (travel <= 0) && (exposed) {
 		visible=false;
 		go = 0;
