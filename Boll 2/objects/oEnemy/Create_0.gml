@@ -1,5 +1,6 @@
 ///CHANGE STUFF IN VARIABLE DEFINITIONS TO TWEAK BASIC ENEMY BEHAVIORS!
 enemyStomped = new Signal();
+enemySpinjumped = new Signal();
 enemyCollidePlayer = new Signal();
 enemyFireballed = new Signal();
 enemyKilled = new Signal();
@@ -116,21 +117,45 @@ onThrown.Connect( self, function(thrown_p) {
 
 enemyStomped.Connect( self, function(hit_p) {
 	if (!no_stomping) {
-		hp-=1
-		with(hit_p) {
-			increase_combo(other.x,other.y);
+		if !(hit_p.spinjump) {
+			hp-=1
+			with(hit_p) {
+				increase_combo(other.x,other.y,snd_enemystomp);
 			
-			sig.Emit("enemy_stomped")
-			instance_create_depth(x,y+hit_sizey,-5,pImpact)
+				sig.Emit("enemy_stomped")
+				instance_create_depth(x,y+hit_sizey,-5,pImpact)
+			}
+			phaseid=hit_p
+			phase_leeway=7;
+			killtype="stomp"
+		} else {
+			enemySpinjumped.Emit(hit_p);
 		}
-		phaseid=hit_p
-		phase_leeway=7;
-		killtype="stomp"
 	} else {
 		with(hit_p) {
 			sig.Emit("stomp_failed")
 		}
 		phaseid=hit_p
+		phase_leeway=7;
+	}
+});
+
+enemySpinjumped.Connect( self, function(hit_p) {
+	if !(damage_on_contact) {
+		hp = 0;
+		with(hit_p) {
+			increase_combo(other.x,other.y,snd_enemyspinjump_stomp);
+			instance_create_depth(x,y+hit_sizey,-5,pImpact)
+			sig.Emit("enemy_spinjumped")
+		}
+		phaseid=hit_p;
+		phase_leeway=7;
+		killtype="spinjump";
+	} else {
+		with(hit_p) {
+			sig.Emit("collide_with_enemy")
+		}
+		phaseid=hit_p;
 		phase_leeway=7;
 	}
 });

@@ -21,6 +21,7 @@ koopaEscapeShell = new Signal();
 enemyStomped.Destroy();
 
 enemyStomped.Connect( self, function(hit_p) {
+	hp=1;
 	if (phaseid!=hit_p) {
 		if (!no_stomping) {
 			if !in_shell {
@@ -44,16 +45,19 @@ enemyStomped.Connect( self, function(hit_p) {
 			hit_sizey = 6;
 			event_user(0);
 		}
-		with(hit_p) {
-			increase_combo(other.x,other.y);
+		if !(hit_p.spinjump) {
+			with(hit_p) {
+				increase_combo(other.x,other.y);
 			
-			sig.Emit("enemy_stomped")
-			instance_create_depth(x,y+hit_sizey,-5,pImpact)
+				sig.Emit("enemy_stomped")
+				instance_create_depth(x,y+hit_sizey,-5,pImpact)
+			}
+		} else {
+			enemySpinjumped.Emit(hit_p);
 		}
 		kickedplayer = noone;
 		kickCombo = 0;
 	}
-	hp=1;
 });
 
 enemyCollidePlayer.Connect( self, function(hit_p) {

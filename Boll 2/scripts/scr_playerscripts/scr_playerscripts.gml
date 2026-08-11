@@ -645,9 +645,9 @@ function make_particle(obj,_x,_y,_depth=depth+5,xsc=1,hsp=0,vsp=0,grav=0,fric=0,
 	return i
 }
 
-function increase_combo(_x,_y) {
+function increase_combo(_x,_y,_snd=snd_enemykick) {
 	stompCombo=min(stompCombo+1,8)
-	VinylPlay(snd_enemykick,false,1,0.9+(stompCombo/10))
+	VinylPlay(_snd,false,1,0.9+(stompCombo/10))
 			
 	if (stompCombo>=8)
 	give_lives(pNum, _x, _y)

@@ -15,3 +15,29 @@ enemyRespawn.Connect( self, function(thrown_p) {
 	go = 0.5;
 	exposed = false;
 });
+
+enemyStomped.Destroy();
+
+enemyStomped.Connect( self, function(hit_p) {
+	if !(hit_p.spinjump) {
+		with(hit_p) {
+			sig.Emit("stomp_failed")
+		}
+		phaseid=hit_p
+		phase_leeway=7;
+	} else {
+		enemySpinjumped.Emit(hit_p);
+	}
+});
+
+enemySpinjumped.Destroy();
+
+enemySpinjumped.Connect( self, function(hit_p) {
+	with(hit_p) {
+		instance_create_depth(x,y+hit_sizey,-5,pImpact)
+		sig.Emit("enemy_spinjumped");
+	}
+	VinylPlay(snd_enemyspinjump_reflect)
+	phaseid=hit_p;
+	phase_leeway=7;
+});

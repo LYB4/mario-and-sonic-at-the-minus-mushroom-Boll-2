@@ -40,6 +40,8 @@ deadtimer=0;
 deadgo=0;
 swim=0;
 kick=0;
+spinjumpfiretimer=0;
+spinjumpfiredir = 1;
 
 //we do this in create because its a function, and we only need to do it once
 #region Water Handling Setup
@@ -232,7 +234,7 @@ if (state == "" || state == "jump" || state == "dive") && !piped && !electrocute
 	
 	#region Fire Projectile
 	
-	if (bpress) && (size=="fire") && state != "dive"&& (has_fired < 2) && !(slopesliding) {
+	if (bpress) && (size=="fire") && state != "dive" && (has_fired < 2) && !(slopesliding) {
 		var proj=instance_create_depth(x+(hit_sizex+3)*xsc,y+hit_sizey-12,2,oFireball)
 		proj.hsp=3.75*xsc
 		if !(up) {
@@ -424,8 +426,33 @@ if (state == "wallslide") && !piped && !(stun) {
 if (cpress && !is_grabbing) && !(stun) {
 	if (grounded) {
 		component_mario_start_spinjump();
+		if (size == "fire") && (has_fired < 2) {
+			spinjumpfiretimer = 15;
+			var proj=instance_create_depth(x+(hit_sizex+3)*xsc,y,2,oFireball)
+			proj.hsp=3.75*xsc
+			proj.vsp = -4;
+			proj.owner=id
+			VinylPlay(snd_fireball)
+			spinjumpfiredir = -xsc;
+			has_fired+=1;
+		}
 	} else if (state != "dive" && !stun && !hurt && !spinjump && !up && (!crouch || state == "pound")) {
 		component_mario_start_dive();
+	}
+}
+
+if (spinjump) && (size == "fire") {
+	spinjumpfiretimer = max(spinjumpfiretimer-1,0);
+	
+	if !(spinjumpfiretimer) && (has_fired < 2) {
+		spinjumpfiretimer = 15;
+		var proj=instance_create_depth(x+(hit_sizex+3)*spinjumpfiredir,y,2,oFireball)
+		proj.hsp=3.75*spinjumpfiredir
+		proj.vsp = 2;
+		proj.owner=id
+		VinylPlay(snd_fireball)
+		spinjumpfiredir = -spinjumpfiredir;
+		has_fired+=1;
 	}
 }
 
@@ -971,6 +998,9 @@ starmanjump = false;
 if (state != "pound") {
 	vsp= -(4+akey*2.5)
 }
+
+#define enemy_spinjumped
+vsp= -(1+ckey*2.5)
 
 #define collide_with_enemy
 var coll=check_hitbox_on_hitbox(id, oEnemy)

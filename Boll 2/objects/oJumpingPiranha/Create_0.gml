@@ -13,3 +13,17 @@ dojump = false;
 
 fall_sprite=spr_jumpingpiranhafall
 fly_sprite=spr_jumpingpiranhafly
+
+enemyStomped.Destroy();
+
+enemyStomped.Connect( self, function(hit_p) {
+	if !(hit_p.spinjump) {
+		with(hit_p) {
+			sig.Emit("stomp_failed")
+		}
+		phaseid=hit_p
+		phase_leeway=7;
+	} else {
+		enemySpinjumped.Emit(hit_p);
+	}
+});

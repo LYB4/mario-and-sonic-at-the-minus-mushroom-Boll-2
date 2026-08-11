@@ -38,6 +38,18 @@ enemyStomped.Connect( self, function(hit_p) {
 	phase_leeway=7;
 });
 
+enemySpinjumped.Destroy();
+
+enemySpinjumped.Connect( self, function(hit_p) {
+	with(hit_p) {
+		instance_create_depth(x,y+hit_sizey,-5,pImpact)
+		sig.Emit("enemy_spinjumped");
+	}
+	VinylPlay(snd_enemyspinjump_reflect)
+	phaseid=hit_p;
+	phase_leeway=7;
+});
+
 enemyPounded.Destroy();
 
 enemyPounded.Connect( self, function(hit_p) {

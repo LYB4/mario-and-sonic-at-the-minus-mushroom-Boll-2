@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"snd_enemyspinjump",
+  "%Name":"snd_enemyspinjump_stomp",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.0,
+  "duration":0.5056009,
   "exportDir":"",
-  "name":"snd_enemyspinjump",
+  "name":"snd_enemyspinjump_stomp",
   "parent":{
     "name":"Hazards",
     "path":"folders/Sounds/Hazards.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_enemyspinjump.wav",
+  "soundFile":"snd_enemyspinjump_stomp.wav",
   "volume":1.0,
 }

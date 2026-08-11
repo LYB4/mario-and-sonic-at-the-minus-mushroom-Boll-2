@@ -67,16 +67,13 @@ function component_mario_start_spinjump(startingJumpValue = 5.2){
 	
 	grounded=false;
 	spinjump=true;
-	crouch=0
+	crouch=false;
+	slopesliding = false;
 	playsfx(charmName+"spinjump")
 	vsp=-(startingJumpValue+min(1,abs(hsp)/10))
 	state = "jump"
 	canstopjump=false
 	make_particle(pJumpDust, x, y + hit_sizey, depth + 5, 1, 0, (y-yprevious)/1.5, 0, 0.2);
-	if (slopesliding) {
-		crouch = false
-		slopesliding = false;
-	}
 }
 
 function component_mario_start_dive(speedX = 3.5, speedY = -2.7){
