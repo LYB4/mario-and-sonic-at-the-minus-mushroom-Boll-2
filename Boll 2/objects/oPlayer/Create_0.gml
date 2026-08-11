@@ -103,6 +103,7 @@ was_frozen=false;
 frozen_health=5;
 terminal_vel=5.75;
 spring_cooldown = 0;
+spinjump = false;
 
 pollenated=false;
 pollenPart=-1;

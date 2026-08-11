@@ -1,5 +1,5 @@
 #define datalist
-spriteEvents=split_string("idle,wait,lookUp,victory,crouch,hurt,dead,walk,run,runMax,wallRun,wallJump,airWalk,brake,spring,springFall,jump,bonk,roll,spinDash,spinCharge,dropDash,airDash,carryIdle,carryWalk,carryRun,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,roll,carrySwim,pushing,balancing,dive,fireToss,electrocute,gateClimbing,flagPole,hang,monkeyBars,boarding,snowBoarding,frozen,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
+spriteEvents=split_string("idle,wait,lookUp,victory,crouch,hurt,dead,walk,run,runMax,wallRun,wallJump,airWalk,brake,spring,springFall,jump,bonk,roll,spinDash,spinCharge,dropDash,airDash,carryIdle,carryWalk,carryRun,carryRunMax,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,slidekick,carrySlidekick,roll,carrySwim,pushing,balancing,dive,fireToss,electrocute,gateClimbing,flagPole,hang,monkeyBars,boarding,snowBoarding,frozen,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
 miscSprites=split_string("shield,spindashdust",",");
 sound_list=split_string("airdash,damage,shielddamage,die,jump,release,skid,spin,spindash,bounce",",");
 
@@ -104,7 +104,7 @@ switch (size) {
 	} break
 }
 
-if ((state == "jump" && !is_grabbing) || state == "roll" || state == "spindash" || state == "crouch") && (size != "mini") {
+if ((state == "jump" && !is_grabbing) || state == "roll" || state == "spindash" || state == "crouch" || state == "slidekick") && (size != "mini") {
 	hit_sizey = 6
 }
 
@@ -116,7 +116,7 @@ if (state == "roll") {
 }
 
 var no_move_prev = no_move;
-if !(control_lock > 0 || state == "wallrun" || electrocuted || walljump || steep_slope) {
+if !(control_lock > 0 || state == "wallrun" || state == "slidekick" || electrocuted || walljump || steep_slope) {
 	no_move = false
 }
 
@@ -284,7 +284,7 @@ if (state == "jump") && !(piped) && !(hurt) && (state!="spindash") {
 	#endregion
 }
 
-if (state == "" || state == "roll") && (apress) && (canjump > 0) && !(piped) {
+if (state == "" || state == "roll" || state == "slidekick") && (apress) && (canjump > 0) && !(piped) {
 	var speed_bonus = min((abs(hsp) / 5) * 0.3, 1.3)
 	component_sonic_start_jump(5.2 + speed_bonus)
 	airdash = false;
@@ -345,7 +345,15 @@ if (state == "wallrun") && !piped {
 if (state != "roll" || !grounded) && !(piped) {
 	accel = 0.046875
 	fastaccel = 0.4*friction_mult //deaccel
-	fric = 0.046875*friction_mult
+	if (state != "slidekick") {
+		fric = 0.046875*friction_mult
+	} else {
+		if (ckey) {
+			fric = 0.046875*friction_mult
+		} else {
+			fric = 0.1*friction_mult;
+		}
+	}
 	if (!grounded) {
 		accel = 0.09375
 		fastaccel = 0.09375
@@ -366,7 +374,26 @@ if (state == "roll" && grounded) && !(piped) {
 }
 #endregion
 
+#region Slidekick
+	
+if (cpress) && (state == "" || state == "roll") && (abs(gsp) > 1) && (grounded) && !(piped) {
+	if (cpress) {
+		state = "slidekick";
+		hsp += (2*xsc);
+		gsp = hsp;
+		hit_sizey = 6;
+		playsfx(charmName+"release");
+	}
+}
 
+if (state == "slidekick") {
+	no_move = true;
+	if (abs(hsp)==0) || (!ckey && (left || right)) {
+		state = ""
+	}
+}
+
+#endregion
 
 component_get_ground_friction()
 
@@ -462,8 +489,8 @@ switch (state) {
 					}
 					
 					if (ceil(abs(gsp))>=5.9){
-						frspd=max(0.3, abs(gsp)/4)*speed_mult;
-						spriteEvent="maxrun";
+						frspd=1;
+						spriteEvent="runMax";
 					} else if (ceil(abs(gsp))>=3.4) {
 						frspd=(abs(gsp)/4)*speed_mult;
 						spriteEvent="run";
@@ -478,6 +505,15 @@ switch (state) {
 				var speed_mult = 1;
 				if (friction_mult>0) && (grounded) {
 					speed_mult = 1/(friction_mult);
+				}
+				
+				if (ceil(abs(gsp))>=5.9){
+					frspd=1;
+					spriteEvent="carryRunMax";
+				} else if (ceil(abs(gsp))>=3.4) {
+					frspd=(abs(gsp)/4)*speed_mult;
+					spriteEvent="carryRun";
+				} else {
 					frspd=max(0.3, abs(gsp)/4)*speed_mult;
 					spriteEvent="carryWalk";
 				}
@@ -549,6 +585,13 @@ switch (state) {
 	case "wallrun": {
 		frspd=abs(vsp)/4;
 		spriteEvent = "wallRun"
+	} break;
+	case "slidekick": {
+		if !(is_grabbing) {
+			spriteEvent = "crouch";
+		} else {
+			spriteEvent = "carryCrouch";
+		}
 	} break;
 	case "boarding":
 		spriteEvent="snowBoarding";
@@ -753,13 +796,13 @@ if (state != "frozen") {
 activebound = false;
 
 #define enemy_stomped
-vsp= -(4+akey*1.5)
+vsp = -(4+akey*1.5)
 walljump = false;
 
 #define collide_with_enemy
 var coll=check_hitbox_on_hitbox(id, oEnemy)
 if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
-	if ((state != "roll" && state != "spindash" && state != "jump") || (airdash) || (walljump) || coll.damage_on_contact) && !(invincible_type && invincible_timer) {
+	if ((state != "roll" && state != "spindash" && state != "jump" && state != "slidekick") || (airdash) || (walljump) || coll.damage_on_contact) && !(invincible_type && invincible_timer) {
 		if (coll.deal_dam) {
 			if !(shielded) {
 				stopsfx(charmName+"damage")
@@ -798,7 +841,7 @@ if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 				shielded = false;
 			}
 		}
-	} else if (state == "spindash") || (state == "roll") || (state == "jump") {
+	} else if (state == "spindash") || (state == "roll") || (state == "jump") || (state == "slidekick") {
 		signal_emit(coll.enemyRolledInto, id);
 		activebound = false;
 	}
