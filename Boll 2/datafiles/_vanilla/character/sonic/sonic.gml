@@ -373,6 +373,20 @@ component_get_ground_friction()
 fric = fric * friction_mult;
 	
 player_movement();
+
+//Be able to break monitors from the side
+if !(grounded) && ((state == "roll") || (state == "jump"))  && (abs(hsp) > 1) {
+	var coll;
+	coll=collision_rectangle(x-hit_sizex+hsp,y-hit_sizey+vsp,x+hit_sizex+hsp,y+hit_sizey+vsp,oMonitor,false,false)
+	if (coll) {
+		signal_emit(coll.blockHit, 1, id);
+		
+		if (vsp>0) {
+			vsp = -(2.5+akey*1.5);
+		}
+	}
+}
+
 basic_step_move();
 post_wall();
 
