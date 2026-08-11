@@ -379,11 +379,17 @@ if !(grounded) && ((state == "roll") || (state == "jump"))  && (abs(hsp) > 1) {
 	var coll;
 	coll=collision_rectangle(x-hit_sizex+hsp,y-hit_sizey+vsp,x+hit_sizex+hsp,y+hit_sizey+vsp,oMonitor,false,false)
 	if (coll) {
-		signal_emit(coll.blockHit, 1, id);
+		signal_emit(coll.blockHit, -1, id);
 		
 		if (vsp>0) {
 			vsp = -(2.5+akey*1.5);
 		}
+	}
+} else if (grounded) && (state == "roll") {
+	var coll;
+	coll=collision_rectangle(x-hit_sizex+hsp,y-hit_sizey+vsp,x+hit_sizex+hsp,y+hit_sizey+vsp,oHittable,false,false)
+	if (coll) {
+		signal_emit(coll.blockHit, -1, id);
 	}
 }
 
