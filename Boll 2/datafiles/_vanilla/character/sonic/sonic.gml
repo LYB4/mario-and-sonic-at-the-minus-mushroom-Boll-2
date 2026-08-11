@@ -507,9 +507,19 @@ switch (state) {
 			if (airdash) {
 				spriteEvent="airDash"
 			}
+			
 			if (walljump) {
 				spriteEvent="wallJump"
 			}
+			
+			if (sprung) {
+				if (vsp > 0) {
+					spriteEvent = "springFall";
+				} else {
+					spriteEvent = "spring";
+				}
+			}
+			
 			if (bonk) {
 				spriteEvent="bonk";
 			}

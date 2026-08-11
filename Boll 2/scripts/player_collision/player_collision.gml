@@ -158,7 +158,8 @@ function player_collision(shoveOutOfWalls=true,auto_coords=true,l=0,r=0,t=0,b=0,
 			
 			y=floor(y);
 			
-			if object_index == oPlayer{
+			if (object_index == oPlayer) {
+				sprung = false;
 				sig.Emit("floor_land")
 			} else {
 				gsp = hsp

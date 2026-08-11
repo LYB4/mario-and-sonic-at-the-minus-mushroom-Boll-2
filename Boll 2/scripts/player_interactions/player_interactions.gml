@@ -39,11 +39,12 @@ function player_interactions(){
 	}
 	
 	var spring = collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oTerrainSpring, false, true)
-	if (spring) && !(sprung)  {
+	if (spring) && !(spring_cooldown)  {
 		switch(spring.image_angle) {
 			case 0:
 			vsp=min(-spring.spring_power,vsp) //dont set vsp if it exceeds power
 			grounded = false
+			sprung = true;
 			sig.Emit("sprung_up")
 			break;
 			
@@ -95,10 +96,10 @@ function player_interactions(){
 		} else {
 			VinylPlay(snd_terrainspring)
 		}
-		sprung=5;
+		spring_cooldown=5;
 	}
 	
-	sprung = max(sprung-1,0);
+	spring_cooldown = max(spring_cooldown-1,0);
 	
 	var amp = collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oAmp, false, true)
 	if (amp) {
@@ -197,7 +198,7 @@ function player_interactions(){
 	var bearballoon=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oPolarBearBalloon, false, true)
 	if (bearballoon) {
 		if vsp >= 0 vsp=-(2.5+akey*1.5);
-		sig.Emit("sprung");
+		sig.Emit("bounced");
 		instance_create_depth(bearballoon.x,bearballoon.y,-5,pImpact)
 		instance_destroy(bearballoon);
 	}
@@ -205,7 +206,7 @@ function player_interactions(){
 	var crate=collision_line(x-(hit_sizex-1)-hsp,y+hit_sizey+vsp,x+(hit_sizex-1)-hsp,y+hit_sizey+vsp, oCrate, false, true) 
 	if (crate) && (vsp>=0) {
 		vsp = -(2.5+akey*1.5);
-		sig.Emit("sprung");
+		sig.Emit("bounced");
 		crate.blockHit.Emit(-1, id);
 	}
 	

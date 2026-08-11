@@ -57,6 +57,7 @@ apply_speedcap_midair = true;
 
 balancing = false;
 pushing = false;
+sprung = false;
 
 xsc=1
 ysc=1
@@ -100,8 +101,8 @@ has_fired=0;
 wait_timer=0;	//wait animation
 was_frozen=false;
 frozen_health=5;
-sprung=0;
 terminal_vel=5.75;
+spring_cooldown = 0;
 
 pollenated=false;
 pollenPart=-1;
