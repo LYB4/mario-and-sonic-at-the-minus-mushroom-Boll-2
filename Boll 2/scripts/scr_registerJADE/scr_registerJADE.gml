@@ -94,22 +94,22 @@ function JADE_initializeobj() {
 	
 	var containers = new JADElistcategory("Containers")
 	registerobj(oItemBox, spr_itemboxJADE, 8, 8, 16, 16, false, false, containers, "Item Box", true)
-	properties.addDropdown(oItemBox, "Content", "content", "coin", ["Single Coin", "Multiple Coins", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom"], ["coin", "multicoins", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
+	properties.addDropdown(oItemBox, "Content", "content", "coin", ["Single Coin", "Multiple Coins", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom", "Shield Mushroom"], ["coin", "multicoins", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison", "shield"])
 	properties.addNumberInput(oItemBox, "Amount", "amount", 1, true)
 	properties.addCheckbox(oItemBox, "Is Brick", "bricked", false)
 	properties.addCheckbox(oItemBox, "Is Hidden", "hidden", false)
 	properties.addCheckbox(oItemBox, "Is Dispenser", "eject", false)
 	registerobj(oLongItemBox, spr_longitemboxJADE, 24, 8, 48, 16, false, false, containers, "Long Item Box", true)
-	properties.addDropdown(oLongItemBox, "Content", "content", "coin", ["Single Coin", "Multiple Coins", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom"], ["coin", "multicoins", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
+	properties.addDropdown(oLongItemBox, "Content", "content", "coin", ["Single Coin", "Multiple Coins", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom", "Shield Mushroom"], ["coin", "multicoins", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison", "shield"])
 	properties.addNumberInput(oLongItemBox, "Amount", "amount", 1, true)
 	properties.addCheckbox(oLongItemBox, "Is Hidden", "hidden", false)
 	properties.addCheckbox(oLongItemBox, "Is Dispenser", "eject", false)
 	registerobj(oMonitor, spr_monitor, 8, 8, 16, 16, false, false, containers, "Monitor", true)
-	properties.addDropdown(oMonitor, "Content", "content", "coin", ["10 Coins", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom"], ["coin", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
+	properties.addDropdown(oMonitor, "Content", "content", "coin", ["10 Coins", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom", "Shield Mushroom"], ["coin", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison", "shield"])
 	properties.addCheckbox(oMonitor, "Has Gravity", "physics_enabled", false)
 	properties.addCheckbox(oMonitor, "Bump From Below", "bumpable", false)
 	registerobj(oCrate, spr_crate, 8, 8, 16, 16, false, false, containers, "Crate", true)
-	properties.addDropdown(oCrate, "Content", "content", "coin", ["Single Coin", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom"], ["coin", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison"])
+	properties.addDropdown(oCrate, "Content", "content", "coin", ["Single Coin", "Super Mushroom", "Fire Flower", "Thunder Flower", "Starman", "1UP Mushroom", "3UP Moon", "Poison Mushroom", "Shield Mushroom"], ["coin", "mushroom", "fireflower", "thunderflower", "star", "1up", "3up", "poison", "shield"])
 	blockcategory.add(containers);
 	
 	var liquids = new JADElistcategory("Liquids")
@@ -143,6 +143,7 @@ function JADE_initializeobj() {
 	registerobj(o1up, spr_1up, 8, 8, 16, 16, false, false, items, "1-UP Mushroom", true)
 	registerobj(o3up, spr_3up, 8, 8, 16, 16, false, false, items, "3-UP Moon", true)
 	registerobj(oPoisonShroom, spr_poisonmushroom, 8, 8, 16, 16, false, false, items, "Poison Mushroom", true)
+	registerobj(oShieldShroom, spr_shieldmushroom, 8, 8, 16, 16, false, false, items, "Shield Mushroom", true)
 	registerobj(oShard, spr_shard, 8, 8, 16, 16, false, false, items, "Boll Shard", true)
 	properties.addNumberInput(oShard, "Shard ID", "shardid", 0, true);
 	registerobj(oFrozenItem, spr_frozenitem, 8, 8, 16, 16, false, false, items, "Frozen Item")
@@ -188,7 +189,7 @@ function JADE_initializeobj() {
 	properties.addCheckbox(oSwingingPlatform, "Continuous", "continuous", false)
 	properties.addCheckbox(oSwingingPlatform, "Lock X", "lock_x", false)
 	properties.addCheckbox(oSwingingPlatform, "Lock Y", "lock_y", false)
-	registerobj(oZapper, spr_movingplatform, 8, 8, 32, 16, true, false, gizmos, "Zapper", true)
+	registerobj(oZapper, spr_zapper, 8, 8, 32, 16, true, false, gizmos, "Zapper", true)
 	properties.addDropdown(oZapper, "Direction", "dir", "right", ["Up", "Left", "Right", "Down"], ["up","left","right","down"])
 	
 	objectlist.add(gizmos)

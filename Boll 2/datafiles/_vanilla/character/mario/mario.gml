@@ -1,6 +1,7 @@
 #define datalist
 spriteEvents=split_string("idle,walk,run,wait,lookUp,crouchIdle,crouchWalk,crouchJump,crouchFall,crouchFireToss,crouchBonk,crouchFireToss,victory,hurt,dead,brake,jump,fall,bonk,runJump,runJumpFall,doubleJump,doubleJumpFall,doubleJumpBonk,wallSlide,wallJump,groundPound,groundPoundFall,slopeSlide,carryIdle,carryWalk,carryRun,carryLookUp,carryJump,carryFall,carryBonk,carrySpinJump,carrySpinJumpFall,carryCrouchIdle,carryCrouchWalk,carryCrouchJump,carryCrouchFall,carryCrouchBonk,carryKick,carryAirKick,roll,swim,swimPaddle,carrySwim,carryPaddle,spinJump,spinJumpFall,pushing,balancing,dive,bellySlide,fireToss,electrocute,gateClimbing,flagPole,hang,monkeyBars,boarding,snowboarding,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
-sound_list=split_string("damage,die,dive,fireball,flip,jump,kick,pound,rollout,select,skid,spin,spinbounce,spinjump,stomp,swim,wallkick",",");
+miscSprites=split_string("shield",",");
+sound_list=split_string("damage,shielddamage,die,dive,fireball,flip,jump,kick,pound,rollout,select,skid,spin,spinbounce,spinjump,stomp,swim,wallkick",",");
 
 #define create
 slopesliding = 0;
@@ -773,6 +774,7 @@ if (spriteEvent=="crouchIdle") {
 #define on_kill
 stopsfx(charmName+"skid")
 playsfx(charmName+"die")
+shielded = false;
 give_lives(pNum, -1000, -1000, -1, -4, -4)
 dead=1
 deadtimer=240;
@@ -893,6 +895,10 @@ if !(invincible_type && invincible_timer) {
 	grow = 60;
 }
 
+#define shield
+shielded = true;
+VinylPlay(snd_shield);
+
 #define ceil_bonk
 bonk = 12
 
@@ -961,29 +967,41 @@ var coll=check_hitbox_on_hitbox(id, oEnemy)
 if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 	if (coll) && ((!slopesliding && state != "pound") || coll.damage_on_contact) && !(invincible_type && invincible_timer) {
 		if (coll.deal_dam) {
-			stopsfx(charmName+"skid")
-			stopsfx(charmName+"damage")
-			hurt=1
-			hsp= -2.25 * xsc
-			vsp= -4
-			canstopjump=true
-			state=""
-			grounded=false
-			oldsize = size;
-			switch (size) {
-				case "basic": {
-					signal_emit(sig, "on_kill", charmName)
-				} break
-				case "big": {
-					size = "basic";
-					playsfx(charmName+"damage")
-				} break
-				default: {
-					size = "big";
-					playsfx(charmName+"damage")
-				} break
+			if !(shielded) {
+				stopsfx(charmName+"skid")
+				stopsfx(charmName+"damage")
+				hurt=1
+				hsp= -2.25 * xsc
+				vsp= -4
+				canstopjump=true
+				state=""
+				grounded=false
+				oldsize = size;
+				switch (size) {
+					case "basic": {
+						signal_emit(sig, "on_kill", charmName)
+					} break
+					case "big": {
+						size = "basic";
+						playsfx(charmName+"damage")
+					} break
+					default: {
+						size = "big";
+						playsfx(charmName+"damage")
+					} break
+				}
+				grow = 60;
+			} else {
+				stopsfx(charmName+"skid")
+				playsfx(charmName+"shielddamage")
+				hurt=1
+				hsp= -2.25 * xsc
+				vsp= -4
+				canstopjump=true
+				state=""
+				grounded=false
+				shielded = false;
 			}
-			grow = 60;
 		}
 	} else if (state == "pound") {
 		signal_emit(coll.enemyPounded, id);
@@ -996,30 +1014,80 @@ if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 state = "jump";
 
 #define hurt_by_spike
-stopsfx(charmName+"skid")
-stopsfx(charmName+"damage")
-hurt=1
-hsp= -2.25 * xsc
-vsp= -4
-canstopjump=true
-state=""
-grounded=false
-oldsize = size;
-switch (size) {
-	case "basic": {
-		signal_emit(sig, "on_kill", charmName)
-	} break
-	case "big": {
-		size = "basic";
-		playsfx(charmName+"damage")
-	} break
-	default: {
-		size = "big";
-		playsfx(charmName+"damage")
-	} break
+if !(shielded) {
+	stopsfx(charmName+"skid")
+	stopsfx(charmName+"damage")
+	hurt=1
+	hsp= -2.25 * xsc
+	vsp= -4
+	canstopjump=true
+	state=""
+	grounded=false
+	oldsize = size;
+	switch (size) {
+		case "basic": {
+			signal_emit(sig, "on_kill", charmName)
+		} break
+		case "big": {
+			size = "basic";
+			playsfx(charmName+"damage")
+		} break
+		default: {
+			size = "big";
+			playsfx(charmName+"damage")
+		} break
+	}
+	grow = 60;
+} else {
+	stopsfx(charmName+"skid")
+	playsfx(charmName+"shielddamage")
+	hurt=1
+	hsp= -2.25 * xsc
+	vsp= -4
+	canstopjump=true
+	state=""
+	grounded=false
+	shielded = false;
 }
-grow = 60;
 
+#define hurt_by_fire
+if !(shielded) {
+	stopsfx(charmName+"skid")
+	stopsfx(charmName+"damage")
+	hurt=1
+	hsp= -2.25 * xsc
+	vsp= -4
+	canstopjump=true
+	state=""
+	grounded=false
+	oldsize = size;
+	switch (size) {
+		case "basic": {
+			signal_emit(sig, "on_kill", charmName)
+		} break
+		case "big": {
+			
+			
+			size = "basic";
+			playsfx(charmName+"damage")
+		} break
+		default: {
+			size = "big";
+			playsfx(charmName+"damage")
+		} break
+	}
+	grow = 60;
+} else {
+	stopsfx(charmName+"skid")
+	playsfx(charmName+"shielddamage")
+	hurt=1
+	hsp= -2.25 * xsc
+	vsp= -4
+	canstopjump=true
+	state=""
+	grounded=false
+	shielded = false;
+}
 
 #define electrocute
 state=""
@@ -1028,30 +1096,42 @@ electrocution_timer=60;
 
 
 #define hurt_by_electrocution
-stopsfx(charmName+"skid")
-stopsfx(charmName+"damage")
-electrocuted = false;
-hurt=1
-hsp= -2.25 * xsc
-vsp= -4
-canstopjump=true
-state=""
-grounded=false
-oldsize = size;
-switch (size) {
-	case "basic": {
-		signal_emit(sig, "on_kill", charmName)
-	} break
-	case "big": {
-		size = "basic";
-		playsfx(charmName+"damage")
-	} break
-	default: {
-		size = "big";
-		playsfx(charmName+"damage")
-	} break
+if !(shielded) {
+	stopsfx(charmName+"skid")
+	stopsfx(charmName+"damage")
+	electrocuted = false;
+	hurt=1
+	hsp= -2.25 * xsc
+	vsp= -4
+	canstopjump=true
+	state=""
+	grounded=false
+	oldsize = size;
+	switch (size) {
+		case "basic": {
+			signal_emit(sig, "on_kill", charmName)
+		} break
+		case "big": {
+			size = "basic";
+			playsfx(charmName+"damage")
+		} break
+		default: {
+			size = "big";
+			playsfx(charmName+"damage")
+		} break
+	}
+	grow = 60;
+} else {
+	stopsfx(charmName+"skid")
+	playsfx(charmName+"shielddamage")
+	hurt=1
+	hsp= -2.25 * xsc
+	vsp= -4
+	canstopjump=true
+	state=""
+	grounded=false
+	shielded = false;
 }
-grow = 60;
 
 #define enter_pipe
 stopsfx(charmName+"skid")

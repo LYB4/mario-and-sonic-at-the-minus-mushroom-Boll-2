@@ -1,7 +1,7 @@
 #define datalist
 spriteEvents=split_string("idle,wait,lookUp,victory,crouch,hurt,dead,walk,run,runMax,wallRun,wallJump,airWalk,brake,spring,springFall,jump,bonk,roll,spinDash,spinCharge,dropDash,airDash,carryIdle,carryWalk,carryRun,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,roll,carrySwim,pushing,balancing,dive,fireToss,electrocute,gateClimbing,flagPole,hang,monkeyBars,boarding,snowBoarding,frozen,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
-miscSprites=split_string("spindashdust",",");
-sound_list=split_string("airdash,damage,die,jump,release,skid,spin,spindash,bounce",",");
+miscSprites=split_string("shield,spindashdust",",");
+sound_list=split_string("airdash,damage,shielddamage,die,jump,release,skid,spin,spindash,bounce",",");
 
 #define create
 jump = 0;
@@ -656,6 +656,10 @@ if !(invincible_type && invincible_timer) {
 	grow = 60;
 }
 
+#define shield
+shielded = true;
+VinylPlay(snd_shield);
+
 #define ceil_bonk
 bonk = 12
 
@@ -719,29 +723,42 @@ var coll=check_hitbox_on_hitbox(id, oEnemy)
 if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 	if ((state != "roll" && state != "spindash" && state != "jump") || (airdash) || (walljump) || coll.damage_on_contact) && !(invincible_type && invincible_timer) {
 		if (coll.deal_dam) {
-			stopsfx(charmName+"damage")
-			hurt=1
-			hsp = -2.25 * xsc
-			vsp = -4
-			canstopjump=true
-			state=""
-			grounded=false
-			activebound = false;
-			oldsize = size;
-			switch (size) {
-				case "basic": {
-					signal_emit(sig, "on_kill", charmName)
-				} break
-				case "big": {
-					size = "basic";
-					playsfx(charmName+"damage")
-				} break
-				default: {
-					size = "big";
-					playsfx(charmName+"damage")
-				} break
+			if !(shielded) {
+				stopsfx(charmName+"damage")
+				hurt=1
+				hsp = -2.25 * xsc
+				vsp = -4
+				canstopjump=true
+				state=""
+				grounded=false
+				activebound = false;
+				oldsize = size;
+				switch (size) {
+					case "basic": {
+						signal_emit(sig, "on_kill", charmName)
+					} break
+					case "big": {
+						size = "basic";
+						playsfx(charmName+"damage")
+					} break
+					default: {
+						size = "big";
+						playsfx(charmName+"damage")
+					} break
+				}
+				grow = 60;
+			} else {
+				stopsfx(charmName+"shielddamage")
+				playsfx(charmName+"shielddamage")
+				hurt=1
+				hsp = -2.25 * xsc
+				vsp = -4
+				canstopjump=true
+				state=""
+				grounded=false
+				activebound = false;
+				shielded = false;
 			}
-			grow = 60;
 		}
 	} else if (state == "spindash") || (state == "roll") || (state == "jump") {
 		signal_emit(coll.enemyRolledInto, id);
@@ -751,31 +768,80 @@ if (coll) && !(coll.no_dam) && (coll.phaseid!=id) {
 
 
 #define hurt_by_spike
-
-stopsfx(charmName+"damage")
-hurt= 1
-hsp= -2.25 * xsc
-vsp= -4
-canstopjump=true
-state=""
-activebound = false;
-grounded=false
-oldsize = size;
-switch (size) {
-	case "basic": {
-		signal_emit(sig, "on_kill", charmName)
-	} break
-	case "big": {
-		size = "basic";
-		playsfx(charmName+"damage")
-	} break
-	default: {
-		size = "big";
-		playsfx(charmName+"damage")
-	} break
+if !(shielded) {
+	stopsfx(charmName+"damage")
+	hurt= 1
+	hsp= -2.25 * xsc
+	vsp= -4
+	canstopjump=true
+	state=""
+	activebound = false;
+	grounded=false
+	oldsize = size;
+	switch (size) {
+		case "basic": {
+			signal_emit(sig, "on_kill", charmName)
+		} break
+		case "big": {
+			size = "basic";
+			playsfx(charmName+"damage")
+		} break
+		default: {
+			size = "big";
+			playsfx(charmName+"damage")
+		} break
+	}
+	grow = 60;
+} else {
+	stopsfx(charmName+"shielddamage")
+	playsfx(charmName+"shielddamage")
+	hurt=1
+	hsp = -2.25 * xsc
+	vsp = -4
+	canstopjump=true
+	state=""
+	grounded=false
+	activebound = false;
+	shielded = false;
 }
-grow = 60;
 
+#define hurt_by_fire
+if !(shielded) {
+	stopsfx(charmName+"damage")
+	hurt= 1
+	hsp= -2.25 * xsc
+	vsp= -4
+	canstopjump=true
+	state=""
+	activebound = false;
+	grounded=false
+	oldsize = size;
+	switch (size) {
+		case "basic": {
+			signal_emit(sig, "on_kill", charmName)
+		} break
+		case "big": {
+			size = "basic";
+			playsfx(charmName+"damage")
+		} break
+		default: {
+			size = "big";
+			playsfx(charmName+"damage")
+		} break
+	}
+	grow = 60;
+} else {
+	stopsfx(charmName+"shielddamage")
+	playsfx(charmName+"shielddamage")
+	hurt=1
+	hsp = -2.25 * xsc
+	vsp = -4
+	canstopjump=true
+	state=""
+	grounded=false
+	activebound = false;
+	shielded = false;
+}
 
 #define electrocute
 
@@ -785,30 +851,43 @@ electrocution_timer=60;
 
 
 #define hurt_by_electrocution
-activebound = false;
-stopsfx(charmName+"damage")
-electrocuted = false;
-hurt=1
-hsp= -2.25 * xsc
-vsp= -4
-canstopjump=true
-state=""
-grounded=false
-oldsize = size;
-switch (size) {
-	case "basic": {
-		signal_emit(sig, "on_kill", charmName)
-	} break
-	case "big": {
-		size = "basic";
-		playsfx(charmName+"damage")
-	} break
-	default: {
-		size = "big";
-		playsfx(charmName+"damage")
-	} break
+if !(shielded) {
+	activebound = false;
+	stopsfx(charmName+"damage")
+	electrocuted = false;
+	hurt=1
+	hsp= -2.25 * xsc
+	vsp= -4
+	canstopjump=true
+	state=""
+	grounded=false
+	oldsize = size;
+	switch (size) {
+		case "basic": {
+			signal_emit(sig, "on_kill", charmName)
+		} break
+		case "big": {
+			size = "basic";
+			playsfx(charmName+"damage")
+		} break
+		default: {
+			size = "big";
+			playsfx(charmName+"damage")
+		} break
+	}
+	grow = 60;
+} else {
+	stopsfx(charmName+"shielddamage")
+	playsfx(charmName+"shielddamage")
+	hurt=1
+	hsp = -2.25 * xsc
+	vsp = -4
+	canstopjump=true
+	state=""
+	grounded=false
+	activebound = false;
+	shielded = false;
 }
-grow = 60;
 
 #define enter_pipe
 stopsfx(charmName+"skid")

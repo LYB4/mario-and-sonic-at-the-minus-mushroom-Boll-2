@@ -1250,7 +1250,7 @@ function JADEdropdownproperty(_x, _y, _name, _var, _index, obj_ind, _options, _n
 	var spacing = string_width($"{_name}:")+8
 	
 	draw_sprite_stretched(spr_JADEdropdownbox, 0,_x+spacing,_y,128,24)
-	ScribblejrFitExt(_names[array_get_index(_options,_var)],fa_left,fa_middle,global.omiFont,1,94,16).Draw(_x+4+spacing,_y+12)
+	ScribblejrFitExt(_names[max(0,array_get_index(_options,_var))],fa_left,fa_middle,global.omiFont,1,94,16).Draw(_x+4+spacing,_y+12)
 	
 	var overinp = point_in_rectangle(curs_x,curs_y,_x+spacing,_y,_x+128+spacing,_y+24);
 	
@@ -1291,7 +1291,7 @@ function JADEnodedropdownproperty(_x, _y, _name, _var, _index, obj_ind, _options
 	var spacing = string_width($"{_name}:")+8
 	
 	draw_sprite_stretched(spr_JADEdropdownbox, 0,_x+spacing,_y,128,24)
-	ScribblejrFitExt(_names[array_get_index(_options,_var)],fa_left,fa_middle,global.omiFont,1,94,16).Draw(_x+4+spacing,_y+12)
+	ScribblejrFitExt(_names[max(0,array_get_index(_options,_var))],fa_left,fa_middle,global.omiFont,1,94,16).Draw(_x+4+spacing,_y+12)
 	
 	var overinp = point_in_rectangle(curs_x,curs_y,_x+spacing,_y,_x+128+spacing,_y+24);
 	

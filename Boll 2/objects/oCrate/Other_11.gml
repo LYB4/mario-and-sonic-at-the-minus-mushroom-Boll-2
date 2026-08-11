@@ -39,12 +39,20 @@ switch (content) {
         j = oPoisonShroom;
     } break;
 	
+	case "shield": {
+        j = oShieldShroom;
+    } break;
+	
 	default: exit; //assume that the box is empty and dont proceed with spawning the object
 }
 
 i = instance_create_depth(x,y,0,j);
-i.vsp=-4
-i.hsp=1.5*s
+if (j != oShieldShroom) {
+	i.vsp=-4
+	i.hsp=1.5*s
+} else {
+	i.vsp = -3;
+}
 i.phaseid=p.id;
 i.phase_leeway=10;
 VinylPlay(snd_itemappear);

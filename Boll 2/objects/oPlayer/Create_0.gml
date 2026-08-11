@@ -63,6 +63,9 @@ frame=0
 fhaslooped=0
 dy=0
 
+shielded = false;
+shieldfr = 0;
+
 can_stomp = true;
 cantslowanim=0
 flash=0

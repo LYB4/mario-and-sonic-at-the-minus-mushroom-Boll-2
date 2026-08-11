@@ -10,6 +10,10 @@ switch (content) {
 		monitor_frame = 2;
 	} break;
 	
+	case "shield": {
+		monitor_frame = 3;
+	} break;
+	
 	case "thunderflower": {
 		monitor_frame = 4;
 	} break;

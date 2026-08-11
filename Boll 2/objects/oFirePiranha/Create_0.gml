@@ -7,7 +7,7 @@ overridexsc = true;
 
 face_dir = 0;
 
-escapePipe.Connect( self, function(thrown_p) {
+escapePipe.Connect( self, function() {
 	var inst = instance_create_depth(x,y,4,oDirectionalFireball);
 	if (rot mod 180 == 0) {
 		var mult = 1;
@@ -30,7 +30,7 @@ escapePipe.Connect( self, function(thrown_p) {
 	event_user(0);
 });
 
-enemyRespawn.Connect( self, function(thrown_p) {
+enemyRespawn.Connect( self, function() {
 	travel = 0;
 	timer = 120;
 	go = 0.5;

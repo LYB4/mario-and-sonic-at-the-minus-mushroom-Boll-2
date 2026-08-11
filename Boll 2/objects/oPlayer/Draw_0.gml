@@ -56,6 +56,19 @@ sig.Emit("draw_over");
 
 if (state == "frozen") {
 	draw_sprite(spr_playericecube,5-frozen_health,floor(x),floor(y))
+} else if (shielded) {
+	if charm_sprite_exists("shield") {
+		shieldfr = animate_charm_sprite("shield",shieldfr);
+	
+		draw_charm_sprite("shield",shieldfr,x,y+hit_sizey-6);
+	} else {
+		shieldfr += 0.2;
+		if floor(shieldfr) >= (sprite_get_number(spr_shieldplaceholder)-1) {
+			shieldfr = 0;
+		}
+		
+		draw_sprite(spr_shieldplaceholder,floor(shieldfr),x,y+hit_sizey-6);
+	}
 }
 	
 if (invincible_type == 2) {

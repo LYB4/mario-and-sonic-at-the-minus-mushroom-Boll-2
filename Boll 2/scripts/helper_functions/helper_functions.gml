@@ -292,13 +292,13 @@ function wrap_val(value, _min, _max) {
 	}
 }
 
-function wave_val(from, to, duration, offset=0) {
+function wave_val(from, to, duration, offset=0, _timer=global.roomTimer) {
 	// Returns a value that will wave back and forth between [from-to] over [duration] seconds
 	// Example
 	//      image_angle = Wave(-45,45,1,0)  -> rock back and forth 90 degrees in a second
  
 	var a4 = (to - from) * 0.5;
-	return from + a4 + sin((((global.roomTimer * 0.015) + duration * offset) / duration) * (pi*2)) * a4;
+	return from + a4 + sin((((_timer * 0.015) + duration * offset) / duration) * (pi*2)) * a4;
 }
 
 function ternary(statement,true_val,false_val) {

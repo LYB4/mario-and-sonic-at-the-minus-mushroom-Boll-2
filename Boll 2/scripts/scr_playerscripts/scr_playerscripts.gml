@@ -366,6 +366,10 @@ function draw_charm_sprite(_name,_frame,_x,_y,_xsc=1,_ysc=1,_angle=0,_col=c_whit
 	}
 }
 
+function charm_sprite_exists(_name) {
+	return !is_undefined(miscSpritesMap[$ _name]);
+}
+
 function init_player() {
 	spriteEvents=["idle"];
 	spriteMap={};

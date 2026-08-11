@@ -10,4 +10,10 @@ grav=0.25
 piped=false
 collision_array=[oCollider]
 owner=-1;
-setup_box_poly(id);
+
+fizzle = new Signal();
+
+fizzle.Connect( self, function() {
+	instance_create_depth(x+hsp,y+vsp,0,pFireballExplosion)
+	instance_destroy();
+});

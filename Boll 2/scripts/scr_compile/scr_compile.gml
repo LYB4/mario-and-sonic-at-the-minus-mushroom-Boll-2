@@ -110,6 +110,10 @@ function import_sheets() {
 			oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\_HUDicon.png",$"spr_{_name}_HUDicon",1,false,false,CollageOrigin.CENTER,CollageOrigin.CENTER)
 		} else throw $"SORRY! NO HUD ICON IN CHARACTER \"{_name}\" EXISTS! CHECK YOUR SPRITES!"
 		
+		if file_exists($"{dir}\\sprites\\shield.png") {
+			oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\_HUDicon.png",$"spr_{_name}_HUDicon",1,false,false,CollageOrigin.CENTER,CollageOrigin.CENTER)
+		}
+		
 		if file_exists($"{dir}\\pal.png") {
 			oGameManager.playerPalettes[i]=sprite_add($"{dir}\\pal.png",0,0,0,0,0)
 		}

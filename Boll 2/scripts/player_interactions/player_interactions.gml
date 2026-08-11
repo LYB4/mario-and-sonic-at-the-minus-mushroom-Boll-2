@@ -247,6 +247,14 @@ function player_interactions(){
 		}
 	}
 	
+	var fireball=check_hitbox_on_hitbox(id,oDirectionalFireball);
+	if (fireball) {
+		if !(invincible_type && invincible_timer) && (state != "frozen") {
+			sig.Emit("hurt_by_fire")
+			fireball.fizzle.Emit();
+		}
+	}
+	
 	var checkpoint=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oCheckpoint, false, true)
 	if (checkpoint) {
 		checkpoint.activate.Emit(id);

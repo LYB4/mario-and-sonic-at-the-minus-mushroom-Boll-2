@@ -10,4 +10,3 @@ grav=0.25
 piped=false
 collision_array=[oCollider]
 owner=-1;
-setup_box_poly(id);

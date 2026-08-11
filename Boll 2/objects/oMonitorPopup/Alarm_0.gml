@@ -14,6 +14,10 @@ if (collect) {
 			case 2: //fire flower
 			sig.Emit("fireflower");
 			break;
+			
+			case 3: //shield mushroom
+			sig.Emit("shield");
+			break;
 		
 			case 4: //thunder flower
 			sig.Emit("thunderflower");
