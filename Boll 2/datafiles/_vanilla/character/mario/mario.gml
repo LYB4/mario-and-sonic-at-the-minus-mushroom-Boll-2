@@ -528,6 +528,16 @@ if (state == "") {
 				}
 			}
 		}
+		
+		if (balancing) && !(is_grabbing) {
+			wait_timer = 0;
+			spriteEvent="balancing";
+		}
+		
+		if (pushing) && !(is_grabbing) {
+			wait_timer = 0;
+			spriteEvent="pushing";
+		}
 	} else {
 		wait_timer = 0
 		if (move == 0) {

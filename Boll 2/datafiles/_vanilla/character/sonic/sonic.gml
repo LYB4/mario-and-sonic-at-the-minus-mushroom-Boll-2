@@ -438,11 +438,11 @@ switch (state) {
 				wait_timer += 1
 				spriteEvent="idle"
 				if (wait_timer > 440) {
-					spriteEvent="wait"
+					spriteEvent="wait";
 				}
 				if (up) {
 					wait_timer = 0
-					spriteEvent="lookUp"
+					spriteEvent="lookUp";
 				}
 			} else {
 				spriteEvent="carryIdle"
@@ -460,16 +460,14 @@ switch (state) {
 					if (friction_mult>0) && (grounded) {
 						speed_mult = 1/(friction_mult);
 					}
-				
-					if (ceil(abs(gsp))>=3.4) {
-						frspd=(abs(gsp)/4)*speed_mult;
-						spriteEvent="run";
-					}
-					else if (ceil(abs(gsp))>=5.9){
+					
+					if (ceil(abs(gsp))>=5.9){
 						frspd=max(0.3, abs(gsp)/4)*speed_mult;
 						spriteEvent="maxrun";
-					}
-					else {
+					} else if (ceil(abs(gsp))>=3.4) {
+						frspd=(abs(gsp)/4)*speed_mult;
+						spriteEvent="run";
+					} else {
 						frspd=max(0.3, abs(gsp)/4)*speed_mult;
 						spriteEvent="walk";
 					}
@@ -484,6 +482,16 @@ switch (state) {
 					spriteEvent="carryWalk";
 				}
 			}
+		}
+		
+		if (balancing) && !(is_grabbing) {
+			wait_timer = 0;
+			spriteEvent="balancing";
+		}
+		
+		if (pushing) && !(is_grabbing) {
+			wait_timer = 0;
+			spriteEvent="pushing";
 		}
 	} break;
 	case "crouch": {

@@ -65,6 +65,8 @@ function player_movement(){
 			hsp = gsp; //fix for hsp being delayed by 1 frame all the time (no more sliding along the floor)	
 		}
 	} else {
+		pushing = false;
+		
 		if (abs(hsp) > topspd) && (grounded || apply_speedcap_midair) {
 			if (vsp < 0 && vsp > -2 ) {
 				hsp -= hsp / 32

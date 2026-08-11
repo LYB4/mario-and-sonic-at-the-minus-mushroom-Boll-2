@@ -55,6 +55,9 @@ crouch = false;
 sonic_air_momentum = false;
 apply_speedcap_midair = true;
 
+balancing = false;
+pushing = false;
+
 xsc=1
 ysc=1
 rot=0
