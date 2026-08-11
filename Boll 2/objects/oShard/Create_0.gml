@@ -18,6 +18,8 @@ onCollect = function() {
 	
 	collect_timer = 1;
 	
+	oGameManager.collect_shard(shardid)
+	
 	image_speed=10;
 	
 	vspeed=-2.5;

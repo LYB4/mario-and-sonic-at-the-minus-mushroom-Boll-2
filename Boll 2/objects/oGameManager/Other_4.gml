@@ -41,10 +41,20 @@ if (global.settings[$ "fullscreen_type"]==1) {
 parse_level(global.nextlevel)
 instance_activate_object(oShard)
 var maxid = -1;
+var shardids = [];
 with(oShard) {
-	if (shardid > maxid) {
-		maxid = shardid
-		other.shard_count++;
-	}
+	array_push(shardids, shardid);
 }
+var i=0;
+array_sort(shardids,true);
+repeat(array_length(shardids)) {
+	var theshardid = shardids[i];
+	if (theshardid > maxid) {
+		maxid = theshardid;
+		shard_count++;
+	}
+	i++;
+}
+
 collected_shards = array_create(shard_count,0);
+shard_scales = array_create(shard_count,1);

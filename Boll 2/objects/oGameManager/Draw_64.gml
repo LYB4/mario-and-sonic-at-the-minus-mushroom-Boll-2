@@ -103,7 +103,16 @@ if surface_exists(HUDsurface) {
 	
 	draw_sprite(spr_huditemreserve,0,HUDlefthandle-4,yy);
 	draw_sprite(spr_Vbuttonprompt,bool(reserved_item==noone),HUDlefthandle-4+10,yy+10)
-
+	
+	if (shard_count) {
+		var i=0;
+		var shardwidth = ((24+8)*shard_count)-8
+		repeat(shard_count) {
+			draw_sprite_ext(spr_shardhud,collected_shards[i],(RESOLUTION_X/2)-(shardwidth/2)+(24+8)*i,round(shard_gui_y),shard_scales[i],shard_scales[i],0,c_white,1);
+			i++;
+		}
+	}
+	
 	surface_reset_target();
 	draw_set_valign(fa_top);
 	

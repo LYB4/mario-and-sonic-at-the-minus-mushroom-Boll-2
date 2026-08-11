@@ -18,8 +18,7 @@ function parse_level(dir=game_save_id+"\save.jade") {
 				level_properties =
 				{
 				    name : "Danger Room",
-				    desc : "",
-					music_track: "floragrande"
+				    desc : ""
 				};
 			}
 			var r=0;

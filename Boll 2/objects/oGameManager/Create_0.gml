@@ -11,6 +11,10 @@ global.conductive_array=[oAmp];
 
 shard_count = 0;
 collected_shards = [];
+shard_scales = [];
+shard_gui_y = -16;
+shard_gui_goto = -16;
+shard_gui_timer = 0;
 
 HUDsurface=-1;
 gameoversurface=-1;
@@ -97,4 +101,11 @@ switch_region = function(region) {
 		layer_set_visible(struct.my_layer,true);
 		i++;
 	}
+}
+
+collect_shard = function(_id) {
+	collected_shards[_id] = true;
+	shard_scales[_id] = 3;
+	shard_gui_goto = 16;
+	shard_gui_timer = 180;
 }

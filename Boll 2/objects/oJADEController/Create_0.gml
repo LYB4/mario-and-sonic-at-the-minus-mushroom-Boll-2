@@ -55,8 +55,7 @@ JADE_initializeobj();
 level_properties =
 {
     name : "Danger Room",
-    desc : "",
-	music_track: "floragrande"
+    desc : ""
 };
 
 current_tileset="tTilesetMain"
