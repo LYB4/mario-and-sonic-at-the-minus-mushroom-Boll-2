@@ -2,6 +2,10 @@ function post_wall(auto_coords=true,l=0,r=0,t=0,b=0) {
 	
 	var _left, _right, top, bottom;
 	
+	if (object_index == oPlayer) {
+		if (ignore_collision) || (piped) exit;
+	}
+	
 	if (auto_coords)
 	{
 		_left = -hit_sizex;

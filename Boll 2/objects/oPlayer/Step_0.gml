@@ -2,13 +2,17 @@
 
 //updateBox.Emit()
 
-if collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey,oDeathPit,false,true) && !dead {
+if collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey,oDeathPit,false,true) && !(dead) && !(piped) && !(warp_coll) {
 	hurt = 1
 	invincible_type = 0
 	state = "";
 	sig.Emit("on_kill")
 }
 
+var area = collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey,oFadeWarpArea,false,true)
+if (area) && !(piped) && !(warp_coll) && !(dead) {
+	area.doWarp(id);
+}
 
 // chearii: guessing these are a buncha quickvars
 if (input_enable) {
@@ -244,4 +248,8 @@ repeat(array_length(hidden_layers[myregion])) {
 		_layer.touched = true;
 	}
 	i++;
+}
+
+if !(piped) {
+	ignore_collision = max(ignore_collision-1,0);
 }

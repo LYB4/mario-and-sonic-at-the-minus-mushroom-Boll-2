@@ -14,6 +14,8 @@ grabbed_obj = noone;
 is_grabbing = false;
 input_enable = true;
 
+ignore_collision = 0;
+
 ///// GENERAL /////
 
 afterimage = false

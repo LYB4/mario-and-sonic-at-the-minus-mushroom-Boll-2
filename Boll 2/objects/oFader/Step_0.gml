@@ -4,12 +4,14 @@ if !(fadeout) && !(fadewaiting) {
 	fade -= fadespd
 }
 
-if (fade >= fademax && !fadeout && !fadewaiting) {
-	var diff = (fade - fademax);
-	fade -= diff;
+if (fade >= fademax && !fadeout && !fadewaiting) && !(didfunction) {
+	fade = fademax;
 	fadewaiting = true;
 	
-	onTransition();
+	if !(didfunction) {
+		didfunction = true;
+		onTransition();
+	}
 }
 
 if (fadewaiting) {

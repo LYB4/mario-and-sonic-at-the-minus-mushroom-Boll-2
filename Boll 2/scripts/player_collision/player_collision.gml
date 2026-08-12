@@ -79,6 +79,10 @@ function player_collision(shoveOutOfWalls=true,auto_coords=true,l=0,r=0,t=0,b=0,
 	
 	var left, right, top, bottom;
 	
+	if (object_index == oPlayer) {
+		if (ignore_collision) || (piped) exit;
+	}
+	
 	if (auto_coords)
 	{
 		left = -hit_sizex;
@@ -92,18 +96,6 @@ function player_collision(shoveOutOfWalls=true,auto_coords=true,l=0,r=0,t=0,b=0,
 		right = r-1;
 		top = t;
 		bottom = b;
-	}
-	
-	var _piped = false;
-	
-	if (variable_instance_exists(self,"piped"))
-	{
-		_piped = piped;
-	}
-	
-	if (_piped)
-	{
-		exit;
 	}
 	
 	// init/reset colflags

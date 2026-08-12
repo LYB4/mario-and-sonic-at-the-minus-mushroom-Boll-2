@@ -16,7 +16,7 @@ function warp_in_pipe(obj,spd,dir) {
 		FadeTransition(0.5,function() {
 			with(oPlayer) {
 				if (piped) && !(warp_out) {
-						warp_transition()
+					warp_transition()
 				}
 			}
 		})
@@ -48,71 +48,114 @@ function warp_in_pipe(obj,spd,dir) {
 }
 
 function warp_transition() {
-	var found = warp_coll.mytargetpipe
+	var found = warp_coll.mytargetpipe;
 	instance_activate_object(found);
 	if instance_exists(found) { //warp to found pipe
-		x=found.x;
-		if found.image_angle!=90 && found.image_angle!=270
-		y=found.y;
-		else
-		y=found.y+4;
-		if (found.myregion != myregion) {
-			myregion=found.myregion;
-			depth = oGameManager.piping_object_depth[myregion]; //behind all main tiles
-				
-			with(oGameManager) {
-				switch_region(other.myregion);
-			}
-				
-			var xx = x;
-			var yy = y;
-			if instance_exists(found) {
-				xx=found.x;
-				if found.image_angle!=90 && found.image_angle!=270
-				yy=found.y
-				else
-				yy=found.y+4;
-			} else {
-				xx=warp_coll.x;
-				if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
-				yy=warp_coll.y;
-				else
-				yy=warp_coll.y+4;
-			}
-			my_camera.move(xx,yy,0);
-		}
-			
-		if (found.image_angle == 90) {
-			xsc = -1;
-		}
-			
-		if (found.image_angle == 270) {
-			xsc = 1;
-		}
 		warp_coll = found;
+		switch (warp_coll.object_index) {
+			case oPipe:
+				x=warp_coll.x;
+				if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
+				y=warp_coll.y;
+				else
+				y=warp_coll.y+4;
+				if (warp_coll.myregion != myregion) {
+					myregion=warp_coll.myregion;
+					depth = oGameManager.piping_object_depth[myregion]; //behind all main tiles
+				
+					with(oGameManager) {
+						switch_region(other.myregion);
+					}
+				
+					var xx = x;
+					var yy = y;
+					xx=warp_coll.x;
+					if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
+					yy=warp_coll.y
+					else
+					yy=warp_coll.y+4;
+			
+					my_camera.move(xx,yy,0);
+				}
+			
+				if (warp_coll.image_angle == 90) {
+					xsc = -1;
+				}
+			
+				if (warp_coll.image_angle == 270) {
+					xsc = 1;
+				}
+			break;
+			case oWarpDestination:
+				x=warp_coll.x;
+				y=warp_coll.y;
+				if (warp_coll.launchpower) 
+				my_camera.move(x,y,0);
+			break;
+		}
 	} else { //if pipe is for some reason, not found, send back to original pipe
-		x=warp_coll.x
-		if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
-		y=warp_coll.y
-		else
-		y=warp_coll.y+4
+		switch(warp_coll.object_index) {
+			case oPipe:
+				x=warp_coll.x
+				if warp_coll.image_angle!=90 && warp_coll.image_angle!=270
+				y=warp_coll.y
+				else
+				y=warp_coll.y+4
+			break;
+			case oFadeWarpArea:
+				piped = false;
+			break;
+		}
 	}
-	switch(warp_coll.image_angle) {
-		case 0:
-			warp_type="exit_pipe_up";
+	
+	warp_type="";
+	switch(warp_coll.object_index) {
+		case oPipe:
+			switch(warp_coll.image_angle) {
+				case 0:
+					warp_type="exit_pipe_up";
+				break;
+				case 180:
+					warp_type="exit_pipe_down";
+				break;
+				case 90:
+				case 270:
+					warp_type="exit_pipe_side";
+				break;
+			}
+			piped=true;
+			warp_out=true;
+			warp_timer=21; //very hacky value
+			visible=true;
 		break;
-		case 180:
-			warp_type="exit_pipe_down";
-		break;
-		case 90:
-		case 270:
-			warp_type="exit_pipe_side";
+		case oWarpDestination:
+			grounded = false;
+			gsp = 0;
+			hsp = 0;
+			vsp = 0;
+			visible = false;
+			piped = true;
+			if !(warp_coll.delay) {
+				piped=false;
+				warp_out=false;
+				warp_timer=0;
+				visible=true;
+				warp_coll=noone;
+			
+				if (warp_coll.launchpower) {
+					ignore_collision = 15;
+					VinylPlay(snd_enemycannon);
+					canstopjump = true; 
+					hsp = lengthdir_x(warp_coll.launchpower*2,warp_coll.launchdirection);
+					vsp = lengthdir_y(warp_coll.launchpower*2,warp_coll.launchdirection);
+					state = "jump";
+					sig.Emit("warp_launch");
+				}
+			} else {
+				warp_coll.delayWarp();
+			}
 		break;
 	}
-	piped=true;
-	warp_out=true;
-	warp_timer=21; //very hacky value
-	visible=true;
 }
 
 function warp_out_pipe(obj,spd,dir) {
@@ -123,7 +166,7 @@ function warp_out_pipe(obj,spd,dir) {
 	if !collision_rectangle(x-hit_sizex-4,y-hit_sizey-4,x+hit_sizex-4,y+hit_sizey, obj, false, true) {
 		piped=false
 		warp_timer=0;
-		warp_coll=noone
+		warp_coll=noone;
 		warp_out=false;
 		hsp = 0;
 		gsp = 0;
@@ -140,7 +183,7 @@ function warp_out_pipe(obj,spd,dir) {
 	}
 }
 
-function player_warping(){
+function player_warping() {
 	if (dead || hurt) exit;
 	
 	//THIS SUCKS!!!!!!!!!
@@ -215,12 +258,13 @@ function player_warping(){
 		}
 	}
 	if (warp_coll) && (warp_timer) && (piped) {
-		if !(warp_out) {
-			instance_activate_object(warp_coll)
-			warp_in_pipe(warp_coll,0.5,wrap_val(warp_coll.image_angle-90,0,359))
-		} else {
-			instance_activate_object(warp_coll)
-			warp_out_pipe(warp_coll,0.5,warp_coll.image_angle+90)
+		instance_activate_object(warp_coll)
+		if (warp_coll.object_index == oPipe) {
+			if !(warp_out) {
+				warp_in_pipe(warp_coll,0.5,wrap_val(warp_coll.image_angle-90,0,359))
+			} else {
+				warp_out_pipe(warp_coll,0.5,warp_coll.image_angle+90)
+			}
 		}
 	}
 }

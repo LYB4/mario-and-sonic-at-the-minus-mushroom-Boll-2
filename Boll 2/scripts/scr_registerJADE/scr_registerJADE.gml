@@ -244,6 +244,13 @@ function JADE_initializeobj() {
 	properties.addNumberInput(oPipe, "Spawn Timer", "spawn_timer", 120, true)
 	registerobj(oCheckpoint, spr_checkpoint_base, 8, 8, 16, 48, false, false, stagecomp, "Checkpoint")
 	properties.addCheckbox(oCheckpoint, "Flipped", "dir", false)
+	registerobj(oFadeWarpArea, spr_fadewarparea, 0, 0, 16, 16, true, true, stagecomp, "Fade Warp Area")
+	properties.addStringInput(oFadeWarpArea, "Warp Target", "warptarget", "")
+	registerobj(oWarpDestination, spr_warpdestination, 8, 8, 16, 16, false, false, stagecomp, "Warp Destination")
+	properties.addStringInput(oWarpDestination, "Warp Name", "warpname", "")
+	properties.addNumberInput(oWarpDestination, "Launch Power", "launchpower", 0, true);
+	properties.addNumberInput(oWarpDestination, "Launch Direction", "launchdirection", 0, false);
+	properties.addNumberInput(oWarpDestination, "Warp Delay", "delay", 0, true);
 	registerobj(oFlagpole, spr_JADEflagpole, 8, 160, 48, 160, false, false, stagecomp, "Flag Pole")
 	registerobj(oMysteryOrb, spr_mysteryorb, 8, 8, 16, 16, false, false, stagecomp, "Mystery Orb")
 	registerobj(oSnowboardRamp, spr_snowboardramp, 0, 0, 64, 32, false, false, stagecomp, "Snowboard Ramp")
