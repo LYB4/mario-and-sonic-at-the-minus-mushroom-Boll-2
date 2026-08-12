@@ -179,7 +179,7 @@ function JADE_initializeobj() {
 	gizmos.add(switchblocks)
 	
 	registerobj(oMovingPlatform, spr_movingplatform, 16, 8, 32, 16, true, false, gizmos, "Moving Platform", true)
-	registerobj(oSwingingPlatform, spr_movingplatform, 16, 8, 32, 16, true, false, gizmos, "Swinging Platform", true)
+	registerobj(oSwingingPlatform, spr_movingplatform, 16, 8, 32, 16, true, false, gizmos, "Swinging Platform", false)
 	properties.addNumberInput(oSwingingPlatform, "Chain Length", "chain_length", 4, true)
 	properties.addNumberInput(oSwingingPlatform, "Start Angle", "start_angle", 0, true)
 	properties.addNumberInput(oSwingingPlatform, "End Angle", "end_angle", 180, true)

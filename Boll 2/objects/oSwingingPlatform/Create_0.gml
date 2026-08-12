@@ -76,5 +76,3 @@ targetx=x;
 targety=y;
 
 depth=50;
-
-node_init_vars()
