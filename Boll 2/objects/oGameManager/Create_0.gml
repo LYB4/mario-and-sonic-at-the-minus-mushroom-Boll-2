@@ -37,6 +37,8 @@ region_positions = [];
 hidden_tile_layers = [];
 all_layers = [];
 
+pswitch_timer = 0;
+
 reserved_item = noone;
 reserve_timer = 0;
 

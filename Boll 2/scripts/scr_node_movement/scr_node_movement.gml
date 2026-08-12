@@ -137,6 +137,8 @@ function node_init_vars() {
 	rotorgy=0;
 	rotspd=2;
 	rotating=false;
+	pathcanfall=false;
+	pathcanrev=false;
 }
 
 function node_init_post() {
