@@ -20,7 +20,7 @@ activate.Connect(self, function(hit_p) {
 	
 		event_user(0);
 	
-		global.checkpointX = x
+		global.checkpointX = x;
 		global.checkpointY = y+32;
 		global.checkpointDir = dir
 	

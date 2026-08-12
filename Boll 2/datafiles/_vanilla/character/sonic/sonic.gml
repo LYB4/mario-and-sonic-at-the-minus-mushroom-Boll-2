@@ -379,7 +379,6 @@ if (state == "roll" && grounded) && !(piped) {
 if (cpress) && (state == "" || state == "roll") && (abs(gsp) > 1) && (grounded) && !(piped) {
 	if (cpress) {
 		state = "slidekick";
-		hsp += (2*xsc);
 		gsp = hsp;
 		hit_sizey = 6;
 		playsfx(charmName+"release");

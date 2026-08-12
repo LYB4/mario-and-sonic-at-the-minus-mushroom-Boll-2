@@ -183,7 +183,10 @@ death_time = false
 death_time_counter = 0
 
 if (global.checkpointX != no_checkpoint && global.checkpointY != no_checkpoint) {
-	x = global.checkpointX + (global.checkpointDir ? -24 : 24);
-	y = global.checkpointY -hit_sizey
+	with(instance_nearest(global.checkpointX,global.checkpointY,oCheckpoint)) {
+		activate.Emit(other.id);
+	}
+	x = global.checkpointX+24;
+	y = global.checkpointY+hit_sizey
 	xsc = (!global.checkpointDir * 2) - 1 // (0 or 1 -> 1 or -1)
 }
