@@ -68,7 +68,7 @@ blockHit.Connect( self, function(hit_p, obj) {
 		if (!variable_instance_exists(self.id, "pathcanfall"))
 			node_init_vars();
 		scr_pathingstruct();
-		bricks[c++] = pstruct;
+		coins[c++] = pstruct;
 		coins[c++] = depth;
 		coins[c++] = y;
 		coins[c++] = x;
@@ -86,7 +86,7 @@ blockHit.Connect( self, function(hit_p, obj) {
 	if (coins != -1) {
 		c = 0; 
 		while (c < array_length(coins)) {
-			instance_create_depth(coins[c++], coins[c++], coins[c++], oBrick, bricks[c++]);
+			instance_create_depth(coins[c++], coins[c++], coins[c++], oBrick, coins[c++]);
 		}
 	}
 	

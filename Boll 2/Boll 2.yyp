@@ -85,10 +85,10 @@
     {"$GMFolder":"","%Name":"Enemies","folderPath":"folders/Objects/Enemies.yy","name":"Enemies","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Bullet Bills","folderPath":"folders/Objects/Enemies/Bullet Bills.yy","name":"Bullet Bills","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Goombas","folderPath":"folders/Objects/Enemies/Goombas.yy","name":"Goombas","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"Pylom","folderPath":"folders/Objects/Enemies/Pylom.yy","name":"Pylom","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Koopas","folderPath":"folders/Objects/Enemies/Koopas.yy","name":"Koopas","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Parents","folderPath":"folders/Objects/Enemies/Parents.yy","name":"Parents","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Piranha Plants","folderPath":"folders/Objects/Enemies/Piranha Plants.yy","name":"Piranha Plants","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Pylom","folderPath":"folders/Objects/Enemies/Pylom.yy","name":"Pylom","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Sambas","folderPath":"folders/Objects/Enemies/Sambas.yy","name":"Sambas","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Shy Guys","folderPath":"folders/Objects/Enemies/Shy Guys.yy","name":"Shy Guys","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Slimes","folderPath":"folders/Objects/Enemies/Slimes.yy","name":"Slimes","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -639,7 +639,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.14.4.222",
+    "IDEVersion":"2026.0.0.16",
   },
   "name":"Boll 2",
   "resources":[
