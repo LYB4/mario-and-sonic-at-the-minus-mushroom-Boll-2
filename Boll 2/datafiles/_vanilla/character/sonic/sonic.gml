@@ -652,7 +652,7 @@ if (piped) {
 if (state == "spindash") {
 	spindashdust_fr = animate_charm_sprite("spindashdust",spindashdust_fr);
 	
-	draw_charm_sprite("spindashdust",spindashdust_fr,x-hit_sizex*xsc,y+hit_sizey,xsc);
+	draw_charm_sprite("spindashdust",spindashdust_fr,x-hit_sizex*xsc,y+dy+hit_sizey,xsc);
 }
 
 #define on_kill
