@@ -4,12 +4,12 @@ with (i) {
 	pathprenum=other.pathprenum;
 	pathnum=other.pathnum;
 	pathspd=other.pathspd;
-	pathcanrev=other.pathcanrev;
 	pathisrev=other.pathisrev;
 	pathfallen=other.pathfallen;
-	pathcanfall=other.pathcanfall;
 	pathdraw=other.pathdraw;
 	pathstarted=other.pathstarted;
+	pathstarttype=other.pathstarttype;
+	pathendtype=other.pathendtype;
 	rotdat=other.rotdat;
 	rotangle=other.rotangle;
 	rotdist=other.rotdist;

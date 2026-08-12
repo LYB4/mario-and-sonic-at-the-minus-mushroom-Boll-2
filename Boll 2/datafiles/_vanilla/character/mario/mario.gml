@@ -996,11 +996,11 @@ starmanjump = false;
 
 #define enemy_stomped
 if (state != "pound") {
-	vsp= -(4+akey*2.5)
+	vsp= -(4+akey*1.5)
 }
 
 #define enemy_spinjumped
-vsp= -(1+ckey*2.5)
+vsp= -(2+ckey*2.5)
 
 #define collide_with_enemy
 var coll=check_hitbox_on_hitbox(id, oEnemy)
