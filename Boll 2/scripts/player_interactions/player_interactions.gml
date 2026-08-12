@@ -166,7 +166,7 @@ function player_interactions(){
 	}
 	#endregion
 	
-	var chainsaw=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oChainsaw, false, true)
+	var chainsaw=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, [oChainsaw, oPylomProjectile], false, true)
 	if (chainsaw) {
 		if !(invincible_type && invincible_timer) {
 			sig.Emit("hurt_by_spike")

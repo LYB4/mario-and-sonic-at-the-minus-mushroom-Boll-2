@@ -55,8 +55,6 @@ image_speed=0;
 depth=5;
 fr=0
 
-
-
 image_yscale=1;
 
 if (is_blue)
