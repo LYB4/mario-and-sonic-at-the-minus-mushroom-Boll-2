@@ -86,7 +86,7 @@ if (_move!=0 || walljump) && !(grounded) && ((vsp <= 0 && abs(wallrunstored_hsp)
 #endregion
 
 #define step
-terminal_vel = base_terminal_velm
+terminal_vel = base_terminal_vel
 
 hit_sizex = 6
 switch (size) {
