@@ -22,6 +22,58 @@ if (reserve_timer <= 0.01) {
 	reserve_timer = 0;
 }
 
+if (pswitch_timer > 0) {
+	pswitch_timer--;
+	if (pswitch_timer == 1) { // end
+		instance_activate_object(oBrick);
+		instance_activate_object(oCoin);
+		show_debug_message("Pswitch done");
+		var bricks, coins, c = 0;
+		bricks = -1; coins = -1
+		with (oBrick) {
+			// pstruct
+			if (!variable_instance_exists(self.id, "pathcanfall"))
+				node_init_vars();
+			scr_pathingstruct();
+			bricks[c++] = pstruct;
+			bricks[c++] = depth;
+			bricks[c++] = y;
+			bricks[c++] = x;
+			
+			instance_destroy();
+		}
+		
+		c = 0
+		
+		with (oCoin) {
+			// pstruct
+			if (!variable_instance_exists(self.id, "pathcanfall"))
+				node_init_vars();
+			scr_pathingstruct();
+			coins[c++] = pstruct;
+			coins[c++] = depth;
+			coins[c++] = y;
+			coins[c++] = x;
+			
+			instance_destroy();
+		}
+		
+		if (bricks != 1) {
+			c = 0; 
+			while (c < array_length(bricks)) {
+				instance_create_depth(bricks[c++], bricks[c++], bricks[c++], oCoin, bricks[c++]);
+			}
+		}
+		
+		if (coins != 1) {
+			c = 0; 
+			while (c < array_length(coins)) {
+				instance_create_depth(coins[c++], coins[c++], coins[c++], oBrick, coins[c++]);
+			}
+		}
+	}
+}
+
 if (shard_count) {
 	var i=0;
 	repeat(array_length(shard_scales)) {
