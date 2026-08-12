@@ -86,7 +86,7 @@ if (_move!=0 || walljump) && !(grounded) && ((vsp <= 0 && abs(wallrunstored_hsp)
 #endregion
 
 #define step
-terminal_vel = base_terminal_vel
+terminal_vel = base_terminal_velm
 
 hit_sizex = 6
 switch (size) {
@@ -488,7 +488,7 @@ switch (state) {
 						speed_mult = 1/(friction_mult);
 					}
 					
-					if (ceil(abs(gsp))>=5.9){
+					if (ceil(abs(gsp))>=maxspd) && (grounded) {
 						frspd=1;
 						spriteEvent="runMax";
 					} else if (ceil(abs(gsp))>=3.4) {
@@ -507,7 +507,7 @@ switch (state) {
 					speed_mult = 1/(friction_mult);
 				}
 				
-				if (ceil(abs(gsp))>=5.9){
+				if (ceil(abs(gsp))>=maxspd) && (grounded) {
 					frspd=1;
 					spriteEvent="carryRunMax";
 				} else if (ceil(abs(gsp))>=3.4) {

@@ -352,7 +352,6 @@ if keyboard_check(vk_control) {
 								data2 = tile_set_mirror(data2, tile_get_mirror(data[0]))
 								data2 = tile_set_rotate(data2, tile_get_rotate(data[0]))
 								tilemap_set(tilemap_layer, data2, drawx, drawy);
-								array_push(selected_array,ds_list_size(tilemap));
 								ds_list_add(tilemap,[data2, drawx,drawy]) //add tile  to list at place
 							}
 							i++;
@@ -425,7 +424,7 @@ if (mbleft && not_on_gui && !disable_tool) {
 								repeat(tile_sel_height+1) {
 									//prevent trying to place out of bounds
 									if ((gridx + i) < tilemap_get_width(tilemap_layer)) && ((gridy + j) < tilemap_get_height(tilemap_layer)) && ((gridx + i) >= 0) && ((gridy + j) >= 0) {
-										var data = tilemap_get_at_pixel(tilemap_layer, mouse_x+(i *16), mouse_y+(j *16)); //set tile at place
+										var data = tilemap_get(tilemap_layer, gridx + i, gridy + j); //set tile at place
 										if tile_get_index(data) != current_tile_id[i][j] {
 											data = tile_set_index(data, current_tile_id[i][j])
 											data = tile_set_flip(data, 0)
@@ -439,6 +438,7 @@ if (mbleft && not_on_gui && !disable_tool) {
 								}
 								i++;
 							}
+							tile_update_properties();
 						break;
 						case "asset":
 							if (mbleftpress) && is_struct(selected_deco_obj) {
@@ -654,6 +654,7 @@ if (mbleft && not_on_gui && !disable_tool) {
 									if !keyboard_check(vk_shift) {
 										selected_array=[];
 									}
+									show_debug_message(tilemap[| col-1])
 									array_push(selected_array,col-1)
 									break;
 								} else if !keyboard_check(vk_shift) {
@@ -1265,7 +1266,7 @@ if (mbright) {
 								repeat(tile_sel_height+1) {
 									//prevent trying to place out of bounds
 									if ((gridx + i) < tilemap_get_width(tilemap_layer)) && ((gridy + j) < tilemap_get_height(tilemap_layer)) && ((gridx + i) >= 0) && ((gridy + j) >= 0) {
-										var data = tilemap_get_at_pixel(tilemap_layer, mouse_x+(i *16), mouse_y+(j *16)); //set tile at place
+										var data = tilemap_get(tilemap_layer, gridx + i, gridy + j); //set tile at place
 										if tile_get_index(data) != 0 {
 											data = tile_set_empty(data)
 											tilemap_set(tilemap_layer, data, gridx + i, gridy + j);

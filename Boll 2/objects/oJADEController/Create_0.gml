@@ -833,7 +833,6 @@ jade_undo = function() {
 			}
 		break;
 	}
-	show_debug_message(undoarray)
 }
 
 jade_redo = function() {
