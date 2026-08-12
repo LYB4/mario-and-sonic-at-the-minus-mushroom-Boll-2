@@ -11,6 +11,20 @@ enemySpinjumped.Destroy();
 
 enemyShelled.Destroy();
 
+enemyPounded.Destroy();
+
+enemyPounded.Connect( self, function(hit_p) {
+	if (goto_yscale < 0.5) exit;
+	
+	with(hit_p) {
+		increase_combo(other.x,y+hit_sizey+6,snd_enemystomp);
+	}
+	with(parent) {
+		forceShoot.Emit();
+	}
+	hp=1;
+});
+
 enemyStomped.Connect( self, function(hit_p) {
 	if (goto_yscale < 0.5) exit;
 	

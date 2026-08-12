@@ -78,6 +78,7 @@ if (stun) {
 }
 
 if (instance_exists(mylog)) {
+	instance_activate_object(mylog);
 	mylog.x = x;
 	mylog.y = y-(mylog.sprite_height/2)-8+log_yoff;
 	mylog.xsc = xsc;
