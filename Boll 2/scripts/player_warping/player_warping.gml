@@ -48,6 +48,7 @@ function warp_in_pipe(obj,spd,dir) {
 }
 
 function warp_transition() {
+	var warping_from = warp_coll;
 	var found = warp_coll.mytargetpipe;
 	instance_activate_object(found);
 	if instance_exists(found) { //warp to found pipe
@@ -87,10 +88,21 @@ function warp_transition() {
 				}
 			break;
 			case oWarpDestination:
+				myregion=warp_coll.myregion;
+				if (warp_coll.myregion != myregion) {
+					with(oGameManager) {
+						switch_region(other.myregion);
+					}
+					my_camera.move(x,y,0);
+				} else {
+					if (warping_from.object_index != oFadeWarpArea) {
+						my_camera.move(x,y,30);
+					} else {
+						my_camera.move(x,y,0);
+					}
+				}
 				x=warp_coll.x;
 				y=warp_coll.y;
-				if (warp_coll.launchpower) 
-				my_camera.move(x,y,0);
 			break;
 		}
 	} else { //if pipe is for some reason, not found, send back to original pipe
