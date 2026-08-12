@@ -137,8 +137,30 @@ function node_init_vars() {
 	rotorgy=0;
 	rotspd=2;
 	rotating=false;
-	pathcanfall=false;
-	pathcanrev=false;
+}
+
+function getnodevars() {
+	var pstruct = {
+		pathing : pathing,
+		pathprenum : pathprenum,
+		pathnum : pathnum,
+		pathspd : pathspd,
+		pathisrev : pathisrev,
+		pathfallen : pathfallen,
+		pathdraw : pathdraw,
+		pathstarted : pathstarted,
+		pathstarttype : pathstarttype,
+		pathendtype : pathstarttype,
+		rotdat : rotdat,
+		rotangle : rotangle,
+		rotdist : rotdist,
+		rotorgx : rotorgx,
+		rotorgy : rotorgy,
+		rotspd : rotspd,
+		rotating : rotating
+	}
+	
+	return pstruct
 }
 
 function node_init_post() {

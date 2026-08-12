@@ -28,14 +28,10 @@ blockHit.Connect( self, function(hit_p, obj) {
 	
 	instance_activate_object(oBrick);
 	instance_activate_object(oCoin);
-	show_debug_message("Pswitch hit");
 	var bricks, coins, c = 0;
 	bricks = -1; coins = -1
 	with (oBrick) {
-		// pstruct
-		if (!variable_instance_exists(self.id, "pathcanfall"))
-			node_init_vars();
-		scr_pathingstruct();
+		var pstruct = getnodevars();
 		bricks[c++] = pstruct;
 		bricks[c++] = depth;
 		bricks[c++] = y;
@@ -47,10 +43,7 @@ blockHit.Connect( self, function(hit_p, obj) {
 	c = 0
 	
 	with (oCoin) {
-		// pstruct
-		if (!variable_instance_exists(self.id, "pathcanfall"))
-			node_init_vars();
-		scr_pathingstruct();
+		var pstruct = getnodevars();
 		coins[c++] = pstruct;
 		coins[c++] = depth;
 		coins[c++] = y;

@@ -24,17 +24,13 @@ if (reserve_timer <= 0.01) {
 
 if (pswitch_timer > 0) {
 	pswitch_timer--;
-	if (pswitch_timer == 1) { // end
+	if !(pswitch_timer) { // end
 		instance_activate_object(oBrick);
 		instance_activate_object(oCoin);
-		show_debug_message("Pswitch done");
 		var bricks, coins, c = 0;
 		bricks = -1; coins = -1
 		with (oBrick) {
-			// pstruct
-			if (!variable_instance_exists(self.id, "pathcanfall"))
-				node_init_vars();
-			scr_pathingstruct();
+			var pstruct = getnodevars();
 			bricks[c++] = pstruct;
 			bricks[c++] = depth;
 			bricks[c++] = y;
@@ -46,10 +42,7 @@ if (pswitch_timer > 0) {
 		c = 0
 		
 		with (oCoin) {
-			// pstruct
-			if (!variable_instance_exists(self.id, "pathcanfall"))
-				node_init_vars();
-			scr_pathingstruct();
+			var pstruct = getnodevars();
 			coins[c++] = pstruct;
 			coins[c++] = depth;
 			coins[c++] = y;

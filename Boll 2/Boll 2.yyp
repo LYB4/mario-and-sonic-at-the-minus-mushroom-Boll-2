@@ -1413,7 +1413,6 @@
     {"id":{"name":"scr_on_screen","path":"scripts/scr_on_screen/scr_on_screen.yy",},},
     {"id":{"name":"scr_outline","path":"scripts/scr_outline/scr_outline.yy",},},
     {"id":{"name":"scr_parseJADE","path":"scripts/scr_parseJADE/scr_parseJADE.yy",},},
-    {"id":{"name":"scr_pathingstruct","path":"scripts/scr_pathingstruct/scr_pathingstruct.yy",},},
     {"id":{"name":"scr_platforms","path":"scripts/scr_platforms/scr_platforms.yy",},},
     {"id":{"name":"scr_playerscripts","path":"scripts/scr_playerscripts/scr_playerscripts.yy",},},
     {"id":{"name":"scr_recorder","path":"scripts/scr_recorder/scr_recorder.yy",},},
