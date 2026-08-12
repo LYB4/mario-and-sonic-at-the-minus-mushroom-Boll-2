@@ -11,6 +11,11 @@ switch (content) {
 		exit;
 	} break;
 	
+	case "pswitch": {
+		instance_create_depth(x,y,0,oPSwitch);
+		exit;
+	} break;
+	
 	case "mushroom": {
 		j = oMushroom;
 	} break;

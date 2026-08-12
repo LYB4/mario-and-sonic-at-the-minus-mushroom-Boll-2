@@ -2,7 +2,6 @@
 var j, i = noone; //i dont know whats the empty resource id
 var pl=nearestplayer();
 switch (content) {
-	
 	case "mushroom": {
 		j = oMushroom;
 	} break;
@@ -40,6 +39,10 @@ switch (content) {
 	case "shield": {
         j = oShieldShroom;
     } break;
+	
+	case "pswitch": {
+		j = oPSwitch;
+	} break
 	
 	default: exit; //assume that the box is empty and dont proceed with spawning the object
 }

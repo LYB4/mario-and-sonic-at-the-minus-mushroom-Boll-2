@@ -210,6 +210,11 @@ function player_interactions(){
 		crate.blockHit.Emit(-1, id);
 	}
 	
+	var pswitch=collision_line(x-(hit_sizex-1)-hsp,y+hit_sizey+vsp,x+(hit_sizex-1)-hsp,y+hit_sizey+vsp, oPSwitch, false, true) 
+	if (pswitch) && (vsp>=0) {
+		pswitch.blockHit.Emit(1, id);
+	}
+	
 	var coin=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oCoin, false, true)
 	if (coin) {
 		collect_coins(1);
