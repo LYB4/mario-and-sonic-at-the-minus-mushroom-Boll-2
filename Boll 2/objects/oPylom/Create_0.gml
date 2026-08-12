@@ -58,6 +58,7 @@ regenerate.Connect( self, function() {
 
 onStunRecover.Connect( self, function() {
 	log_yoff = 0;
+	shooting = false;
 	if (ammo==maxammo) {
 		constantspd = 0.5;
 	} else {
