@@ -1,9 +1,5 @@
-//tableScore = [100,200,400,800,1000,2000,4000,8000,10000]
-state = 0
-gfx_y = -144
-reward = 0
-bbox_height = bbox_bottom - bbox_top
+flag_y = -144;
 player = noone;
-playerNum = 0;
-sound = VinylPlay(snd_flagpoleraise,false,0);
-VinylStop(sound);
+depth = 5;
+
+instance_create_depth(x-8,bbox_bottom,0,oCollider);

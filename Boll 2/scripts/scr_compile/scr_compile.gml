@@ -317,8 +317,10 @@ function load_levels(){
 
 	while (file_name != "")
 	{
-		var struct = {}; 
-		struct.name = string_trim(file_name,[".jade"]);
+		var struct = {};
+		var level_props = JADE_load_properties(working_directory+$"\\_vanilla\\level\\{file_name}");
+		
+		struct.name = level_props.name;
 		struct.dir = $"\\_vanilla\\level\\{file_name}";
 		struct.modded = false;
 		array_push(files, struct);
@@ -333,7 +335,9 @@ function load_levels(){
 	while (file_name != "")
 	{
 		var struct = {}; 
-		struct.name = string_trim(file_name,[".jade"]);
+		var level_props = JADE_load_properties(working_directory+$"\\mods\\level\\{file_name}");
+		
+		struct.name = level_props.name;
 		struct.dir = $"\mods\\level\\{file_name}";
 		struct.modded = true;
 		array_push(files, struct);

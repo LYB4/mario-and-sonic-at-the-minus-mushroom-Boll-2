@@ -130,14 +130,12 @@ function parse_level(dir=game_save_id+"\save.jade") {
 				repeat(array_length(objects)) {
 					var data = objects[j]
 					var objn = asset_get_index(data[0])
-					var obj = instance_create_depth(roomwidth+data[1], data[2], 0, objn)
+					var xscale = data[3]*data[8]
+					var yscale = data[4]*data[9]
+					var obj = instance_create_depth(roomwidth+data[1]+data[6]*xscale, data[2]+data[7]*yscale, 0, objn);
 					if instance_exists(obj) {
-						obj.image_xscale=data[3]*data[8]
-						obj.image_yscale=data[4]*data[9]
-						obj.xstart+=data[6]*obj.image_xscale;
-						obj.ystart+=data[7]*obj.image_yscale;
-						obj.x=obj.xstart
-						obj.y=obj.ystart
+						obj.image_xscale=xscale;
+						obj.image_yscale=yscale;
 						obj.myregion = r;
 						
 						if (array_length(data)) > 10 {
@@ -171,18 +169,12 @@ function parse_level(dir=game_save_id+"\save.jade") {
 				repeat(array_length(node_objects)) {
 					var data = node_objects[j]
 					var objn = asset_get_index(data[0])
-					var obj = instance_create_depth(roomwidth+data[1],data[2], 0, objn)
-					if array_length(data) < 9 {
-						data[8] = 1;
-						data[9] = 1;
-					}
+					var xscale = data[3]*data[8]
+					var yscale = data[4]*data[9]
+					var obj = instance_create_depth(roomwidth+data[1]+data[6]*xscale, data[2]+data[7]*yscale, 0, objn);
 					if instance_exists(obj) {
-						obj.image_xscale=data[3]*data[8]
-						obj.image_yscale=data[4]*data[9]
-						obj.xstart+=data[6]*obj.image_xscale;
-						obj.ystart+=data[7]*obj.image_yscale;
-						obj.x=obj.xstart
-						obj.y=obj.ystart
+						obj.image_xscale=xscale;
+						obj.image_yscale=yscale;
 						obj.myregion = r;
 						
 						//object variables

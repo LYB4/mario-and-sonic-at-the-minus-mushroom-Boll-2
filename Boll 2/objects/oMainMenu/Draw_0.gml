@@ -93,7 +93,7 @@ switch (crMenu) {
 	break;
 	
 	case "levelselectm":
-		var _startStr = "[spr_omifont][fa_middle][fa_left]";
+		var _startStr = "[spr_rulergold][fa_middle][fa_left]";
 		draw_text_scribble(_rmWid/2,16,$"[spr_rulergold][fa_center][fa_middle]SELECT LEVEL")
 		
 		if (array_length(global.levellist)) {
@@ -111,7 +111,7 @@ switch (crMenu) {
 					selected_opt = struct.name;
 				}
 				
-				draw_text_scribble(_xPos,_yPos,$"{_startStr}{color}{struct.name}");
+				draw_text_scribble(_xPos,_yPos+3,$"{_startStr}{color}{struct.name}");
 				_yPos+=16;
 				i++;
 			}

@@ -188,11 +188,7 @@ function player_interactions(){
 	
 	var flagpole=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oFlagpole, false, true)
 	if (flagpole) && !(finish) {
-		if (flagpole.state == 0) {
-			finish = 1;
-			flagpole.state = 1;
-			flagpole.player = id;
-		}
+		finish = 1;
 	}
 	
 	var bearballoon=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oPolarBearBalloon, false, true)

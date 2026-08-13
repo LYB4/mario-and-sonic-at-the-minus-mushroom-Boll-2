@@ -253,7 +253,7 @@ function JADE_initializeobj() {
 	properties.addNumberInput(oWarpDestination, "Launch Power", "launchpower", 0, true);
 	properties.addNumberInput(oWarpDestination, "Launch Direction", "launchdirection", 0, false);
 	properties.addNumberInput(oWarpDestination, "Warp Delay", "delay", 0, true);
-	registerobj(oFlagpole, spr_JADEflagpole, 8, 160, 48, 160, false, false, stagecomp, "Flag Pole")
+	registerobj(oFlagpole, spr_poleFromFlag, 8, 176, 16, 176, false, false, stagecomp, "Flag Pole")
 	registerobj(oMysteryOrb, spr_mysteryorb, 8, 8, 16, 16, false, false, stagecomp, "Mystery Orb")
 	registerobj(oSnowboardRamp, spr_snowboardramp, 0, 0, 64, 32, false, false, stagecomp, "Snowboard Ramp")
 	properties.addCheckbox(oSnowboardRamp, "Flipped", "hflip", false)
@@ -925,6 +925,33 @@ function JADE_load_legacy(file=game_save_id+"\save.jade") {
 	selected_region = 0;
 	update_region();
 	show_debug_message($"Successfully loaded legacy JADE file from: {file}!")
+}
+
+function JADE_load_properties(file=game_save_id+"\save.jade") {
+	if !file_exists(file)  {
+		var struct = {
+		    name : "Placeholder",
+		    desc : ""
+		}
+		return struct;
+		exit;
+	}
+	var loaded = buffer_load(file)
+	var save_file = buffer_decompress(loaded)
+	var level_data = json_parse(buffer_read(save_file,buffer_string))
+	
+	buffer_delete(loaded)
+	buffer_delete(save_file)
+	
+	if !string_starts_with(string(level_data[$ "version"]),"5") {
+		var struct = {
+		    name : "OUTDATED",
+		    desc : ""
+		}
+		return struct;
+	}
+	
+	return level_data[$ "level_properties"];
 }
 
 function tile_layer_alpha_check() {

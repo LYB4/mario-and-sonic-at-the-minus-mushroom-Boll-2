@@ -33,7 +33,7 @@ if (afterimage)
 }
 	
 if (state == "boarding") {
-	draw_sprite_ext(spr_snowboard,0,floor(x)-lengthdir_x(3,sprite_angle-90),floor(y)+dy+hit_sizey-lengthdir_y(3,sprite_angle-90),1,1,sprite_angle,c_white,1);
+	draw_sprite_ext(spr_snowboard,0,floor(x)-lengthdir_x(3,sprite_angle-90),floor(y)-dy+hit_sizey-lengthdir_y(3,sprite_angle-90),1,1,sprite_angle,c_white,1);
 }
 	
 if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex()))) {
@@ -60,21 +60,21 @@ if (state == "frozen") {
 	if charm_sprite_exists("shield") {
 		shieldfr = animate_charm_sprite("shield",shieldfr);
 	
-		draw_charm_sprite("shield",shieldfr,floor(x),floor(y)+dy+hit_sizey-6);
+		draw_charm_sprite("shield",shieldfr,floor(x),floor(y)-dy+hit_sizey-6);
 	} else {
 		shieldfr += 0.2;
 		if floor(shieldfr) >= (sprite_get_number(spr_shieldplaceholder)-1) {
 			shieldfr = 0;
 		}
 		
-		draw_sprite(spr_shieldplaceholder,floor(shieldfr),floor(x),floor(y)+dy+hit_sizey-6);
+		draw_sprite(spr_shieldplaceholder,floor(shieldfr),floor(x),floor(y)-dy+hit_sizey-6);
 	}
 }
 	
 if (invincible_type == 2) {
 	var _star_shine_offset = ((global.roomTimer / 3) mod 5);
 	var _final_angle = ((global.roomTimer + ((global.roomTimer & 1) * 90)) * 1.5) + ((_star_shine_offset) * 16)
-	draw_sprite_circle(spr_pShineStarman,_star_shine_offset,floor(x),floor(y)+dy,1,1, (bbox_bottom - bbox_top) + 2, 2, (_final_angle / 360) * (pi * 4))
+	draw_sprite_circle(spr_pShineStarman,_star_shine_offset,floor(x),floor(y)-dy,1,1, (bbox_bottom - bbox_top) + 2, 2, (_final_angle / 360) * (pi * 4))
 }
 
 if (global.debug) {

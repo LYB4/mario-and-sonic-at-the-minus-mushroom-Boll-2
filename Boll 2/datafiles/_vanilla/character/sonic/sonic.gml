@@ -1,5 +1,5 @@
 #define datalist
-spriteEvents=split_string("idle,wait,lookUp,victory,crouch,hurt,dead,walk,run,runMax,wallRun,wallJump,airWalk,brake,spring,springFall,jump,bonk,roll,spinDash,spinCharge,dropDash,airDash,carryIdle,carryWalk,carryRun,carryRunMax,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,slidekick,carrySlidekick,roll,carrySwim,pushing,balancing,dive,fireToss,electrocute,gateClimbing,flagPole,hang,monkeyBars,boarding,snowBoarding,frozen,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
+spriteEvents=split_string("idle,wait,lookUp,victory,crouch,hurt,dead,walk,run,runMax,wallRun,wallJump,airWalk,brake,spring,springFall,jump,bonk,roll,spinDash,spinCharge,dropDash,airDash,carryIdle,carryWalk,carryRun,carryRunMax,carryLookUp,carryCrouch,carryJump,carryFall,carryBonk,carryKick,carryAirKick,slidekick,carrySlidekick,roll,carrySwim,pushing,balancing,dive,fireToss,electrocute,gateClimbing,poleGrab,hang,monkeyBars,boarding,snowBoarding,frozen,downPipeEnter,downPipeExit,upPipeEnter,upPipeExit,sidePipeEnter,sidePipeExit,doorEnter,doorExit",",");
 miscSprites=split_string("shield,spindashdust",",");
 sound_list=split_string("airdash,damage,shielddamage,die,jump,release,skid,spin,spindash,bounce",",");
 
@@ -587,9 +587,9 @@ switch (state) {
 	} break;
 	case "slidekick": {
 		if !(is_grabbing) {
-			spriteEvent = "crouch";
+			spriteEvent = "slidekick";
 		} else {
-			spriteEvent = "carryCrouch";
+			spriteEvent = "carrySlidekick";
 		}
 	} break;
 	case "boarding":
@@ -652,7 +652,7 @@ if (piped) {
 if (state == "spindash") {
 	spindashdust_fr = animate_charm_sprite("spindashdust",spindashdust_fr);
 	
-	draw_charm_sprite("spindashdust",spindashdust_fr,x-hit_sizex*xsc,y+dy+hit_sizey,xsc);
+	draw_charm_sprite("spindashdust",spindashdust_fr,x-hit_sizex*xsc,y-dy+hit_sizey,xsc);
 }
 
 #define on_kill
