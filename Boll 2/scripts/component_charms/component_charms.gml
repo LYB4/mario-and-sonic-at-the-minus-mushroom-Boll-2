@@ -67,6 +67,11 @@ function component_mario_skidding_fx(){
 
 function component_mario_start_spinjump(startingJumpValue = 5.2){
 	
+	sample_footstep_material();
+	play_footstep_jump();
+	if (grounded) {
+		make_particle(pJumpDust, x, y + hit_sizey, depth + 5, 1, 0, (y-yprevious)/1.5, 0, 0.2);
+	}
 	grounded=false;
 	spinjump=true;
 	crouch=false;
@@ -75,7 +80,6 @@ function component_mario_start_spinjump(startingJumpValue = 5.2){
 	vsp=-(startingJumpValue+min(1,abs(hsp)/10))
 	state = "jump"
 	canstopjump=false
-	make_particle(pJumpDust, x, y + hit_sizey, depth + 5, 1, 0, (y-yprevious)/1.5, 0, 0.2);
 }
 
 function component_mario_start_dive(speedX = 3.5, speedY = -2.7){
@@ -232,6 +236,8 @@ function component_sonic_spindash(){
 
 function component_sonic_start_jump(startingJumpValue = 6) {
 	
+	sample_footstep_material();
+	play_footstep_jump();
 	state = "jump"
 	grounded = false
 	colangle = colangle * 0.5

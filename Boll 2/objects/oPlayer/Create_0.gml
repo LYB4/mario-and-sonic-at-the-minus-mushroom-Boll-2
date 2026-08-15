@@ -72,6 +72,13 @@ dy=0
 shielded = false;
 shieldfr = 0;
 
+//footsteps
+footstep_freq = 4;
+footstep_run = false;
+footstep_played = false;
+footstep_foot = 0;
+footstep_material = footstepMaterial.Default;
+
 can_stomp = true;
 cantslowanim=0
 flash=0

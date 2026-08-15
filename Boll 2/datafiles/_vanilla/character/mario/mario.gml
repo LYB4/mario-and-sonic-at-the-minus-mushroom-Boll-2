@@ -386,6 +386,8 @@ if (state == "jump" || state == "") && !(grounded) && !piped && !(stun) {
 }
 
 if ((state == "" || state=="crouch") && !hurt && !stun && apress && canjump > 0 && !spinjump) && !piped && !(underwater) {
+	sample_footstep_material();
+	play_footstep_jump();
 	grounded = false;
 	starmanjump = false;
 	state = "jump"
@@ -532,9 +534,12 @@ if (state == "") {
 				wait_timer = 0
 				if (ceil(abs(gsp))>3.25) {
 					spriteEvent="run"
+					footstep_run = true;
+					footstep_freq = 3;
 				} else {
 					frspd=max(abs(hsp)/4,0.3)*speed_mult
 					spriteEvent="walk"
+					footstep_freq = 4;
 				}
 			}
 		} else {
@@ -549,9 +554,12 @@ if (state == "") {
 				wait_timer = 0
 				if (ceil(abs(gsp))>3.25) {
 					spriteEvent="carryRun"
+					footstep_run = true;
+					footstep_freq = 3;
 				} else {
 					frspd=max(abs(hsp)/4,0.3)*speed_mult
 					spriteEvent="carryWalk"
+					footstep_freq = 4;
 				}
 			}
 		}
@@ -577,8 +585,10 @@ if (state == "") {
 		else {
 			if !(is_grabbing) {
 				spriteEvent="crouchWalk"
+				footstep_freq = 3;
 			} else {
 				spriteEvent="carryCrouchWalk"
+				footstep_freq = 3;
 			}
 		}
 	}

@@ -437,6 +437,8 @@ function sprite_arrposition() {
 }
 
 function animate_player() {
+	footstep_run = false;
+	footstep_freq = 0;
 	//animation manager specifically for player characters
 	
 	var oldspr=get_spriteindex()
@@ -459,6 +461,8 @@ function animate_player() {
 		fhaslooped = 0
 	}
 	
+	var oldfr = round(frame);
+	
 	if spri!=-1 {
 		fhaslooped = 0
 		frn=frames_list[spri] //frame number
@@ -475,7 +479,6 @@ function animate_player() {
 			frame=frame-frn; 
 			fhaslooped = 1;
 			if (frl<frn) frame=frl;
-			
 		}
 		frame=modulo(frame,0,frn)
 		var sizeNum = array_get_index(global.powerups, get_size()); //not sure why this was a loop before. theres literally this same method above to get spri LOL
@@ -483,6 +486,10 @@ function animate_player() {
 		offset_y=offset_y_list[sizeNum]
 		animf=animspd_list[sizeNum]
 		palette=my_palletes[sizeNum]
+	}
+	
+	if (oldfr!=round(frame)) {
+		footstep_played = false;
 	}
 	
 	catspeak_execute(global.scripts[? $"{charmName}_upd_frame"]);

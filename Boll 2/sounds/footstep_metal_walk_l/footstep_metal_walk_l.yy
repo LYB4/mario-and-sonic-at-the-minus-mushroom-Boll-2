@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"footstep_metal_walk_l",
+  "audioGroupId":{
+    "name":"footstep_audio",
+    "path":"audiogroups/footstep_audio",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.22993197,
+  "exportDir":"",
+  "name":"footstep_metal_walk_l",
+  "parent":{
+    "name":"Metal",
+    "path":"folders/Sounds/Footsteps/Metal.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"footstep_metal_walk_l.wav",
+  "volume":1.0,
+}

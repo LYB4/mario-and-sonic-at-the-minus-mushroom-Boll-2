@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"footstep_ice_run_l",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.113287985,
+  "exportDir":"",
+  "name":"footstep_ice_run_l",
+  "parent":{
+    "name":"Ice",
+    "path":"folders/Sounds/Footsteps/Ice.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"footstep_ice_run_l.wav",
+  "volume":0.25,
+}

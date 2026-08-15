@@ -1,7 +1,11 @@
 #macro gametitle "Boll 2"
 #macro version "0.1"
 
+audio_group_load(footstep_audio);
+
 windowfocused=true;
+
+global.powerups = ["basic", "big", "fire", "thunder"]
 
 global.save_dir=""
 
@@ -98,6 +102,9 @@ GMLspeak.interface.compileFlags.checkForVariables = true;
 		GMLspeak.interface.exposeFunction("check_valid_wall", check_valid_wall);
 		GMLspeak.interface.exposeFunction("collect_coins", collect_coins);
 		GMLspeak.interface.exposeFunction("reserve_item", reserve_item);
+		GMLspeak.interface.exposeFunction("play_footstep", play_footstep);
+		GMLspeak.interface.exposeFunction("play_footstep_land", play_footstep_land);
+		GMLspeak.interface.exposeFunction("play_footstep_jump", play_footstep_jump);
 		
 		GMLspeak.interface.exposeFunction("component_get_ground_friction", component_get_ground_friction);
 		GMLspeak.interface.exposeFunction("component_gravity_coneyor", component_gravity_coneyor);

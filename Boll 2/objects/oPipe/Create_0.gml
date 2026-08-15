@@ -3,6 +3,7 @@ warpname="" //name of this pipe
 warptarget="" //name of other pipe to warp to
 warplevel="" //Level warping for stuff like warp zones.
 mytargetpipe=noone;
+footstep_material = footstepMaterial.Metal;
 
 assist = noone;
 content = "nothing";

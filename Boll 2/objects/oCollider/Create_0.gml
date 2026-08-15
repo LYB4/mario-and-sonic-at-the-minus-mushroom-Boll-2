@@ -8,5 +8,6 @@ y_diff = 0;
 my_friction = 1;
 grabbed = false;
 slippery = false;
+footstep_material = footstepMaterial.Default;
 
 node_init_vars()

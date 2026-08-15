@@ -14,7 +14,7 @@ function player_movement(){
 			if ((signmatch && abs(gsp) < topspd) || !signmatch) {
 				gsp += (move * accel_real);
 			}
-		}else {
+		} else {
 			//whether or not to use sonic or mario air physics
 			if !(sonic_air_momentum) {
 				var signmatch = (check_signs_matching(hsp, move))
@@ -63,6 +63,11 @@ function player_movement(){
 			hsp = gsp / (dcos(colangle) * 1.25)
 		} else {
 			hsp = gsp; //fix for hsp being delayed by 1 frame all the time (no more sliding along the floor)	
+		}
+		
+		if (abs(gsp)!=0.0) {
+			sample_footstep_material();
+			play_footstep();
 		}
 	} else {
 		pushing = false;

@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"footstep_run_r",
+  "audioGroupId":{
+    "name":"footstep_audio",
+    "path":"audiogroups/footstep_audio",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.17297052,
+  "exportDir":"",
+  "name":"footstep_run_r",
+  "parent":{
+    "name":"Default",
+    "path":"folders/Sounds/Footsteps/Default.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"footstep_run_r.wav",
+  "volume":1.0,
+}

@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"footstep_wood_walk_r",
+  "audioGroupId":{
+    "name":"footstep_audio",
+    "path":"audiogroups/footstep_audio",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.17721088,
+  "exportDir":"",
+  "name":"footstep_wood_walk_r",
+  "parent":{
+    "name":"Wood",
+    "path":"folders/Sounds/Footsteps/Wood.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"footstep_wood_walk_r.wav",
+  "volume":1.0,
+}

@@ -78,16 +78,20 @@ function JADE_initializeobj() {
 	//registerobj(oPlayerSpawn, spr_spawner, 8, 8, 16, 16, false, false, objectlist, "Player Spawn") //Replaced with spawn tool
 	registerobj(oCollider, spr_collider, 0, 0, 16, 16, true, true, objectlist, "Collider", true)
 	properties.addCheckbox(oCollider, "Is Slippery", "slippery", false)
+	properties.addDropdown(oCollider, "Footstep Material", "footstep_material", footstepMaterial.Default, ["Default", "Grass", "Stone", "Snow", "Wood", "Plastic", "Metal", "Ice"], [footstepMaterial.Default,footstepMaterial.Grass,footstepMaterial.Stone,footstepMaterial.Snow,footstepMaterial.Wood,footstepMaterial.Plastic,footstepMaterial.Metal,footstepMaterial.Ice])
 	registerobj(oSlopeCollider, spr_slopesolid, 0, 0, 16, 16, true, true, objectlist, "Slope Collider", true)
 	properties.addCheckbox(oSlopeCollider, "Flipped", "hflip", false)
 	properties.addCheckbox(oSlopeCollider, "Is Ramp", "ramp", false)
 	properties.addCheckbox(oSlopeCollider, "Is Slippery", "slippery", false)
+	properties.addDropdown(oSlopeCollider, "Footstep Material", "footstep_material", footstepMaterial.Default, ["Default", "Grass", "Stone", "Snow", "Wood", "Plastic", "Metal", "Ice"], [footstepMaterial.Default,footstepMaterial.Grass,footstepMaterial.Stone,footstepMaterial.Snow,footstepMaterial.Wood,footstepMaterial.Plastic,footstepMaterial.Metal,footstepMaterial.Ice])
 	registerobj(oSemilider, spr_semilider, 0, 0, 16, 16, true, false, objectlist, "Semisolid", true)
 	properties.addCheckbox(oSemilider, "Is Slippery", "slippery", false)
+	properties.addDropdown(oSemilider, "Footstep Material", "footstep_material", footstepMaterial.Default, ["Default", "Grass", "Stone", "Snow", "Wood", "Plastic", "Metal", "Ice"], [footstepMaterial.Default,footstepMaterial.Grass,footstepMaterial.Stone,footstepMaterial.Snow,footstepMaterial.Wood,footstepMaterial.Plastic,footstepMaterial.Metal,footstepMaterial.Ice])
 	registerobj(oSemiSlope, spr_slopesemi, 0, 0, 16, 16, true, true, objectlist, "Semisolid Slope", true)
 	properties.addCheckbox(oSemiSlope, "Flipped", "hflip", false)
 	properties.addCheckbox(oSemiSlope, "Is Ramp", "ramp", false)
 	properties.addCheckbox(oSemiSlope, "Is Slippery", "slippery", false)
+	properties.addDropdown(oSemiSlope, "Footstep Material", "footstep_material", footstepMaterial.Default, ["Default", "Grass", "Stone", "Snow", "Wood", "Plastic", "Metal", "Ice"], [footstepMaterial.Default,footstepMaterial.Grass,footstepMaterial.Stone,footstepMaterial.Snow,footstepMaterial.Wood,footstepMaterial.Plastic,footstepMaterial.Metal,footstepMaterial.Ice])
 	registerobj(oBarrier, spr_barrier, 0, 0, 16, 16, true, true, objectlist, "Barrier", true)
 	
 	var blockcategory = new JADElistcategory("Blocks")
@@ -690,7 +694,7 @@ function JADE_load(file=game_save_id+"\save.jade") {
 					if (array_length(obj[5]) != array_length(props)) {
 						var o=0;
 						repeat (array_length(props)) { //god Damn.
-							if (array_length(obj[5])-1 < o) && is_array(props[o]){
+							if (array_length(obj[5])-1 < o) && is_array(props[o]) {
 								obj[5][o] = array_create(1,0)
 								array_copy(obj[5][o],0,props[o],0,array_length(props[o]))
 								if is_array(obj[5][o][1]) {

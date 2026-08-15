@@ -12,8 +12,8 @@ function player_interactions(){
 			}
 		break;
 		default:
-			var enemystomp=check_rectangle_in_hitbox(x-hit_sizex,y+hit_sizey+vsp,x+hit_sizex,y+hit_sizey+vsp, oEnemy)
-			if (enemystomp) && (enemystomp.phaseid==noone || enemystomp.phaseid.id!=id) && (!(enemystomp.damage_on_contact) || spinjump) && !(enemystomp.no_stomping) && !(enemystomp.grabbed) && !(grounded) && (vsp > 0) && (can_stomp) && (y+hit_sizey+vsp < (enemystomp.y-hit_sizey+8)) && (invincible_type != 2) {
+			var enemystomp=check_rectangle_in_hitbox(x-hit_sizex,y+hit_sizey,x+hit_sizex,y+hit_sizey, oEnemy)
+			if (enemystomp) && (enemystomp.phaseid==noone || enemystomp.phaseid.id!=id) && (!(enemystomp.damage_on_contact) || spinjump) && !(enemystomp.no_stomping) && !(enemystomp.grabbed) && !(grounded) && (vsp > 0) && (can_stomp) && (y+hit_sizey < (enemystomp.y-hit_sizey+8)) && (invincible_type != 2) {
 				enemystomp.enemyStomped.Emit(id);
 				enemystomp.phaseid=id;
 				enemystomp.phase_leeway=3;

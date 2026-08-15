@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_load_boll_stuff",
+  "%Name":"scr_footsteps",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_load_boll_stuff",
+  "name":"scr_footsteps",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"Player",
+    "path":"folders/Scripts/Player.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
