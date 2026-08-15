@@ -9,6 +9,17 @@ if (parent_pipe == noone) {
 	grav=0;
 }
 
+if (playbite) {
+	if (exposed) {
+		if !(bitedelay) {
+			mybite=VinylPlayAt(snd_piranhabite,x,y,0);
+			bitedelay = 20;
+		} else {
+			bitedelay--;
+		}
+	} else bitedelay = 0;
+}
+
 if (go == 0) {
 	var shycheck = true;
 	if (is_shy) {

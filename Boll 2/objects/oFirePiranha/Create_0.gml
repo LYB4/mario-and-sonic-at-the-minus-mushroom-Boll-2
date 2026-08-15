@@ -5,9 +5,12 @@ shot = false;
 
 overridexsc = true;
 
+playbite = false;
+
 face_dir = 0;
 
 escapePipe.Connect( self, function() {
+	VinylPlayAt(snd_piranhafireball,x,y,0);
 	var inst = instance_create_depth(x,y,4,oDirectionalFireball);
 	if (rot mod 180 == 0) {
 		var mult = 1;

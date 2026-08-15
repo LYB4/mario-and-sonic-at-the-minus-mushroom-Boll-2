@@ -7,6 +7,10 @@ exposed = false; //when it has fully exited the pipe
 is_shy = true;
 visible = true;
 
+mybite = undefined;
+bitedelay = 0;
+playbite = true;
+
 escapePipe = new Signal();
 
 enemyRespawn.Connect( self, function(thrown_p) {
@@ -40,4 +44,8 @@ enemySpinjumped.Connect( self, function(hit_p) {
 	VinylPlay(snd_enemyspinjump_reflect)
 	phaseid=hit_p;
 	phase_leeway=7;
+});
+
+enemyKilled.Connect( self, function() {
+	VinylPlayAt(snd_piranhadie,x,y,0);
 });

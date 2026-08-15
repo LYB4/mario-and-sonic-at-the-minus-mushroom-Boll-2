@@ -73,21 +73,23 @@ global.footsteps[footstepMaterial.Ice] = {
 function play_footstep() {
 	if !(footstep_freq) exit;
 	
-	if (round(frame-footstep_offset) mod footstep_freq == 0) && (round(frame-footstep_offset)!=0) && !(footstep_played) {
-		var variance = random_range(0.8,1.1);
+	if (floor(footstep_counter-footstep_offset) >= footstep_freq) && !(footstep_played) {
+		var variance = random_range(0.7,1.2);
 		if !(footstep_run) {
 			if !(footstep_foot) {
-				VinylPlay(global.footsteps[footstep_material][$ "walk_l"],0,FOOTSTEP_GAIN,variance);
+				VinylPlay(global.footsteps[footstep_material][$ "walk_l"],0,FOOTSTEP_GAIN * VinylMixGetGain("sound effects"),variance);
 			} else {
-				VinylPlay(global.footsteps[footstep_material][$ "walk_r"],0,FOOTSTEP_GAIN,variance);
+				VinylPlay(global.footsteps[footstep_material][$ "walk_r"],0,FOOTSTEP_GAIN * VinylMixGetGain("sound effects"),variance);
 			}
 		} else {
 			if !(footstep_foot) {
-				VinylPlay(global.footsteps[footstep_material][$ "run_l"],0,FOOTSTEP_GAIN,variance);
+				VinylPlay(global.footsteps[footstep_material][$ "run_l"],0,FOOTSTEP_GAIN * VinylMixGetGain("sound effects"),variance);
 			} else {
-				VinylPlay(global.footsteps[footstep_material][$ "run_r"],0,FOOTSTEP_GAIN,variance);
+				VinylPlay(global.footsteps[footstep_material][$ "run_r"],0,FOOTSTEP_GAIN * VinylMixGetGain("sound effects"),variance);
 			}
 		}
+		
+		footstep_counter -= footstep_freq;
 		footstep_played = true;
 		footstep_foot = !footstep_foot;
 	}
@@ -97,19 +99,19 @@ function play_footstep_land() {
 	if (global.footsteps[footstep_material].land == -1) {
 		if !(footstep_run) {
 			if !(footstep_foot) {
-				VinylPlay(global.footsteps[footstep_material][$ "walk_l"],0,FOOTSTEP_GAIN);
+				VinylPlay(global.footsteps[footstep_material][$ "walk_l"],0,FOOTSTEP_GAIN * VinylMixGetGain("sound effects"));
 			} else {
-				VinylPlay(global.footsteps[footstep_material][$ "walk_r"],0,FOOTSTEP_GAIN);
+				VinylPlay(global.footsteps[footstep_material][$ "walk_r"],0,FOOTSTEP_GAIN * VinylMixGetGain("sound effects"));
 			}
 		} else {
 			if !(footstep_foot) {
-				VinylPlay(global.footsteps[footstep_material][$ "run_l"],0,FOOTSTEP_GAIN);
+				VinylPlay(global.footsteps[footstep_material][$ "run_l"],0,FOOTSTEP_GAIN * VinylMixGetGain("sound effects"));
 			} else {
-				VinylPlay(global.footsteps[footstep_material][$ "run_r"],0,FOOTSTEP_GAIN);
+				VinylPlay(global.footsteps[footstep_material][$ "run_r"],0,FOOTSTEP_GAIN * VinylMixGetGain("sound effects"));
 			}
 		}
 	} else {
-		VinylPlay(global.footsteps[footstep_material][$ "land"],0,FOOTSTEP_GAIN);
+		VinylPlay(global.footsteps[footstep_material][$ "land"],0,FOOTSTEP_GAIN * VinylMixGetGain("sound effects"));
 	}
 	
 	footstep_foot = !footstep_foot;
@@ -117,7 +119,7 @@ function play_footstep_land() {
 
 function play_footstep_jump() {
 	if (global.footsteps[footstep_material].jump != -1) {
-		VinylPlay(global.footsteps[footstep_material][$ "jump"],0,FOOTSTEP_GAIN);
+		VinylPlay(global.footsteps[footstep_material][$ "jump"],0,FOOTSTEP_GAIN * VinylMixGetGain("sound effects"));
 	}
 }
 

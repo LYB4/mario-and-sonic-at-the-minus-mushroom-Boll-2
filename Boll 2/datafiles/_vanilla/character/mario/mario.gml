@@ -539,7 +539,7 @@ if (state == "") {
 				} else {
 					frspd=max(abs(hsp)/4,0.3)*speed_mult
 					spriteEvent="walk"
-					footstep_freq = 4;
+					footstep_freq = 3;
 				}
 			}
 		} else {
@@ -559,7 +559,7 @@ if (state == "") {
 				} else {
 					frspd=max(abs(hsp)/4,0.3)*speed_mult
 					spriteEvent="carryWalk"
-					footstep_freq = 4;
+					footstep_freq = 3;
 				}
 			}
 		}

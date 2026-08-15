@@ -15,6 +15,7 @@ global.settings[$ "sound_vol"] = 1
 global.settings[$ "alternate_hud"] = 0
 global.settings[$ "keybinds_kb"] = InputBindingsExport(false)
 global.settings[$ "keybinds_gp"] = InputBindingsExport(true)
+global.settings[$ "sensitive_sound"] = 0
 
 if file_exists(game_save_id+"\settings.ini")
 {
@@ -24,6 +25,9 @@ if file_exists(game_save_id+"\settings.ini")
 		global.settings = json_parse(buffer_read(save_file,buffer_string))
 		if (!struct_exists(global.settings, "alternate_hud")) {
 			global.settings[$ "alternate_hud"] = 0;
+		}
+		if (!struct_exists(global.settings, "sensitive_sound")) {
+			global.settings[$ "sensitive_sound"] = 0;
 		}
 		var opstruct = global.settings[$ "keybinds_kb"]
 		if !(is_undefined(opstruct)) {

@@ -19,12 +19,12 @@
 //Falloff model to set on boot. See GameMaker documentation for `audio_falloff_set_model()` more
 //information. Set this macro to `undefined` to not set a falloff model on boot (at the time of
 //writing, GameMaker's default model is `audio_falloff_none` which isn't very helpful).
-#macro VINYL_AUDIO_FALLOFF_MODEL  audio_falloff_linear_distance_clamped
+#macro VINYL_AUDIO_FALLOFF_MODEL  audio_falloff_linear_distance
 
 //Default values to use for `VinylPlayAt()`. See GameMaker documentation for `audio_play_sound_at()`
 //more information.
 #macro VINYL_DEFAULT_FALLOFF_DIST      0
-#macro VINYL_DEFAULT_FALLOFF_MAX_DIST  100
+#macro VINYL_DEFAULT_FALLOFF_MAX_DIST  200
 #macro VINYL_DEFAULT_FALLOFF_FACTOR    1
 
 //The name to use to indicate no mix. This should be a unique string and cannot be used for the

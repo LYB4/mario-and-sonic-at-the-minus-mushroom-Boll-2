@@ -43,7 +43,7 @@ switch (crMenu) {
 	break;
 	
 	case "settings":
-		draw_text_scribble(_xPos,16,$"{_startStr}SETTINGS");
+		draw_text_scribble(_xPos,16,$"{_startStr}ACCESSIBILITY SETTINGS");
 	
 		var scalestr = $"Window Scale:\n{temp_settings.resolution_scale}x"
 		var fullscreentype;
@@ -56,13 +56,54 @@ switch (crMenu) {
 		var mastervol = $"Master Volume:\n{round(temp_settings.master_vol*100)}%"
 		var musicvol = $"Music Volume:\n{round(temp_settings.music_vol*100)}%"
 		var soundvol = $"Sound Volume:\n{round(temp_settings.sound_vol*100)}%"
+		_displayOPS = [scalestr, fullscr, mastervol, musicvol, soundvol, "Accessibility", "Keybinds", "Apply Changes"];
+		var _yPos = 24;
+		var i=0;
+		repeat (array_length(_displayOPS)) { // Looping through options to draw them on screen
+			var color = "[c_white]"
+			
+			if (option=i) {
+				selectArrowY = _yPos
+				color = "[c_yellow]"
+			}
+			
+			draw_text_scribble(_xPos,_yPos,$"[spr_rulergold][fa_center]{color}{_displayOPS[i]}");
+			
+			i++;
+			if (i<=5) {
+				_yPos+=32;
+			} else {
+				_yPos+=16;
+			}
+		}
+		
+		selectArrowYtrans = lerp(selectArrowYtrans,selectArrowY,0.25);
+		
+		selectArrowWidth = string_width(_displayOPS[option])/2
+		selectArrowWidthtrans = lerp(selectArrowWidthtrans,selectArrowWidth,0.25);
+		
+		draw_text_scribble(_xPos-selectArrowWidthtrans-2,round(selectArrowYtrans),"[spr_rulergold][c_yellow][fa_right]>>");
+		draw_text_scribble(_xPos+selectArrowWidthtrans+2,round(selectArrowYtrans),"[spr_rulergold][c_yellow][fa_left]<<");
+	break;
+	
+	case "accessibility":
+		draw_text_scribble(_xPos,16,$"{_startStr}SETTINGS");
+		
 		var alternatehud;
 		switch(temp_settings.alternate_hud) {
 			case 0: alternatehud = "Off" break;
 			case 1: alternatehud = "On" break;
 		}
 		var althud = $"Alternate HUD:\n{alternatehud}"
-		_displayOPS = [scalestr, fullscr, mastervol, musicvol, soundvol, althud, "Keybinds", "Apply Changes"];
+		
+		var sensitivesounds;
+		switch(temp_settings.sensitive_sound) {
+			case 0: sensitivesounds = "On" break;
+			case 1: sensitivesounds = "Off" break;
+		}
+		var sensitivesnd = $"Sensitive Sounds:\n{sensitivesounds}"
+		
+		_displayOPS = [althud, sensitivesnd, "Apply Changes", "Back"];
 		var _yPos = 24;
 		var i=0;
 		repeat (array_length(_displayOPS)) { // Looping through options to draw them on screen

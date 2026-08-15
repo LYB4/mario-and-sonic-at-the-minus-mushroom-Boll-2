@@ -75,6 +75,7 @@ shieldfr = 0;
 //footsteps
 footstep_freq = 4;
 footstep_offset = 0;
+footstep_counter = 0;
 footstep_run = false;
 footstep_played = false;
 footstep_foot = 0;

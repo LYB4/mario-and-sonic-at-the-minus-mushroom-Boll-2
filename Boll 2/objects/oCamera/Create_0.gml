@@ -278,6 +278,8 @@ update_view_pos = function() {
 	#endregion
 		
 	camera_set_view_pos(view_camera[0], floor(_new_x), floor(_new_y));
+	
+	audio_listener_position(floor(_new_x)+RESOLUTION_X/2,floor(_new_y)+RESOLUTION_Y/2,0);
 }
 	
 room_to_view_x = function(_x) {

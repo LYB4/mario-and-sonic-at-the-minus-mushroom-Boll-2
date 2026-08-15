@@ -1,4 +1,5 @@
 if (hp <= 0) {
+	enemyKilled.Emit();
     instance_destroy();
 }
 

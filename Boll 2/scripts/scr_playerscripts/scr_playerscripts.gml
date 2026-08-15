@@ -1,126 +1,3 @@
-function skin_setting(_sett) {
-	var File =file_text_open_read($"{working_directory}/_vanilla/character/{charmName}/config.ini");
-		
-	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
-		file_text_readln(File);
-		Line =file_text_read_string(File);
-	}
-	
-	if string_starts_with(Line,";") {
-		file_text_close(File);
-		return 0
-	}
-	var _string = string_delete(Line, 1, string_length(_sett+"="));
-		
-	file_text_close(File);
-		
-	return unreal(_string,0);
-}
-
-function skin_getstring(_sett) {
-	var File =file_text_open_read($"{working_directory}/_vanilla/character/{charmName}/config.ini");
-		
-	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
-		file_text_readln(File);
-		Line =file_text_read_string(File);
-		if (file_text_eof(File) && !string_pos(_sett+"=",Line)) {
-			file_text_close(File);
-			return ""
-		}
-	}
-	if string_starts_with(Line,";") {
-		file_text_close(File);
-		return ""
-	}	
-	var _string = string_delete(Line, 1, string_length(_sett+"="));
-		
-	file_text_close(File);
-		
-	return _string
-}
-
-function skin_getarray(_sett) {
-	var File =file_text_open_read($"{working_directory}/_vanilla/character/{charmName}/config.ini");
-	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
-		file_text_readln(File);
-		Line =file_text_read_string(File);
-	}
-	if (!file_text_eof(File)) {
-		file_text_readln(File);
-		var _string = string_delete(Line, 1, string_length(_sett+"="));
-		file_text_close(File);
-		return split_string(_string,",");
-	}
-	if string_starts_with(Line,";") {
-		file_text_close(File);
-		return ""
-	}
-	file_text_close(File);
-}
-
-function config_setting(_sett, dir) {
-	var File =file_text_open_read($"{dir}/config.ini");
-		
-	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
-		file_text_readln(File);
-		Line =file_text_read_string(File);
-	}
-		
-	var _string = string_delete(Line, 1, string_length(_sett+"="));
-		
-	file_text_close(File);
-		
-	return unreal(_string,0);
-}
-
-function config_getstring(_sett, dir) {
-	var File =file_text_open_read($"{dir}/config.ini");
-		
-	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
-		file_text_readln(File);
-		Line =file_text_read_string(File);
-	}
-	if (file_text_eof(File) && !string_pos(_sett+"=",Line)) {
-		file_text_close(File);
-		return ""
-	}
-	if string_starts_with(Line,";") {
-		file_text_close(File);
-		return ""
-	}
-		
-	var _string = string_delete(Line, 1, string_length(_sett+"="));
-		
-	file_text_close(File);
-		
-	return _string
-}
-
-function config_getarray(_sett, dir) {
-	var File =file_text_open_read($"{dir}/config.ini");
-	var Line =file_text_read_string(File);
-	while (!string_starts_with(Line, _sett+"=")) && !string_starts_with(Line,";") && (!file_text_eof(File)) {
-		file_text_readln(File);
-		Line =file_text_read_string(File);
-	}
-	if (!file_text_eof(File)) {
-		file_text_readln(File);
-		var _string = string_delete(Line, 1, string_length(_sett+"="));
-		file_text_close(File);
-		return split_string(_string,",");
-	}
-	if string_starts_with(Line,";") {
-		file_text_close(File);
-		return ""
-	}
-	file_text_close(File);
-}
-
 function get_spriteindex() { //returns the sprite name of the player's current sprite
 	var mem=size;
 	
@@ -462,7 +339,7 @@ function animate_player() {
 		fhaslooped = 0
 	}
 	
-	var oldfr = round(frame);
+	var oldfootstep = floor(footstep_counter);
 	
 	if spri!=-1 {
 		fhaslooped = 0
@@ -473,13 +350,16 @@ function animate_player() {
 			frs*=0.45
 		}
 		frl=loops_list[spri]-1 //loop point  
-		//if (water && !cantslowanim) frs*=wf                       
+		//if (water && !cantslowanim) frs*=wf                   
+		footstep_counter+=frs;
 		frame+=frs
 		if (frame<0) frame+=frn
 		if (frame>=frn) {
 			frame=frame-frn; 
 			fhaslooped = 1;
 			if (frl<frn) frame=frl;
+			
+			footstep_counter = frl;
 		}
 		frame=modulo(frame,0,frn)
 		var sizeNum = array_get_index(global.powerups, get_size()); //not sure why this was a loop before. theres literally this same method above to get spri LOL
@@ -489,7 +369,7 @@ function animate_player() {
 		palette=my_palletes[sizeNum]
 	}
 	
-	if (oldfr!=round(frame)) {
+	if (oldfootstep!=floor(footstep_counter)) {
 		footstep_played = false;
 	}
 	

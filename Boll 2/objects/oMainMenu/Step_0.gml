@@ -47,6 +47,9 @@ if (!optionLock) {
 			optMAX = 7;
 			if (akey) {
 				switch option {
+					case 5:
+						crMenu="accessibility" option=0
+					break;
 					case 6:
 						crMenu="keybindsm" option=0
 					break;
@@ -58,7 +61,6 @@ if (!optionLock) {
 						global.settings[$ "master_vol"] = temp_settings.master_vol
 						global.settings[$ "music_vol"] = temp_settings.music_vol
 						global.settings[$ "sound_vol"] = temp_settings.sound_vol
-						global.settings[$ "alternate_hud"] = temp_settings.alternate_hud
 						
 						if (!global.settings[$ "fullscreen_type"]) {
 							window_enable_borderless_fullscreen(false);
@@ -87,11 +89,36 @@ if (!optionLock) {
 					case 2: temp_settings.master_vol = clamp(temp_settings.master_vol + (floor(right - left)/20),0,2) break;
 					case 3: temp_settings.music_vol = clamp(temp_settings.music_vol + (floor(right - left)/20),0,2) break;
 					case 4: temp_settings.sound_vol = clamp(temp_settings.sound_vol + (floor(right - left)/20),0,2) break;
-					case 5: temp_settings.alternate_hud = !temp_settings.alternate_hud
 				}
 			}
 			if (bkey) {
 				backAmenu("mainmenu");
+				temp_settings = global.settings;
+			}
+		break
+		
+		case "accessibility":
+			optMAX = 3;
+			if (akey) {
+				switch option {
+					case 3:
+						crMenu="settings" option=0
+					break;
+					case 2: 
+						global.settings[$ "alternate_hud"] = temp_settings.alternate_hud
+						global.settings[$ "sensitive_sound"] = temp_settings.sensitive_sound
+					break;
+				}
+				safe = 1
+			}
+			if (left || right) {
+				switch (option) {
+					case 0: temp_settings.alternate_hud = !temp_settings.alternate_hud break;
+					case 1: temp_settings.sensitive_sound = !temp_settings.sensitive_sound break;
+				}
+			}
+			if (bkey) {
+				backAmenu("settings");
 				temp_settings = global.settings;
 			}
 		break

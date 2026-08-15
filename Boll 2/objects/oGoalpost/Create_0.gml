@@ -29,12 +29,16 @@ onHit.Connect( self, function(_y,_player) {
 	
 	used = true;
 	
-	if within(_y,bbox_top,bbox_top+24) {
-		//hit bell
-		hit_bell = true;
-		bellspeed = 0.5;
-		belltimer = (belltimer_max / (60 * 0.05)) / (60 * 0.05)
-		VinylPlay(snd_bellring);
+	with(_player) {
+		if within(y+vsp,other.bbox_top,other.bbox_top+28) || within(y+vsp-hit_sizey,other.bbox_top,other.bbox_top+28) || within(y+hit_sizey,other.bbox_top,other.bbox_top+28) {
+			with(other) {
+				//hit bell
+				hit_bell = true;
+				bellspeed = 0.5;
+				belltimer = (belltimer_max / (60 * 0.05)) / (60 * 0.05)
+				VinylPlay(snd_bellring);
+			}
+		}
 	}
 	
 	if within(_y,signpost_top_y,signpost_bottom_y-8) {
