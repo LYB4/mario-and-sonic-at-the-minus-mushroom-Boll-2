@@ -417,12 +417,6 @@ if !(grounded) && ((state == "roll") || (state == "jump"))  && (abs(hsp) > 1) {
 			vsp = -(2.5+akey*1.5);
 		}
 	}
-} else if (grounded) && (state == "roll") {
-	var coll;
-	coll=collision_rectangle(x-hit_sizex+hsp,y-hit_sizey+vsp,x+hit_sizex+hsp,y+hit_sizey+vsp,oHittable,false,false)
-	if (coll) {
-		signal_emit(coll.blockHit, -1, id);
-	}
 }
 
 basic_step_move();
