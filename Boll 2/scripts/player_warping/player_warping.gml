@@ -200,7 +200,7 @@ function player_warping() {
 	
 	//THIS SUCKS!!!!!!!!!
 	var pipecoll=collision_line(x-hit_sizex,y+hit_sizey+1,x+hit_sizex,y+hit_sizey+1,oPipe,false,true)
-	if (pipecoll && pipecoll.image_angle==0 && pipecoll.warptarget!="") { //WARPING DOWN PIPE
+	if (pipecoll && pipecoll.image_angle==0 && pipecoll.warptarget!="" && (abs(x-pipecoll.x) <= 8)) { //WARPING DOWN PIPE
 		if (down) && !(piped) && (grounded) && !(warp_coll) {
 			piped=true
 			warp_type="enter_pipe_down"
@@ -254,7 +254,7 @@ function player_warping() {
 		}
 	}
 	pipecoll=collision_rectangle(x-hit_sizex,y-hit_sizey-3,x+hit_sizex,y-hit_sizey-1,oPipe,false,true)
-	if (pipecoll && pipecoll.image_angle==180 && pipecoll.warptarget!="") { //WARPING UP PIPE
+	if (pipecoll && pipecoll.image_angle==180 && pipecoll.warptarget!="" && (abs(x-pipecoll.x) <= 8)) { //WARPING UP PIPE
 		if (up) && !(piped) && !(warp_coll) {
 			piped=true
 			warp_type="enter_pipe_up"
