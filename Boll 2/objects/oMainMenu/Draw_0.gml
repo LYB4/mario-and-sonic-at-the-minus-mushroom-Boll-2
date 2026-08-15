@@ -132,13 +132,13 @@ switch (crMenu) {
 	case "keybindsm":
 		draw_text_scribble(_rmWid/2,16,$"{_startStr}KEYBINDS")
 
-		var _binds = [INPUT_VERB.RIGHT,INPUT_VERB.LEFT,INPUT_VERB.UP,INPUT_VERB.DOWN,INPUT_VERB.A,INPUT_VERB.B,INPUT_VERB.C,INPUT_VERB.V];
+		var _binds = [INPUT_VERB.RIGHT,INPUT_VERB.LEFT,INPUT_VERB.UP,INPUT_VERB.DOWN,INPUT_VERB.A,INPUT_VERB.B,INPUT_VERB.C,INPUT_VERB.V,"reset"];
 		_displayOPS = ["Right","Left","Up","Down","A","B","C","V","Reset Bindings"];
 		var _yPos = (_rmHei/2)-(16*(array_length(_displayOPS)-1)/2),
 			_bindShow = "";
 		var i=0;
 		repeat (array_length(_displayOPS)) { // Looping through options to draw them on screen
-			if (i!=8) _bindShow=$" : {InputIconGet(_binds[i])}";
+			if (i<8) _bindShow=$" : {InputIconGet(_binds[i])}";
 			else _bindShow = "";
 			
 			var color = "[c_white]"
@@ -156,7 +156,7 @@ switch (crMenu) {
 		selectArrowYtrans = lerp(selectArrowYtrans,selectArrowY,0.25);
 			
 		var stringext = ""
-		if (option!=8) stringext = $" : {InputIconGet(_binds[option])}"
+		if (option<8) stringext = $" : {InputIconGet(_binds[option])}"
 		selectArrowWidth = string_width(_displayOPS[option]+stringext)/2
 		selectArrowWidthtrans = lerp(selectArrowWidthtrans,selectArrowWidth,0.25);
 		

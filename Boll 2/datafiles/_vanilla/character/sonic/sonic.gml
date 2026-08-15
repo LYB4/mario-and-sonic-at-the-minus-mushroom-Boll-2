@@ -64,7 +64,7 @@ wallrunstored_hsp = hsp;
 
 #region Start Wallrunning
 var _move = (right-left) 
-if (_move!=0 || walljump) && !(grounded) && ((vsp <= 0 && abs(wallrunstored_hsp) > 1.5) || airdash) && (state!="wallrun") && !(activebound) && !(is_grabbing) {
+if (_move!=0 || walljump) && !(grounded) && ((vsp <= 0 && abs(wallrunstored_hsp) > 1.5) || airdash) && (state!="wallrun") && !(activebound) && !(is_grabbing) && !check_collision_line(x-hit_sizex,y-hit_sizey-8,x+hit_sizex,y-hit_sizey-8,COL_TOP) {
 	var coll=check_valid_wall(x+((hit_sizex+1)*xsc)+hsp,y-((hit_sizey-2)*ysc)+vsp,x+((hit_sizex+1)*xsc)+hsp,y-((hit_sizey-2)*ysc)+vsp)
 	if (coll) {
 		storeddir=esign(_move,xsc);
@@ -202,7 +202,9 @@ if !(piped) && !(electrocuted) && !(electrocution_timer) {
 		
 		#region Crouch, Spindash
 		if (state == "" && down && abs(gsp) <= 0.5 && !piped) {
-			state = "crouch"
+			if (!check_collision_line(x-hit_sizex,y-hit_sizey-8,x+hit_sizex,y-hit_sizey-8,COL_TOP) || size=="basic") {
+				state = "crouch"
+			}
 		}
 		
 		if (state == "crouch") && !(piped) {
@@ -388,7 +390,11 @@ if (cpress) && (state == "" || state == "roll") && (abs(gsp) > 1) && (grounded) 
 if (state == "slidekick") {
 	no_move = true;
 	if (abs(hsp)==0) || (!ckey && (left || right)) {
-		state = ""
+		if (!check_collision_line(x-hit_sizex,y-hit_sizey-8,x+hit_sizex,y-hit_sizey-8,COL_TOP) || size=="basic") {
+			state = ""
+		} else {
+			state = "crouch"
+		}
 	}
 }
 

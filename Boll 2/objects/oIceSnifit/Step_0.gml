@@ -9,6 +9,7 @@ if (pl) && !(stun) && !(blowing) && !(cooldowntimer) && (abs(pl.x-x) <= 192) && 
 	revving=true;
 	revtimer=50;
 	constantspd=0;
+	freeze_hitbox = 0;
 	var olddir = _direction;
 	var newdir = esign(pl.x-x,-xsc);
 	if (olddir != newdir) {

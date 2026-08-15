@@ -2,8 +2,9 @@
 event_inherited();
 
 if (blowing) {
+	freeze_hitbox = approach_val(freeze_hitbox,80,4);
 	var list = ds_list_create();
-	var num = check_rectangle_in_hitbox_list(x-((hit_sizex+80)*xsc),y-24,x-((hit_sizex+8)*xsc),y+24,oPlayer,list)
+	var num = check_rectangle_in_hitbox_list(x-((hit_sizex+freeze_hitbox)*xsc),y-24,x-((hit_sizex+8)*xsc),y+24,oPlayer,list)
 	if (num > 0) {
 		var foundplayer = false;
 		var i=0;
@@ -38,7 +39,7 @@ if (blowing) {
 	}
 	ds_list_destroy(list)
 	
-	if blowtimer mod 4 == 0 {
+	if (blowtimer mod 4 == 0) {
 		var i=make_particle(pSmoke,x-8*xsc,y,depth-1,1,-3*xsc,random_range(0.5,-0.5))
 		i.image_speed/=2
 	}

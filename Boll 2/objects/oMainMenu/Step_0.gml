@@ -121,7 +121,7 @@ if (!optionLock) {
 	
 		case "keybindsm":
 			var _binds = [INPUT_VERB.RIGHT,INPUT_VERB.LEFT,INPUT_VERB.UP,INPUT_VERB.DOWN,INPUT_VERB.A,INPUT_VERB.B,INPUT_VERB.C,INPUT_VERB.V,"reset"];
-			optMAX = array_length(_binds);
+			optMAX = array_length(_binds)-1;
 			
 			if (lemmebind!=-1) {
 				var _device = InputPlayerGetDevice();
