@@ -409,7 +409,7 @@ if ((state == "" || state=="crouch") && !hurt && !stun && apress && canjump > 0 
 		make_particle(pSmoke, x+8, y-8, depth + 5, 1, 0, -1);
 	}
 	if (slopesliding) {
-		//crouch = false
+		crouch = false
 		slopesliding = false;
 	}
 	
@@ -988,7 +988,7 @@ if (state != "frozen") && (state != "boarding") {
 	state = "jump";
 }
 runjump = 0;
-//crouch = false;
+crouch = false;
 slopesliding = false;
 canstopjump = true;
 stun = false;

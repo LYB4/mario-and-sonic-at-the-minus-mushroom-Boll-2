@@ -26,10 +26,11 @@ function component_mario_crouch(){
 	if (state == "") && (down) && !(piped) && !(skidding) {
 			return true;
 	} else if (crouch) {
-		/*
 		if (!check_collision_rectangle(x-hit_sizex,y,x+hit_sizex,y-hit_sizey-8,COL_TOP) || size=="basic") {
 			return false;
-		}*/
+		} else {
+			return true;
+		}
 	}
 }
 
@@ -68,7 +69,7 @@ function component_mario_start_spinjump(startingJumpValue = 5.2){
 	
 	grounded=false;
 	spinjump=true;
-	//crouch=false;
+	crouch=false;
 	slopesliding = false;
 	playsfx(charmName+"spinjump")
 	vsp=-(startingJumpValue+min(1,abs(hsp)/10))
@@ -80,7 +81,7 @@ function component_mario_start_spinjump(startingJumpValue = 5.2){
 function component_mario_start_dive(speedX = 3.5, speedY = -2.7){
 	
 	stopsfx(charmName+"jump")
-	//crouch=0
+	crouch=0
 	run=1.5
 	runvar=1.5
 	playsfx(charmName+"dive")
