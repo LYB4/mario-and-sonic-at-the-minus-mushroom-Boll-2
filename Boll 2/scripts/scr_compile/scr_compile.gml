@@ -106,12 +106,16 @@ function import_sheets() {
 		global.animdat[i]=retrieved_dat;
 		show_debug_message($"got animation data: {global.animdat[i]}")
 		
-		if file_exists($"{dir}\\sprites\\_HUDicon.png") {
-			oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\_HUDicon.png",$"spr_{_name}_HUDicon",1,false,false,CollageOrigin.CENTER,CollageOrigin.CENTER)
+		if file_exists($"{dir}\\sprites\\HUDicon.png") {
+			oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\HUDicon.png",$"spr_{_name}_HUDicon",1,false,false,CollageOrigin.CENTER,CollageOrigin.CENTER)
 		} else throw $"SORRY! NO HUD ICON IN CHARACTER \"{_name}\" EXISTS! CHECK YOUR SPRITES!"
 		
-		if file_exists($"{dir}\\sprites\\shield.png") {
-			oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\_HUDicon.png",$"spr_{_name}_HUDicon",1,false,false,CollageOrigin.CENTER,CollageOrigin.CENTER)
+		if file_exists($"{dir}\\sprites\\signposticon.png") {
+			oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\signposticon.png",$"spr_{_name}_signposticon",1,false,false,CollageOrigin.CENTER,CollageOrigin.CENTER)
+		} else throw $"SORRY! NO SIGNPOST ICON IN CHARACTER \"{_name}\" EXISTS! CHECK YOUR SPRITES!"
+		
+		if file_exists($"{dir}\\sprites\\misc\\shield.png") {
+			oGameManager.PlayerColl.AddFile($"{dir}\\sprites\\misc\\shield.png",$"spr_{_name}_shield",1,false,false,CollageOrigin.CENTER,CollageOrigin.CENTER)
 		}
 		
 		if file_exists($"{dir}\\pal.png") {

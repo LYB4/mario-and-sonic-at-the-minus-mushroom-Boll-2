@@ -191,6 +191,11 @@ function player_interactions(){
 		finish = 1;
 	}
 	
+	var goalpost=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oGoalpost, false, true)
+	if (goalpost) && !(goalpost.used) {
+		goalpost.onHit.Emit(y,id);
+	}
+	
 	var bearballoon=collision_rectangle(x-hit_sizex,y-hit_sizey,x+hit_sizex,y+hit_sizey, oPolarBearBalloon, false, true)
 	if (bearballoon) {
 		if vsp >= 0 vsp=-(2.5+akey*1.5);

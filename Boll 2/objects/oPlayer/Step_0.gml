@@ -34,6 +34,7 @@ if (input_enable) {
 		vpress = InputPressed(INPUT_VERB.V);
 	}
 }
+
 player_castlewalk()
 
 steep_slope = false
@@ -147,6 +148,10 @@ switch(state) {
 			catspeak_execute(global.scripts[? $"{charmName}_step"]);
 		} else if (dead) {
 			catspeak_execute(global.scripts[? $"{charmName}_death"]);
+		} else if (no_step) {
+			component_gravity_coneyor();
+			player_interactions();
+			player_collision();
 		}
 		
 		player_warping();
