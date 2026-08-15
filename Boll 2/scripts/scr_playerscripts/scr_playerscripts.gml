@@ -439,6 +439,7 @@ function sprite_arrposition() {
 function animate_player() {
 	footstep_run = false;
 	footstep_freq = 0;
+	footstep_offset = 0;
 	//animation manager specifically for player characters
 	
 	var oldspr=get_spriteindex()

@@ -489,13 +489,20 @@ switch (state) {
 					
 					if (ceil(abs(gsp))>=maxspd) && (grounded) {
 						frspd=1;
+						footstep_run = true;
+						footstep_freq = 2;
 						spriteEvent="runMax";
 					} else if (ceil(abs(gsp))>=3.4) {
 						frspd=(abs(gsp)/4)*speed_mult;
+						footstep_run = true;
+						footstep_freq = 4;
+						footstep_offset = -1;
 						spriteEvent="run";
 					} else {
 						frspd=max(0.3, abs(gsp)/4)*speed_mult;
 						spriteEvent="walk";
+						footstep_freq = 4;
+						footstep_offset = -1;
 					}
 				} else {
 					spriteEvent="brake";
@@ -509,12 +516,18 @@ switch (state) {
 				if (ceil(abs(gsp))>=maxspd) && (grounded) {
 					frspd=1;
 					spriteEvent="carryRunMax";
+					footstep_freq = 2;
+					footstep_run = true;
 				} else if (ceil(abs(gsp))>=3.4) {
 					frspd=(abs(gsp)/4)*speed_mult;
 					spriteEvent="carryRun";
+					footstep_freq = 4;
+					footstep_offset = -1;
 				} else {
 					frspd=max(0.3, abs(gsp)/4)*speed_mult;
 					spriteEvent="carryWalk";
+					footstep_freq = 4;
+					footstep_offset = -1;
 				}
 			}
 		}

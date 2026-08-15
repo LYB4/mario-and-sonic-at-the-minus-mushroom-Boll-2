@@ -73,7 +73,7 @@ global.footsteps[footstepMaterial.Ice] = {
 function play_footstep() {
 	if !(footstep_freq) exit;
 	
-	if (round(frame) mod footstep_freq == 0) && (round(frame)!=0) && !(footstep_played) {
+	if (round(frame-footstep_offset) mod footstep_freq == 0) && (round(frame-footstep_offset)!=0) && !(footstep_played) {
 		var variance = random_range(0.8,1.1);
 		if !(footstep_run) {
 			if !(footstep_foot) {
