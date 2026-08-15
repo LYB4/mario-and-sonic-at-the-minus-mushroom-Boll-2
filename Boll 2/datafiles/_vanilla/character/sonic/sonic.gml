@@ -410,7 +410,7 @@ player_movement();
 if !(grounded) && ((state == "roll") || (state == "jump"))  && (abs(hsp) > 1) {
 	var coll;
 	coll=collision_rectangle(x-hit_sizex+hsp,y-hit_sizey+vsp,x+hit_sizex+hsp,y+hit_sizey+vsp,oMonitor,false,false)
-	if (coll) {
+	if (coll) && !(coll.no_hit) && (coll.amount != 0) {
 		signal_emit(coll.blockHit, -1, id);
 		
 		if (vsp>0) {
