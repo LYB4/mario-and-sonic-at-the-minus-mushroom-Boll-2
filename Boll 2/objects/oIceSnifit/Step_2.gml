@@ -4,7 +4,7 @@ event_inherited();
 if (blowing) {
 	freeze_hitbox = approach_val(freeze_hitbox,80,4);
 	var list = ds_list_create();
-	var num = check_rectangle_in_hitbox_list(x-((hit_sizex+freeze_hitbox)*xsc),y-24,x-((hit_sizex+8)*xsc),y+24,oPlayer,list)
+	var num = check_rectangle_in_hitbox_list(x-((hit_sizex+freeze_hitbox)*xsc),y-24,x-((hit_sizex+8)*xsc),y+4,oPlayer,list)
 	if (num > 0) {
 		var foundplayer = false;
 		var i=0;
