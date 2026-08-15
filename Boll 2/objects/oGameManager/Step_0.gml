@@ -6,10 +6,10 @@ with(oPlayer) {
 
 if VinylIsPlaying(fgMusic) {
 	if (underwaterMusic) {
-		VinylSetGain(fgMusic, MUSIC_GAIN_INACTIVE_MUFFLED, 0.5)
+		VinylSetGain(fgMusic, MUSIC_GAIN_INACTIVE_MUFFLED*VinylMixGetGain("music"), 0.5)
 		if VinylIsPlaying(bgMusic) VinylSetGain(bgMusic, MUSIC_GAIN_INACTIVE*VinylMixGetGain("music"), 0.5)
 	} else {
-		VinylSetGain(fgMusic, MUSIC_GAIN, 0.5)
+		VinylSetGain(fgMusic, MUSIC_GAIN*VinylMixGetGain("music"), 0.5)
 		if VinylIsPlaying(bgMusic) VinylSetGain(bgMusic, MUSIC_GAIN*VinylMixGetGain("music"), 0.5)
 	}
 }

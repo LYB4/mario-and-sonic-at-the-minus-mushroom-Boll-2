@@ -191,7 +191,7 @@ if (invincible_timer) {
 	switch (invincible_type) {
 		case 2 : {
 			if (invincible_timer <= 0) {
-				oGameManager.alarm[0]=1
+				oGameManager.play_music();
 				invincible_timer = 60;
 				grow=0;
 				invincible_type = 1;

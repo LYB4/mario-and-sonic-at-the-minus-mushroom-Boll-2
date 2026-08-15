@@ -105,6 +105,18 @@ switch_region = function(region) {
 	}
 }
 
+play_music = function() {
+	VinylStop(fgMusic);
+	VinylStop(bgMusic);
+	var lmix, bmix;
+	lmix = global.musiclist[$ current_music].leadmix;
+	bmix = global.musiclist[$ current_music].backmix;
+	if (lmix != undefined)
+		fgMusic=VinylPlayFadeIn(lmix, true, MUSIC_GAIN * VinylMixGetGain("music"),0.5);
+	if (bmix != undefined)
+		bgMusic=VinylPlayFadeIn(bmix, true, MUSIC_GAIN * VinylMixGetGain("music"),0.5);
+}
+
 collect_shard = function(_id) {
 	collected_shards[_id] = true;
 	shard_scales[_id] = 3;

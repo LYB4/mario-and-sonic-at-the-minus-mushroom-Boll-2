@@ -52,6 +52,8 @@ if (CollageImageExists(oGameManager.PlayerColl.GetImageInfo(get_spriteindex())))
 
 shader_reset();
 
+draw_rectangle(x-hit_sizex,y,x+hit_sizex,y-hit_sizey-8,true);
+
 sig.Emit("draw_over");
 
 if (state == "frozen") {
