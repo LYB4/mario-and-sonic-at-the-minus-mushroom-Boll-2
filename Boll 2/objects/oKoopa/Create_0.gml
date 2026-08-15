@@ -129,7 +129,7 @@ onThrown.Connect( self, function(thrown_p) {
 	carry_player = thrown_p;
 	if !(carry_player.up) && !(carry_player.down) {
 		shell_move = true;
-		constantspd = 3.5;
+		constantspd = max(3.5,abs(thrown_p.hsp)+1);
 		_direction = thrown_p.xsc;
 		shell_move = true
 		in_shell = shell_time

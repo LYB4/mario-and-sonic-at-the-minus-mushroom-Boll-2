@@ -238,6 +238,9 @@ if death_time {
 			var goto = rMainMenu;
 			if (global.jade_testing) goto = rEditor;
 			
+			global.checkpointX = no_checkpoint;
+			global.checkpointY = no_checkpoint;
+			
 			TransitionStart(goto,sq_gameover,-1);
 			exit;
 		}
