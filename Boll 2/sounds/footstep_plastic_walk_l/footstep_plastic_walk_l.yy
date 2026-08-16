@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"footstep_plastic_walk_l",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.16630386,
+  "exportDir":"",
+  "name":"footstep_plastic_walk_l",
+  "parent":{
+    "name":"Plastic",
+    "path":"folders/Sounds/Footsteps/Plastic.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"footstep_plastic_walk_l.wav",
+  "volume":1.0,
+}

@@ -21,7 +21,7 @@ function get_spriteindex() { //returns the sprite name of the player's current s
 	return spr
 }
 
-function get_size() { //returns the array index of the player's current sprite
+function get_size() {
 	var mem = size;
 	
 	if (grow && (global.roomTimer mod 6 < 3)) {

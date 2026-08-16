@@ -7,6 +7,7 @@ enum footstepMaterial {
 	Plastic,
 	Metal,
 	Ice,
+	Crunchy,
 }
 
 #macro FOOTSTEP_GAIN 0.5
@@ -52,6 +53,14 @@ global.footsteps[footstepMaterial.Wood] = {
 	jump:   -1,
 	land:   -1
 };
+global.footsteps[footstepMaterial.Plastic] = {
+	walk_r: footstep_plastic_walk_r,
+	walk_l: footstep_plastic_walk_l,
+	run_r:  footstep_plastic_run_r,
+	run_l:  footstep_plastic_run_l,
+	jump:   -1,
+	land:   -1
+};
 global.footsteps[footstepMaterial.Metal] = {
 	walk_r: footstep_metal_walk_r,
 	walk_l: footstep_metal_walk_l,
@@ -68,6 +77,15 @@ global.footsteps[footstepMaterial.Ice] = {
 	jump:   -1,
 	land:   -1
 };
+global.footsteps[footstepMaterial.Crunchy] = {
+	walk_r: footstep_crunchy_walk_r,
+	walk_l: footstep_crunchy_walk_l,
+	run_r:  footstep_crunchy_run_r,
+	run_l:  footstep_crunchy_run_l,
+	jump:   -1,
+	land:   -1
+};
+
 
 
 function play_footstep() {

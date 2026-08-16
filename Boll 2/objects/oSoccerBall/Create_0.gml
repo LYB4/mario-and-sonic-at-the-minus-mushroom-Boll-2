@@ -26,9 +26,8 @@ colangle=0;
 flipped=false
 
 sprindex_prev = sprite_index;
-setup_box_poly(id);
 
-function ball_movement() {
+ball_movement = function() {
 	//bounce off wall
 	if check_collision_line(x+(hit_sizex+1)*xsc, y+hit_sizey-4,x+(hit_sizex+1)*xsc, y-hit_sizey+4, COL_WALL, oCollider) {
 		hsp=-hsp
@@ -75,7 +74,7 @@ function ball_movement() {
 	y += vsp
 }
 	
-function ball_interactions() {
+ball_interactions = function() {
 	var spring = collision_line(x-hit_sizex,y+hit_sizey+1+vsp,x+hit_sizex,y+hit_sizey+1+vsp, oTerrainSpring, true, true)
 	if (spring) {
 		vsp=min(-spring.spring_power,vsp) //dont set vsp if it exceeds power

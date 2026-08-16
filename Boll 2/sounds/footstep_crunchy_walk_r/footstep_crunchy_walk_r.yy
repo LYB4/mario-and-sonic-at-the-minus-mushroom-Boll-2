@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"footstep_crunchy_walk_r",
+  "audioGroupId":{
+    "name":"footstep_audio",
+    "path":"audiogroups/footstep_audio",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.22063492,
+  "exportDir":"",
+  "name":"footstep_crunchy_walk_r",
+  "parent":{
+    "name":"Crunchy",
+    "path":"folders/Sounds/Footsteps/Crunchy.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"footstep_crunchy_walk_r.wav",
+  "volume":0.2,
+}

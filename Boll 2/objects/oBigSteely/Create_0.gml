@@ -41,9 +41,8 @@ flipped=false
 can_break_bricks=true;
 
 sprindex_prev = sprite_index;
-setup_box_poly(id);
 
-function ball_movement() {
+ball_movement = function() {
 	var col=collision_line(x+hsp+(hit_sizex+1)*xsc, y+(hit_sizey),x+hsp+(hit_sizex+1)*xsc, y-(hit_sizey),oBigSteely,true,true)
 	if (col) {
 		col.hsp+=hsp/2
@@ -145,7 +144,7 @@ function ball_movement() {
 	y += vsp
 }
 	
-function ball_interactions() {
+ball_interactions = function() {
 	var spring = collision_line(x-hit_sizex,y+hit_sizey+1+vsp,x+hit_sizex,y+hit_sizey+1+vsp, oTerrainSpring, true, true)
 	if (spring) {
 		vsp=min(-spring.spring_power,vsp) //dont set vsp if it exceeds power

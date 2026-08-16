@@ -87,7 +87,6 @@ GMLspeak.interface.compileFlags.checkForVariables = true;
 		
 		GMLspeak.interface.exposeFunction("player_movement_sonic", player_movement_sonic);
 		GMLspeak.interface.exposeFunction("player_movement", player_movement);
-		GMLspeak.interface.exposeFunction("player_poly_collision", player_poly_collision);
 		GMLspeak.interface.exposeFunction("player_collision", player_collision);
 		GMLspeak.interface.exposeFunction("player_slide", player_slide);
 		GMLspeak.interface.exposeFunction("player_slide_sonic", player_slide_sonic);

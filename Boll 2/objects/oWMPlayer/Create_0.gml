@@ -110,9 +110,6 @@ image_yscale = 1
 // chearii: special case for dealing damage to enemies
 damagespecial = -1;
 
-// boxpoly setup
-setup_box_poly(id);
-
 // camera
 my_camera=instance_create(x,y,oCamera)
 
