@@ -10,6 +10,8 @@ shooting = false;
 regenerating = false;
 regentimer = 0;
 shootingcooldown = 0;
+standby = false;
+flipped = false;
 
 mylog = instance_create_depth(x,y,depth+1,oPylomLog);
 mylog.parent = id;

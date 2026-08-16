@@ -74,7 +74,7 @@ function play_footstep() {
 	if !(footstep_freq) exit;
 	
 	if (floor(footstep_counter-footstep_offset) >= footstep_freq) && !(footstep_played) {
-		var variance = random_range(0.7,1.2);
+		var variance = random_range(0.8,1.2);
 		if !(footstep_run) {
 			if !(footstep_foot) {
 				VinylPlay(global.footsteps[footstep_material][$ "walk_l"],0,FOOTSTEP_GAIN * VinylMixGetGain("sound effects"),variance);

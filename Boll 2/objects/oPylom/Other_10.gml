@@ -14,5 +14,9 @@ if (turning) {
 } else if (regenerating) {
 	sprite_index = spr_pylom_regen;
 } else {
-	sprite_index = spr_pylom_walk;
+	if !(standby) {
+		sprite_index = spr_pylom_walk;
+	} else {
+		sprite_index = spr_pylom;
+	}
 }

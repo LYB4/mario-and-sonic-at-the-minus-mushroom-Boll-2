@@ -216,6 +216,8 @@ function JADE_initializeobj() {
 	registerobj(oIceSnifit, spr_icesnifit, 8, 8, 16, 16, false, false, enemies, "Ice Snifit")
 	registerobj(oPylom, spr_pylom, 8, 8, 16, 16, false, false, enemies, "Pylom")
 	properties.addNumberInput(oPylom, "Log Length", "maxammo", 2, true);
+	properties.addCheckbox(oPylom, "Standby Mode", "standby", false);
+	properties.addCheckbox(oPylom, "Flipped", "flipped", false);
 	registerobj(oPolarBear, spr_polarbear, 8, 8, 16, 16, false, false, enemies, "Polar Bear")
 	properties.addNumberInput(oPolarBear, "Balloon Height", "bheight", 4, true)
 	registerobj(oBumpty, spr_bumpty, 8, 8, 16, 16, false, false, enemies, "Bumpty")

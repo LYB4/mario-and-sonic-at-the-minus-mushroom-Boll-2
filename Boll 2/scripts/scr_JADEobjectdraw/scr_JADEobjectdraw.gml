@@ -88,6 +88,9 @@ function JADE_draw_object(obj,alpha,_x=obj[1],_y=obj[2]) {
 		case "oPipe":
 			rot = property[0][1];
 		break;
+		case "oPylom":
+			vxsc = ternary(property[2][1],-1,1);
+		break;
 		default: break;
 	}
 	draw_sprite_ext(spr,frame,_x+(data.xoff*obj[3])+voffx,_y+(data.yoff*obj[4]),(obj[3]*data.sizex)*vxsc,(obj[4]*data.sizey)*vysc,rot,c_white,alpha);

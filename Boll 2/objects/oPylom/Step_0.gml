@@ -13,11 +13,13 @@ if (pl) && !(stun) && (within(pl.x,x+min(128*-xsc,0),x+max(128*-xsc,0))) && (wit
 		shootwindup = 15;
 		image_index = 0;
 		constantspd = 0;
-		var olddir = _direction;
-		var newdir = esign(pl.x-x,-xsc);
-		if (olddir != newdir) {
-			enemyTurnAround.Emit();
-			xsc=-_direction;
+		if !(standby) {
+			var olddir = _direction;
+			var newdir = esign(pl.x-x,-xsc);
+			if (olddir != newdir) {
+				enemyTurnAround.Emit();
+				xsc=-_direction;
+			}
 		}
 	}
 	
@@ -46,7 +48,9 @@ if (pl) && !(stun) && (within(pl.x,x+min(128*-xsc,0),x+max(128*-xsc,0))) && (wit
 	shooting = false;
 	shootingcooldown = 120;
 	if (ammo == maxammo) {
-		constantspd = 0.5;
+		if !(standby) {
+			constantspd = 0.5;
+		}
 	} else {
 		regenerate.Emit();
 		regentimer = 30;
@@ -63,7 +67,9 @@ if (regenerating) {
 			regentimer = 30;
 		} else {
 			regenerating = false;
-			constantspd = 0.5;
+			if !(standby) {
+				constantspd = 0.5;
+			}
 			shootingcooldown = 120;
 		}
 	}
